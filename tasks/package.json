@@ -1,0 +1,52 @@
+{
+  "name": "redux-tasks",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --mode development && exit 0",
+    "start": "webpack-dev-server  --mode development",
+    "test-sandglass": "jest ./src/1.Sandglass/"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.2.2",
+    "babel-jest": "^23.6.0",
+    "babel-loader": "^7.1.4",
+    "babel-plugin-transform-regenerator": "^6.26.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "css-loader": "^0.28.11",
+    "eslint": "^4.19.1",
+    "eslint-loader": "^2.0.0",
+    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-react": "^7.7.0",
+    "file-loader": "^2.0.0",
+    "jest": "^23.6.0",
+    "prop-types": "^15.6.1",
+    "style-loader": "^0.20.3",
+    "webpack": "^4.25.1",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.10"
+  },
+  "dependencies": {
+    "@skbkontur/react-icons": "^3.1.1",
+    "@skbkontur/react-ui": "^0.30.0",
+    "immutability-helper": "^2.8.1",
+    "react": "^16.3.0",
+    "react-dom": "^16.3.0",
+    "react-redux": "^5.1.1",
+    "redux": "^4.0.1",
+    "redux-create-reducer": "^1.1.3",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0",
+    "regenerator-runtime": "^0.11.1",
+    "save": "^2.3.2"
+  }
+}

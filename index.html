@@ -1,0 +1,743 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="reveal/css/reveal.css">
+    <link rel="stylesheet" href="reveal/css/theme/kontur-light.css" id="theme">
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="reveal/css/highlight/idea-for-light.css">
+    <link rel="stylesheet" href="reveal/css/highlight/darkula-for-dark.css">
+    <!--[if lt IE 9]>
+    <script src="reveal/js/html5shiv.js"></script>
+    <![endif]-->
+	<script defer src="reveal/js/head.min.js"></script>
+	<script defer src="reveal/js/reveal.js"></script>
+	<script defer src="reveal/initialize.js"></script>
+	<script defer src="reveal/js/d3.min.js"></script>
+
+    <style>
+		.fragment-container {
+			position: relative;
+		}
+		
+		.fragment-container .fragment {
+			position: absolute;
+			top: 0px;
+			width: 100%;
+		}
+
+        .tools.tools {
+          margin: -30% auto 0;
+          height: 100vh;
+          display: block;
+        }
+		
+		.slides .center {
+			text-align: center;
+		}
+    </style>
+	
+	<title>Redux</title>
+</head>
+<body>
+
+<div class="reveal"><div class="slides">
+
+<section data-markdown><script type="text/template">
+
+# Redux
+
+<p class="center"><a href="https://github.com/kontur-courses/react">https://github.com/kontur-courses/<b>redux</b></a></p>
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+
+## Сначала самое ~~долгое~~ важное
+
+Скачиваем все необходимые пакеты Node.js:
+```
+cd tasks
+npm install
+```
+
+Затем запусти dev-сервер, чтобы видеть результаты решений задач:
+```cmd
+npm run start
+```
+
+Посмотреть можно будет на <a href="http://localhost:8080">http://localhost:8080</a>
+
+Перестроение автоматическое, пока работает dev-сервер
+
+***
+
+### Расположение заданий и примеров
+
+Папка задания:
+`/tasks/src/{#.ИмяЗадания}/`
+
+Основной файл задания:
+`/tasks/src/{#.ИмяЗадания}/index.js`
+
+Папка с примерами к заданию:
+`/tasks/src/{#.ИмяЗадания}/samples/`
+
+</script></section>
+
+
+<!-- ************************************************* -->
+
+
+<section data-markdown><script type="text/template">
+
+## 1. Единый state приложения
+
+***
+
+### Lifting state ~~up~~ out
+
+<img src="assets/redux-state.png">
+
+Мотивация:
+- Несколько компонентов зависят от одних данных
+- Взаимодействующие компоненты в разных частях дерева
+
+***
+
+### Три принципа Redux
+
+1. Единственный источник правды
+2. Состояние доступно только на чтение
+3. Изменения вносятся чистыми функциями
+
+Мотивация:
+- Контроль целостности в больших приложениях
+- Изменения состояния можно протестировать модульно
+
+> *Неизменяемый объект (immutable object)* — объект, состояние которого не может быть изменено после создания.
+> *Чистая функция (pure function)* — это функция без побочных эффектов, ее результат полностью определяется аргументами
+
+***
+
+### Redux — это компромисс
+
+<img src="assets/not-need-redux.png">
+
+С *Redux* будет больше кода,
+но это оправдано для *больших приложений*,
+которые пишут *большие команды*.
+
+***
+
+### Как вытащить состояние из компонентов?
+
+***
+
+### Цикл изменения состояния компонента
+
+<img width="600px" src="assets/react-cycle.png">
+
+***
+
+### Цикл изменения состояния в Redux
+
+<img width="600px" src="assets/redux-cycle.png">
+
+***
+
+### Выделим состояние простого приложения
+
+<div class="center"><img width="300px" src="assets/sandglass-start.png"></div>
+
+***
+
+### Код главного компонента
+
+```js
+class App extends React.Component {
+  state = {seconds: 15};
+  
+  handleDecrease = () => {
+    this.setState(prevState => ({seconds: prevState.seconds - 1}));
+  }
+  handleIncrease = () => {
+    this.setState(prevState => ({seconds: prevState.seconds + 1}));
+  }
+  
+  render() {
+    return (<Timer seconds={this.state.seconds}
+        onDecrease={this.handleDecrease} onIncrease={this.handleIncrease}/>);
+  }
+}
+```
+
+Код полностью: `~/1.Sandglass/samples/sample1.component.js`
+
+***
+
+### Важен код, в котором меняется состояние
+
+```js
+class App extends React.Component {
+  state = {seconds: 15}; // задается начальное состояние
+  
+  handleDecrease = () => {
+    // состояние меняется
+    this.setState(prevState => ({seconds: prevState.seconds - 1}));
+  }
+  handleIncrease = () => {
+    // состояние меняется
+    this.setState(prevState => ({seconds: prevState.seconds + 1}));
+  }
+  ...
+}
+```
+
+***
+
+### Выделим dispatch
+
+```js
+class App extends React.Component {
+  state = {seconds: 15}; // задается начальное состояние
+
+  dispatch(action) {
+    // состояние меняется
+    this.setState(prevState => prevState.seconds + action.value);
+  }
+
+  handleDecrease = () => this.dispatch({ value: -1 });
+  handleIncrease = () => this.dispatch({ value: 1 });
+  ...
+}
+```
+
+Теперь все изменения происходят в одном месте
+
+***
+
+### Reducer
+
+Это чистая функция, которая:
+- создает начальное состояние
+- определяет как меняется состояние
+
+***
+
+### Выделим изменения состояния в reducer
+
+```js
+// Изменение состояния в dispatch:
+this.setState(prevState => prevState.seconds + action.value); // было
+this.setState(prevState => timerReducer(prevState, action)); // должно быть
+
+// Задание начального состояния:
+state = {seconds: 15}; // было
+state = timerReducer(undefined, {}); // должно быть
+
+// Тогда структура reducer:
+const timerReducer = (state, action) => {
+    ...
+	return newState;
+}
+```
+
+***
+
+### Тогда код reducer
+
+```js
+const timerReducer = (state = {seconds: 15}, action) => {
+  switch (action.type) {
+    case 'CHANGE_SECONDS':
+      return {seconds: state.seconds + action.value};
+    default:
+      return state;
+  }
+}
+```
+
+***
+
+### Создание начального состояния
+Состояние инициализируется за счет значения по умолчанию аргумента `state` и возвращается в ветке `default`,
+ведь `action = {}`:
+```js
+const timerReducer = (state = {seconds: 15}, ...) => {
+  ...
+    default:
+      return state;
+  ...
+}
+```
+
+***
+
+### Изменение состояния
+Reducer обязан возвращать текущее состояние.
+Если `action` не влияет на состояние, то должно вернуться старое.
+
+Но если `action` должен повлиять на состояние, то создается и возвращается новый объект состояния с необходимыми изменениями. Старый объект состояния не меняется.
+```js
+    case 'CHANGE_SECONDS':
+      return {seconds: state.seconds + action.value};
+    default:
+      return state;
+```
+
+***
+
+### Реагирование на разные действия
+
+Строка `action.type` позволяет обрабатывать разные действия, изменяющие состояние
+
+```js
+   switch (action.type) {
+     case 'CHANGE_SECONDS': ...
+     default: ...
+  }
+```
+
+***
+
+### Чистота и иммутабельность
+
+```js
+const timerReducer = (state = {seconds: 15}, action) => {
+  switch (action.type) {
+    case 'CHANGE_SECONDS':
+      return {seconds: state.seconds + action.value};
+    default:
+      return state;
+  }
+}
+```
+
+Возвращаемое reducer состояние  зависит только от передаваемых аргументов, поэтому reducer — *чистая функция*.
+
+Reducer при изменениях создает новое состояние, таким образом состояние доступно только на чтение и удовлетворяет паттерну *immutable object*.
+
+***
+
+### Использование reducer
+
+```js
+class App extends React.Component {
+  state = timerReducer(undefined, {}); // задается начальное состояние
+
+  dispatch(action) {
+    // состояние меняется
+    this.setState(prevState => timerReducer(prevState, action));
+  }
+
+  handleDecrease = () => this.dispatch({ type: 'CHANGE_SECONDS', value: -1 });
+  handleIncrease = () => this.dispatch({ type: 'CHANGE_SECONDS', value: 1 });
+  ...
+}
+```
+
+Код полностью: `~/1.Sandglass/samples/sample2.reducer.js`
+
+***
+
+### Отделим состояние приложения от React
+1. `state` переносится вне компонента
+2. Взаимодействие с объектом `state` скрывается
+за обертку `store` с набором допустимых методов
+3. `reducer`, определяющий правила изменения `state`
+уже находится вне компонента!
+
+***
+
+### Store
+
+Сущность, которая содержит методы:
+- `getState` для получения текущего состояния
+- `dispatch` для обработки изменений состояния
+- `subsribe` для подписки на изменения состояния
+
+Будем создавать с помощью специальной функции:
+```js
+const store = createStore(reducer);
+```
+
+***
+
+### Получение состояния
+
+```js
+const createStore = (reducer) => {
+  let state;
+
+  const getState = () => state;
+  
+  return { getState };
+};
+```
+
+***
+
+### Обработка изменений
+
+```js
+const createStore = (reducer) => {
+  let state;
+
+  const getState = () => state;
+
+  const dispatch = (action) => {
+    // состояние меняется
+    state = reducer(state, action);
+  };
+
+  dispatch({}); // задается начальное состояние
+
+  return { getState, dispatch };
+};
+```
+
+***
+
+### Подписка на изменения
+
+```js
+const createStore = (reducer) => {
+  let listeners = [];
+  ...
+  const dispatch = (action) => {
+    state = reducer(state, action);
+	// все подписчики уведомляются сразу после изменения состояния
+    listeners.forEach(listener => listener());
+  };
+  const subscribe = (listener) => {
+    listeners.push(listener);
+	// функция отписки
+    return () => { listeners = listeners.filter(l => l !== listener); };
+  };
+  ...
+  return { getState, dispatch, subscribe };
+};
+```
+
+***
+
+### Передача store в React
+
+```js
+const appStore = createStore(timerReducer);
+
+ReactDom.render(<App store={appStore} />, document.getElementById('app'));
+```
+
+***
+
+### Получение состояния
+
+```js
+class App extends React.Component {
+  // начальное состояние просто берется из store
+  state = this.props.store.getState();
+  ...
+}
+```
+
+***
+
+### Обработка изменений
+
+```js
+class App extends React.Component {
+  ...
+  handleDecrease = () =>
+    this.props.store.dispatch({ type: 'CHANGE_SECONDS', value: -1 });
+  handleIncrease = () =>
+    this.props.store.dispatch({ type: 'CHANGE_SECONDS', value: 1 });
+  ...
+}
+```
+
+***
+
+### Подписка на изменения
+
+```js
+class App extends React.Component {
+  ...
+  componentDidMount() {
+    this.props.store.subscribe(() => {
+	  // задается новое состояние компонента и происходит перерисовка
+	  this.setState(this.props.store.getState());
+	});
+  }
+  ...
+}
+```
+
+***
+
+### Отписка от изменений
+
+```js
+class App extends React.Component {
+  ...
+  componentDidMount() {
+    // subscribe возвращает функцию для отписки
+    this.unsubscribe = this.props.store.subscribe(() => {
+	  this.setState(this.props.store.getState());
+	});
+  }
+  componentWillUnmount() {
+    // при удалении компонента можно отписаться
+    this.unsubscribe && this.unsubscribe();
+  }
+  ...
+}
+```
+
+***
+
+Код полностью: `~/1.Sandglass/samples/sample3.store.js`
+
+***
+
+### Redux без React
+
+Идея Redux о едином месте хранения состояния,
+которое обновляется чистыми функциями, не привязана к React
+
+Redux требуется только функция render,
+чтобы отрисовывать view при изменении состояния
+
+Этот функция можно реализовать на DOM API
+
+***
+
+### Только функция render
+
+```js
+const appStore = createStore(timerReducer);
+const handleDecrease = () =>
+  appStore.dispatch({ type: 'CHANGE_SECONDS', value: -1 });
+const handleIncrease = () =>
+  appStore.dispatch({ type: 'CHANGE_SECONDS', value: 1 });
+  
+const render = () => {
+  // React используется для отрисовки, но не отвечает за перерисовку
+  ReactDom.render(
+    (<Timer seconds={appStore.getState().seconds}
+      onDecrease={handleDecrease} onIncrease={handleIncrease}/>),
+    document.getElementById('app'));
+}
+
+appStore.subscribe(render); // перерисовка при изменениях
+render(); // первоначальная отрисовка
+```
+
+Код полностью: `~/1.Sandglass/samples/sample4.render.js`
+
+***
+
+### Создание действий
+
+```js
+// action, действие
+{ type: 'CHANGE_SECONDS', value }
+
+// action creator, создатель действий
+const changeSeconds = (value) => ({
+  type: 'CHANGE_SECONDS',
+  value
+});
+
+// позволяет использовать автодополнение при создании action
+changeSeconds(5);
+```
+
+***
+
+### Действия с payload
+
+Параметры `action` часто объединяются
+в один объект с ключом `payload`
+
+```js
+const changeSeconds = (value) => ({
+  type: 'CHANGE_SECONDS',
+  value // обычный вариант
+});
+
+const changeTime = (hour, minute, second) => ({
+  type: 'CHANGE_TIME',
+  payload: { // несколько параметров объединены
+    hour,
+    minute,
+    second
+  }
+});
+```
+
+***
+
+### Обработка payload
+
+```js
+const timerReducer = (state = {seconds: 15}, action) => {
+  switch (action.type) {
+    case 'CHANGE_SECONDS':
+      return {seconds: state.seconds + action.value};
+    case 'CHANGE_TIME':
+	  // передаем payload для обработки в другую функцию
+      return {seconds: state.seconds + getTotalSeconds(action.payload)};
+    default:
+      return state;
+  }
+}
+
+const getTotalSeconds = ({hour, minute, second}) => {
+  return (hour*60 + minute)*60 + second;
+}
+```
+
+***
+
+### Типы действий повторяются
+
+```js
+const changeSeconds = (value) => ({
+  type: 'CHANGE_SECONDS',
+  value
+});
+
+const timerReducer = (state = {seconds: 15}, action) => {
+  switch (action.type) {
+    case 'CHANGE_SECONDS':
+      return {seconds: state.seconds + action.value};
+    default:
+      return state;
+  }
+}
+```
+
+Легко сделать опечатку и код не будет работать!
+
+***
+
+### Выделение константы для типа действия
+
+```js
+const CHANGE_SECONDS = 'CHANGE_SECONDS';
+
+const changeSeconds = (value) => ({
+  type: CHANGE_SECONDS,
+  value
+});
+
+const timerReducer = (state = {seconds: 15}, action) => {
+  switch (action.type) {
+    case CHANGE_SECONDS:
+      return {seconds: state.seconds + action.value};
+    default:
+      return state;
+  }
+}
+```
+
+Не обязательно для маленьких приложений, полезно в больших
+
+Код полностью: `~/1.Sandglass/samples/sample5.action.js`
+
+***
+
+### Разделение по файлам
+
+```js
+// constants/timerConstants.js
+export const CHANGE_SECONDS = 'CHANGE_SECONDS';
+```
+
+```js
+// actions/timerActions.js
+import * as timerConstants from '../constants/timerConstants.js';
+export const changeSeconds = (value) =>
+  ({ type: timerConstants.CHANGE_SECONDS, value });
+```
+
+```js
+// reducers/timerReducer.js
+import * as timerConstants from '../constants/timerConstants.js';
+export const timerReducer = (state = {seconds: 15}, action) => {
+  switch (action.type) {
+    case timerConstants.CHANGE_SECONDS:
+      return {seconds: state.seconds + action.value};
+    ...
+  }
+}
+```
+
+Полезно для больших приложений с множеством reducer'ов
+
+Код полностью: `~/1.Sandglass/samples/sample6.separated/`
+
+***
+
+### Переизобрели Redux
+
+<img width="600px" src="assets/redux-cycle.png">
+
+***
+
+### Задача 1. Sandglass
+
+***
+
+### Выводы
+
+1. Единственный источник правды
+*store*
+2. Состояние доступно только на чтение
+*immutable state*
+3. Изменения вносятся чистыми функциями
+*reducer*
+
+Корректность reducer можно проверять модульными тестами
+
+***
+
+Структура состояния приложения НЕ совпадает со структурой компонентов:
+- Структура состояния определяется **предметной областью** и **идеей приложения**, а структура компонентов ее представлением
+- Одна и та же часть состояния может использоваться многими компонентами
+*Timer и Sandglass*
+- Проектирование состояния вместе с написанием reducer
+и создание компонентов для визуализации — две разные задачи
+*reducer был полностью написан и протестирован, а уже затем подключен к визуальной части*
+
+***
+
+Связь `actions` и `reducer` через `dispatch` является слабой,
+что открывает следующие возможности:
+- Разные события меняют одну и ту же часть состояния
+*changeSeconds и restart*
+- Изменения состояния порождаются в разных частях приложения
+*кнопки в Timer, кнопка для restart*
+- Изменения состояния порождаются событиями вне React
+*setInterval*
+- Одно событие порождает изменения в разных частях состояния
+*встретится далее*
+
+</script></section>
+
+
+<!-- ************************************************* -->
+
+
+<section data-markdown><script type="text/template">
+
+## Продолжение следует...
+
+</script></section>
+			
+</div></div>
+</body>
+</html>
