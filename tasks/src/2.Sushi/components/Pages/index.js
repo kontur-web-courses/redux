@@ -1,0 +1,23 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import Page from '../../constants/Page';
+import Menu from '../../components/Menu';
+import Cart from '../../components/Cart';
+import Orders from '../../components/Orders';
+
+export default function Pages({ page }) {
+  switch (page) {
+    case Page.menu:
+      return <Menu />;
+    case Page.cart:
+      return <Cart />;
+    case Page.orders:
+      return <Orders />;
+    default:
+      throw 'Unknown page';
+  }
+}
+
+Pages.propTypes = {
+  page: PropTypes.string.isRequired
+};

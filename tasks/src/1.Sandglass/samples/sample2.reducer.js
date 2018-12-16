@@ -4,14 +4,14 @@ import './styles.css';
 import RoundButton, { RESTART_SIGN } from './components/RoundButton';
 import Timer from './components/Timer';
 
-const timerReducer = (state = {seconds: 15}, action) => {
+const timerReducer = (state = { seconds: 15 }, action) => {
   switch (action.type) {
     case 'CHANGE_SECONDS':
-      return {seconds: state.seconds + action.value};
+      return { seconds: state.seconds + action.value };
     default:
       return state;
   }
-}
+};
 
 class App extends React.Component {
   state = timerReducer(undefined, {});
@@ -25,8 +25,10 @@ class App extends React.Component {
 
   render() {
     return (
-      <Timer seconds={this.state.seconds}
-        onDecrease={this.handleDecrease} onIncrease={this.handleIncrease}
+      <Timer
+        seconds={this.state.seconds}
+        onDecrease={this.handleDecrease}
+        onIncrease={this.handleIncrease}
       />
     );
   }

@@ -75,14 +75,18 @@ npm run start
 
 ### Расположение заданий и примеров
 
-Папка задания:
-`/tasks/src/{#.ИмяЗадания}/`
+Все пути указаны от папки:
+`/tasks/src`
 
-Основной файл задания:
-`/tasks/src/{#.ИмяЗадания}/index.js`
+Если задание одно:
+- Папка задания: `~/{#.ИмяЗадания}/`
+- Основной файл задания: `~/{#.ИмяЗадания}/index.js`
+- Примеры: `~/{#.ИмяЗадания}/samples/`
 
-Папка с примерами к заданию:
-`/tasks/src/{#.ИмяЗадания}/samples/`
+Если заданий несколько:
+- Папка заданий: `~/{#.Папка}/`
+- Примеры: `~/{#.Папка}/samples/`
+- Формулировка задания: `~/{#.Папка}/{#.ИмяЗадания}.md`
 
 </script></section>
 
@@ -157,18 +161,19 @@ npm run start
 
 ```js
 class App extends React.Component {
-  state = {seconds: 15};
-  
+  state = { seconds: 15 };
+
   handleDecrease = () => {
-    this.setState(prevState => ({seconds: prevState.seconds - 1}));
-  }
+    this.setState(prevState => ({ seconds: prevState.seconds - 1 }));
+  };
   handleIncrease = () => {
-    this.setState(prevState => ({seconds: prevState.seconds + 1}));
-  }
-  
+    this.setState(prevState => ({ seconds: prevState.seconds + 1 }));
+  };
+
   render() {
     return (<Timer seconds={this.state.seconds}
-        onDecrease={this.handleDecrease} onIncrease={this.handleIncrease}/>);
+      onDecrease={this.handleDecrease} onIncrease={this.handleIncrease}/>
+    );
   }
 }
 ```
@@ -181,16 +186,16 @@ class App extends React.Component {
 
 ```js
 class App extends React.Component {
-  state = {seconds: 15}; // задается начальное состояние
-  
+  state = { seconds: 15 }; // задается начальное состояние
+
   handleDecrease = () => {
     // состояние меняется
-    this.setState(prevState => ({seconds: prevState.seconds - 1}));
-  }
+    this.setState(prevState => ({ seconds: prevState.seconds - 1 }));
+  };
   handleIncrease = () => {
     // состояние меняется
-    this.setState(prevState => ({seconds: prevState.seconds + 1}));
-  }
+    this.setState(prevState => ({ seconds: prevState.seconds + 1 }));
+  };
   ...
 }
 ```
@@ -201,7 +206,7 @@ class App extends React.Component {
 
 ```js
 class App extends React.Component {
-  state = {seconds: 15}; // задается начальное состояние
+  state = { seconds: 15 }; // задается начальное состояние
 
   dispatch(action) {
     // состояние меняется
@@ -234,14 +239,14 @@ this.setState(prevState => prevState.seconds + action.value); // было
 this.setState(prevState => timerReducer(prevState, action)); // должно быть
 
 // Задание начального состояния:
-state = {seconds: 15}; // было
+state = { seconds: 15 }; // было
 state = timerReducer(undefined, {}); // должно быть
 
 // Тогда структура reducer:
 const timerReducer = (state, action) => {
     ...
 	return newState;
-}
+};
 ```
 
 ***
@@ -249,14 +254,14 @@ const timerReducer = (state, action) => {
 ### Тогда код reducer
 
 ```js
-const timerReducer = (state = {seconds: 15}, action) => {
+const timerReducer = (state = { seconds: 15 }, action) => {
   switch (action.type) {
     case 'CHANGE_SECONDS':
-      return {seconds: state.seconds + action.value};
+      return { seconds: state.seconds + action.value };
     default:
       return state;
   }
-}
+};
 ```
 
 ***
@@ -265,7 +270,7 @@ const timerReducer = (state = {seconds: 15}, action) => {
 Состояние инициализируется за счет значения по умолчанию аргумента `state` и возвращается в ветке `default`,
 ведь `action = {}`:
 ```js
-const timerReducer = (state = {seconds: 15}, ...) => {
+const timerReducer = (state = { seconds: 15 }, ...) => {
   ...
     default:
       return state;
@@ -282,7 +287,7 @@ Reducer обязан возвращать текущее состояние.
 Но если `action` должен повлиять на состояние, то создается и возвращается новый объект состояния с необходимыми изменениями. Старый объект состояния не меняется.
 ```js
     case 'CHANGE_SECONDS':
-      return {seconds: state.seconds + action.value};
+      return { seconds: state.seconds + action.value };
     default:
       return state;
 ```
@@ -305,10 +310,10 @@ Reducer обязан возвращать текущее состояние.
 ### Чистота и иммутабельность
 
 ```js
-const timerReducer = (state = {seconds: 15}, action) => {
+const timerReducer = (state = { seconds: 15 }, action) => {
   switch (action.type) {
     case 'CHANGE_SECONDS':
-      return {seconds: state.seconds + action.value};
+      return { seconds: state.seconds + action.value };
     default:
       return state;
   }
@@ -368,11 +373,11 @@ const store = createStore(reducer);
 ### Получение состояния
 
 ```js
-const createStore = (reducer) => {
+const createStore = reducer => {
   let state;
 
   const getState = () => state;
-  
+
   return { getState };
 };
 ```
@@ -382,12 +387,12 @@ const createStore = (reducer) => {
 ### Обработка изменений
 
 ```js
-const createStore = (reducer) => {
+const createStore = reducer => {
   let state;
 
   const getState = () => state;
 
-  const dispatch = (action) => {
+  const dispatch = action => {
     // состояние меняется
     state = reducer(state, action);
   };
@@ -403,17 +408,17 @@ const createStore = (reducer) => {
 ### Подписка на изменения
 
 ```js
-const createStore = (reducer) => {
+const createStore = reducer => {
   let listeners = [];
   ...
-  const dispatch = (action) => {
+  const dispatch = action => {
     state = reducer(state, action);
-	// все подписчики уведомляются сразу после изменения состояния
+    // все подписчики уведомляются сразу после изменения состояния
     listeners.forEach(listener => listener());
   };
-  const subscribe = (listener) => {
+  const subscribe = listener => {
     listeners.push(listener);
-	// функция отписки
+    // функция отписки
     return () => { listeners = listeners.filter(l => l !== listener); };
   };
   ...
@@ -467,9 +472,9 @@ class App extends React.Component {
   ...
   componentDidMount() {
     this.props.store.subscribe(() => {
-	  // задается новое состояние компонента и происходит перерисовка
-	  this.setState(this.props.store.getState());
-	});
+      // задается новое состояние компонента и происходит перерисовка
+      this.setState(this.props.store.getState());
+    });
   }
   ...
 }
@@ -485,8 +490,8 @@ class App extends React.Component {
   componentDidMount() {
     // subscribe возвращает функцию для отписки
     this.unsubscribe = this.props.store.subscribe(() => {
-	  this.setState(this.props.store.getState());
-	});
+      this.setState(this.props.store.getState());
+    });
   }
   componentWillUnmount() {
     // при удалении компонента можно отписаться
@@ -563,7 +568,7 @@ changeSeconds(5);
 в один объект с ключом `payload`
 
 ```js
-const changeSeconds = (value) => ({
+const changeSeconds = value => ({
   type: 'CHANGE_SECONDS',
   value // обычный вариант
 });
@@ -583,21 +588,21 @@ const changeTime = (hour, minute, second) => ({
 ### Обработка payload
 
 ```js
-const timerReducer = (state = {seconds: 15}, action) => {
+const timerReducer = (state = { seconds: 15 }, action) => {
   switch (action.type) {
     case 'CHANGE_SECONDS':
-      return {seconds: state.seconds + action.value};
+      return { seconds: state.seconds + action.value };
     case 'CHANGE_TIME':
-	  // передаем payload для обработки в другую функцию
-      return {seconds: state.seconds + getTotalSeconds(action.payload)};
+      // передаем payload для обработки в другую функцию
+      return { seconds: state.seconds + getTotalSeconds(action.payload) };
     default:
       return state;
   }
-}
+};
 
-const getTotalSeconds = ({hour, minute, second}) => {
-  return (hour*60 + minute)*60 + second;
-}
+const getTotalSeconds = ({ hour, minute, second }) => {
+  return (hour * 60 + minute) * 60 + second;
+};
 ```
 
 ***
@@ -605,19 +610,19 @@ const getTotalSeconds = ({hour, minute, second}) => {
 ### Типы действий повторяются
 
 ```js
-const changeSeconds = (value) => ({
+const changeSeconds = value => ({
   type: 'CHANGE_SECONDS',
   value
 });
 
-const timerReducer = (state = {seconds: 15}, action) => {
+const timerReducer = (state = { seconds: 15 }, action) => {
   switch (action.type) {
     case 'CHANGE_SECONDS':
-      return {seconds: state.seconds + action.value};
+      return { seconds: state.seconds + action.value };
     default:
       return state;
   }
-}
+};
 ```
 
 Легко сделать опечатку и код не будет работать!
@@ -629,19 +634,19 @@ const timerReducer = (state = {seconds: 15}, action) => {
 ```js
 const CHANGE_SECONDS = 'CHANGE_SECONDS';
 
-const changeSeconds = (value) => ({
+const changeSeconds = value => ({
   type: CHANGE_SECONDS,
   value
 });
 
-const timerReducer = (state = {seconds: 15}, action) => {
+const timerReducer = (state = { seconds: 15 }, action) => {
   switch (action.type) {
     case CHANGE_SECONDS:
-      return {seconds: state.seconds + action.value};
+      return { seconds: state.seconds + action.value };
     default:
       return state;
   }
-}
+};
 ```
 
 Не обязательно для маленьких приложений, полезно в больших
@@ -653,24 +658,24 @@ const timerReducer = (state = {seconds: 15}, action) => {
 ### Разделение по файлам
 
 ```js
-// constants/timerConstants.js
+// timerActionTypes.js
 export const CHANGE_SECONDS = 'CHANGE_SECONDS';
 ```
 
 ```js
-// actions/timerActions.js
-import * as timerConstants from '../constants/timerConstants.js';
-export const changeSeconds = (value) =>
-  ({ type: timerConstants.CHANGE_SECONDS, value });
+// timerActionCreators.js
+import * as timerActionTypes from './timerActionTypes.js';
+export const changeSeconds = value =>
+  ({ type: timerActionTypes.CHANGE_SECONDS, value });
 ```
 
 ```js
-// reducers/timerReducer.js
-import * as timerConstants from '../constants/timerConstants.js';
-export const timerReducer = (state = {seconds: 15}, action) => {
+// timerReducer.js
+import * as timerActionTypes from './timerActionTypes.js';
+export const timerReducer = (state = { seconds: 15 }, action) => {
   switch (action.type) {
     case timerConstants.CHANGE_SECONDS:
-      return {seconds: state.seconds + action.value};
+      return { seconds: state.seconds + action.value };
     ...
   }
 }
@@ -734,7 +739,1329 @@ export const timerReducer = (state = {seconds: 15}, action) => {
 
 <section data-markdown><script type="text/template">
 
-## Продолжение следует...
+## 2.1. Redux для React
+<div class="center">с провайдером и коннектом</div>
+
+***
+
+### Передача store
+
+Легко передать store в корневой компонент
+
+```js
+const appStore = createStore(reducer);
+
+ReactDom.render(<App store={appStore} />, document.getElementById('app'));
+```
+
+Чтобы передать глубже придется пробрасывать через props?!
+
+***
+
+### Передача через Context
+
+<img width="300px" src="assets/context.png">
+
+Context может передать store на нужный уровень
+
+***
+
+### Идея передачи через Context
+```js
+const Context = React.createContext();
+const store = createStore(reducer);
+
+//App.js
+render() { // передаем store в контекст
+  return (<Context.Provider value={store}>
+            <RootComponent />
+          </Context.Provider>);
+}
+//Wrapper.js
+render() { // получаем store в компоненте-обертке и передаем во WrappedComponent
+  return (<Context.Consumer>
+	        value => <WrappedComponent store={value} />
+	      </Context.Consumer>);
+}
+```
+
+***
+
+### Нюансы передачи через Context
+
+1. Компонент-провайдер должен подписаться на store,
+   чтобы уведомлять консьюмеров
+2. Писать каждый раз логику Wrapper плохо,
+   нужен High Order Component
+3. Оборачиваемый компонент не зависит от всего состояния,
+   значит надо передавать только необходимые части
+4. Компонент-провайдер следит за всеми изменениями store,
+   но оборачиваемые компоненты должны обновляться
+   при изменениях тех частей состояния, которые им нужны
+
+***
+
+### Provider с обновлением
+
+```js
+class Provider extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { storeState: props.store.getState(), store: props.store };
+  } // storeState нужен, чтобы обновлять контекст при изменениях
+  componentDidMount() {
+    this.unsubscribe = this.props.store.subscribe(() => {
+      const storeState = this.props.store.getState();
+      this.setState(state =>
+	    state.storeState !== storeState ? storeState : null);
+    });
+  } // любое изменение store.getState() приводит к изменению state и контекста
+  render() {
+    return <Context.Provider value={this.state}>
+             {this.props.children}</Context.Provider>;
+  } // далее другие методы класса
+```
+
+***
+
+### Использование Provider
+
+```js
+//App.js
+function App({store}) {
+  return (
+    <Provider value={store}>
+      <RootComponent />
+    </Provider>
+  );
+}
+```
+
+***
+
+### HOC без лишних перерисовок
+
+```js
+function withStore(selectProps, WrappedComponent) {
+  // на pure не влияет setState в Provider, если не изменились значения props
+  class Connect extends PureComponent {
+    renderWrappedComponent = value => {
+      const { storeState, store } = value;	  
+      const derivedProps = selectProps(storeState, this.props, store);
+      return <WrappedComponent {...derivedProps} />;
+    };
+    render() {
+      return <Context.Consumer>
+	           {this.renderWrappedComponent}</Context.Consumer>;
+    }
+  }
+  return Connect;
+}
+```
+
+***
+
+### Мемоизация в selectProps
+
+```js
+renderWrappedComponent = value => {
+  const { storeState, store } = value;
+  // selectProps пусть выбирает нужное из store, кэшируя результат
+  const derivedProps = selectProps(storeState, this.props, store);
+  return <WrappedComponent {...derivedProps} />;
+};
+```
+`renderWrappedComponent` вызывается при каждом обновлении store
+
+Если `selectProps` будет запоминать значения `derivedProps`
+и создавать новый объект `derivedProps` только при изменениях,
+которые могут повлиять на `WrappedComponent`,
+то лишних перерисовок `WrappedComponent` не будет
+
+***
+
+### connect()
+
+```js
+function connect(mapStateToProps, mapDispatchToProps, mergeProps) {
+  return function wrapWithConnect(WrappedComponent) {
+    function makeDerivedPropsSelector() {
+      return function selectDerivedProps(state, props, store) {
+        // создается на основе параметров connect()
+      };
+    }
+    class Connect extends PureComponent {
+      constructor(props) {
+        super(props);
+        this.selectProps = makeDerivedPropsSelector();
+      } /* ... */
+    }
+    return Connect;
+  };
+}
+```
+Дополнительная обертка HOC, чтобы настроить
+mapping из состояния в свойства WrappedComponent
+
+***
+
+### pure в connect()
+
+```js
+function connect(mapStateToProps, mapDispatchToProps, mergeProps,
+  { pure = true, ...extraOptions } = {} // параметров даже больше
+) {
+  return function wrapWithConnect(WrappedComponent) {
+    function makeDerivedPropsSelector() {
+	  // зависит от pure
+      return function selectDerivedProps(state, props, store) {/* ... */}
+    }
+    class Connect extends (pure ? PureComponent : Component) {
+      /* ... */
+    }
+    return Connect;
+  };
+}
+```
+
+***
+
+### statics в connect()
+
+```js
+function connect(mapStateToProps, mapDispatchToProps, mergeProps,
+  { pure = true, ...extraOptions } = {}
+) {
+  return function wrapWithConnect(WrappedComponent) {
+    function makeDerivedPropsSelector() {
+	  /* ... */
+    }
+    class Connect extends (pure ? PureComponent : Component) {
+      /* ... */
+    }
+	// статические поля и функции из исходного компонента копируются в обертку
+    return hoistNonReactStatics(Connect, WrappedComponent);
+  };
+}
+```
+Копирование статических полей позволяет использовать
+результат `connect()` как исходный компонент
+
+***
+
+### Использование connect()
+
+```
+connect(
+  (state, props) => ({
+    seconds: state.seconds
+  }),
+  (dispatch, props) => ({
+    onChange: value => dispatch(changeSeconds(value))
+  })
+)(Timer);
+```
+
+Обычно задаются `mapStateToProps`, `mapDispatchToProps`
+
+`mergeProps` по умолчанию действует так:
+`{ ...ownProps, ...stateProps, ...dispatchProps }`
+и обычно не переопределяется
+
+***
+
+### Все уж готово
+
+Реализовывать `Provider` и `connect()` самостоятельно не нужно!
+
+Их можно взять из пакета `react-redux`
+
+***
+
+### Размещение компонентов
+
+`connect` порождает новые компоненты из обычных
+Где и как их разместить в проекте?
+
+***
+
+### Presentational and Container Components
+
+При организации приложения можно разделять все компоненты на
+- *presentational* — отвечающие только за отображение
+- *container* — отвечающие за связь со store
+
+***
+
+### Presentational Components
+
+Отвечают за то, как все **выглядит**
+
+Могут содержать **разметку и стили**
+Не определяют как данные загружаются или изменяются
+Принимают данные и callbacks **только через props**
+Часто получают содержимое через props.children
+
+Редко имеют собственное состояние,
+это скорее **состояние UI**, чем данные
+
+**Могут использовать presentational и container компоненты**
+
+Обычно пишутся как **functional components**
+
+*Примеры: Page, Sidebar, Loader, UserInfo, List*
+
+***
+
+### Container Components
+
+Отвечают за то, как все **работает**
+
+Никогда не содержат стили, разметка только для компоновки
+**Обеспечивают данными и «поведением»** другие компоненты
+
+Обычно содержат состояние
+
+**Могут использовать presentational и container компоненты**
+
+Обычно создаются **через Higher Order Components**,
+например `connect()` из Redux, `createContainer()` из Relay
+
+*Примеры: UserPage, FollowersSidebar, FollowedUserList*
+
+***
+
+### Преимущества разделения
+- Лучшее разделение ответственности. Проще понимать код.
+  Можно разрабатывать логику и отображение независимо.
+- Лучшее переиспользование presentational компонентов
+- Presentational компоненты — это «палитра приложения,
+  можно сделать демо-страницу со всеми возможными видами для дизайнера
+
+***
+
+### Связь с другими классификациями
+
+- *Presentational* компоненты обычно **stateless pure functions**
+- *Container* компоненты обычно **stateful pure classes**
+
+Но это не обязательно
+
+***
+
+### Задача 2.1. Navigation
+
+***
+
+### Выводы
+1. Компонент легко **подключается** к store
+вне зависимости от своего положения в дереве компонентов
+2. Компонент может **влиять** на любые другие компоненты
+через store (Navigation на Pages)
+3. Компоненты удобно разделить
+на **presentational**, которые получают информацию из props,
+и **containers**, которые взаимодействуют со store
+
+</script></section>
+
+
+<!-- ************************************************* -->
+
+
+<section data-markdown><script type="text/template">
+
+## 2.2. Коллекции
+
+***
+
+### Хранение сущностей в массиве
+
+```js
+const state = {
+  products: [
+    { id: 1, name: "Яблоко" },
+	{ id: 2, name: "Апельсин" },
+	{ id: 3, name: "Виноград" }
+  ]
+}
+```
+
+Возможный вариант, но что если...
+
+***
+
+### Нужно показывается выбранный элемент?
+
+```js
+const state = {
+  products: [
+    { id: 1, name: "Яблоко" },
+	{ id: 2, name: "Апельсин" },
+	{ id: 3, name: "Виноград" }
+  ],
+  currentProduct: { id: 2, name: "Апельсин" }
+}
+```
+В диалоговом окне показывается подробная информация
+о выбранном продукте
+
+***
+
+### Входит в состав другой сущности?
+
+```js
+const state = {
+  products: [
+    { id: 1, name: "Яблоко" },
+	{ id: 2, name: "Апельсин" },
+	{ id: 3, name: "Виноград" }
+  ],
+  purchases: [
+	{ product: { id: 2, name: "Апельсин" }, quantity: 3}
+  ]
+}
+```
+
+При отображении покупки в интернет-магазине
+надо показывать название продукта
+
+***
+
+### Нужно показывать выборку?
+
+```js
+const state = {
+  products: [
+    { id: 1, name: "Яблоко" },
+	{ id: 2, name: "Апельсин" },
+	{ id: 3, name: "Виноград" }
+  ],
+  chosenProducts: [
+    { id: 1, name: "Яблоко" },
+    { id: 2, name: "Апельсин" }
+  ]
+}
+```
+
+Пользователь добавил фильтр и временно надо показывать
+только подходящие продукты
+
+***
+
+### Получаем перерасход памяти
+
+```js
+const state = {
+  products: [
+    { id: 1, name: "Яблоко" },
+	{ id: 2, name: "Апельсин" },
+	{ id: 3, name: "Виноград" }
+  ],
+  currentProduct: { id: 2, name: "Апельсин" },
+  purchases: [
+	{ product: { id: 2, name: "Апельсин" }, quantity: 3}
+  ],
+  chosenProducts: [
+    { id: 1, name: "Яблоко" },
+    { id: 2, name: "Апельсин" }
+  ]
+}
+```
+
+***
+
+### При изменении нужно обновлять везде
+```js
+const state = {
+  products: [
+    { id: 1, name: "Яблоко" },
+	{ id: 2, name: "МАНДАРИН" },
+	{ id: 3, name: "Виноград" }
+  ],
+  currentProduct: { id: 2, name: "МАНДАРИН" },
+  purchases: [
+	{ product: { id: 2, name: "Апельсин" }, quantity: 3}
+  ],
+  chosenProducts: [
+    { id: 1, name: "Яблоко" },
+    { id: 2, name: "Апельсин" }
+  ]
+}
+```
+
+Изменили в диалоговом окне — мало обновить
+исходную коллекцию
+
+***
+
+### Можно использовать идентификаторы
+
+```js
+const state = {
+  products: [
+    { id: 1, name: "Яблоко" },
+	{ id: 2, name: "МАНДАРИН" },
+	{ id: 3, name: "Виноград" }
+  ],
+  currentProductId: 2,
+  purchases: [
+	{ productId: 2, quantity: 3}
+  ],
+  chosenProductIds: [1, 2]
+}
+```
+
+Лучше, но поиск по id в массиве продуктов неэффективен...
+
+***
+
+### Коллекция
+
+```js
+const state = {
+  products: {
+    allIds: [1, 2, 3],
+	byId: {
+	  1: { id: 1, name: "Яблоко" },
+	  2: { id: 2, name: "МАНДАРИН" },
+	  3: { id: 3, name: "Виноград" }
+	}
+  },
+  currentProductId: 2,
+  purchases: [
+	{ productId: 2, quantity: 3}
+  ],
+  chosenProductIds: [1, 2]
+}
+```
+
+Храним отдельно все идентификаторы и сами объекты
+
+- Удобно изменять локально и обновлять с сервера
+- Нет лишних данных
+
+***
+
+### Задача 2.2. Menu
+
+***
+
+### Выводы
+1. Коллекция позволяет подключать контейнер по идентификатору: все необходимые компоненту данные контейнер достанет из `byId`
+2. Компоненту, отображающему список контейнеров,
+достаточно знать список идентификаторов
+
+</script></section>
+
+
+<!-- ************************************************* -->
+
+
+<section data-markdown><script type="text/template">
+
+## 2.3. Получение данных
+
+***
+
+### Действия при запросах
+
+```js
+function load() {
+  // 1. Перед запросом
+  api
+    .fetchData()
+    .then(data => {
+      // 2. После запроса
+    })
+    .catch(reason => {
+      // 3. Если что-то пошло не так
+    });
+}
+```
+
+Всегда есть три шага:
+1. Показать, что загрузка началась, например, показать лоадер
+2. Добавить данные, показать результат
+3. Обработать ошибку, показать сообщение пользователю
+
+***
+
+### Версия с async/await
+
+```js
+async function loadAsync() {
+  // 1. Перед запросом
+  try {
+    const data = await api.fetchData();
+    // 2. После запроса
+  } catch (error) {
+    // 3. Если что-то пошло не так
+  }
+}
+```
+
+Всегда есть три шага:
+1. Показать, что загрузка началась, например, показать лоадер
+2. Добавить данные, показать результат
+3. Обработать ошибку, показать сообщение пользователю
+
+***
+
+### Три действия
+
+Всегда есть три шага,
+значит надо три раза изменять state
+с помощью трех действий
+
+```js
+// 1. Перед запросом
+export const FETCH_DATA_REQUEST = 'FETCH_DATA_REQUEST';
+// 2. После запроса
+export const FETCH_DATA_SUCCESS = 'FETCH_DATA_SUCCESS';
+// 3. Если что-то пошло не так
+export const FETCH_DATA_FAIL = 'FETCH_DATA_FAIL';
+```
+
+Часто названиях их типов отличаются только последним словом,
+чтобы указать, что они относятся к одному запросу
+
+***
+
+### case-функции
+
+```js
+const changeSeconds = (state, { value }) => ({ seconds: state.seconds + value });
+const restart = (state, action) => ({ seconds: 15; });
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case CHANGE_SECONDS:
+      return changeSeconds(state, action);
+    case RESTART:
+      return restart(state, action);
+    default:
+      return state;
+  }
+};
+
+```
+
+Обработка каждого типа действия может быть большой,
+поэтому часто обработку конкретного действия переносят
+в отдельную функцию, case-функцию
+
+***
+
+### Задача 2.3. Api
+
+***
+
+### Выводы
+1. Запросы на сервер могут привести к трем изменениям в store
+2. Обработка действий в case-функциях упрощяет редьюсер
+
+
+</script></section>
+
+
+<!-- ************************************************* -->
+
+
+<section data-markdown><script type="text/template">
+
+## 2.4. Погружение в Redux
+<div class="center">много containers и глубокие immutable-обновления</div>
+
+***
+
+### Immutable-обновление
+
+```js
+const person = {
+  names: { surname: 'Ace', name: 'Frederic' },
+  age: 26
+};
+
+// мутирующее обновление: изменения происходят в исходном объекте
+person.age = 28;
+
+// немутирующее обновление: создается копия всех измененных частей
+const reagedPerson = { ...person, age: 27 };
+// а значит person.names переиспользуется
+```
+
+***
+
+### Обновление вложенного  значения
+
+```js
+const person = {
+  names: { surname: 'Ace', name: 'Frederic' },
+  age: 26
+};
+
+// немутирующее обновление вложенного значения
+const renamedPerson = {
+  ...person,
+  names: {
+    ...person.names,
+    surname: 'Potter'
+  }
+};
+```
+Более многословно, чем хотелось бы
+
+***
+
+### Обновление элемента массива
+
+```js
+const persons = [
+  { names: { surname: 'Westlake', name: 'Ronald' }, age: 42 },
+  { names: { surname: 'Ace', name: 'Frederic' }, age: 26 }
+];
+
+const updatedPersons = persons.map((person, index) =>
+  index !== 1
+    ? person
+    : {
+        ...person,
+        age: 27
+      }
+);
+```
+Еще более многословно...
+
+***
+
+### Обновление вложенного значения элемента массива
+
+<div class="center"><img width="600px" src="assets/oivse.jpg"></div>
+
+***
+
+### Можно попробовать пошагово
+
+```js
+const person = persons[1];
+const renamedPerson = {
+  ...person,
+  names: {
+    ...person.names,
+    surname: 'Potter'
+  }
+};
+
+const updatedPersons = persons.map((person, index) =>
+  index !== 1 ? person : renamedPerson
+);
+```
+
+***
+
+### Как обновлять без боли?
+
+1. Избегать объектов с сильно вложенными значениями
+2. Обновлять в несколько шагов
+3. Написать вспомогательные функции
+Примеры: `~/2.Sushi/samples/immutable-updates/`
+4. Использовать [immutability-helper](https://github.com/kolodny/immutability-helper)
+
+***
+
+### Функции вставки и удаления
+
+```js
+function insertItem(array, index, item) {
+  return [
+    ...array.slice(0, index),
+    item,
+    ...array.slice(index)
+  ];
+}
+
+function removeItem(array, index) {
+  return [...array.slice(0, index), ...array.slice(index + 1)];
+}
+```
+
+```js
+const personsWithNewOne = insertItem(persons, 3, newPerson);
+const personsWithoutSecond = removeItem(persons, 2);
+```
+
+***
+
+### Функция обновления со значением
+
+```js
+function updateItem(array, index, item) {
+  return array.map((oldItem, i) => {
+    if (i !== index) {
+      return oldItem;
+    }
+    return {
+      ...oldItem,
+      ...item
+    };
+  });
+}
+```
+
+```js
+const personsWithReaged = updateItem(persons, 3, { age: 27 });
+```
+
+***
+
+### Функция обновления с callback
+
+```js
+function updateItemByIndex(array, index, updateCallback) {
+  return array.map((oldItem, i) => {
+    if (i !== index) {
+      return oldItem;
+    }
+    return updateCallback(oldItem);
+  });
+}
+```
+
+```js
+const personsWithUpdated = updateItemByIndex(persons, 3, person => ({
+  ...person,
+  age: 27,
+  names: {
+    ...person.names,
+    surname: 'Potter'
+  }
+}));
+```
+
+Callback позволяет продолжать обновление вглубь
+
+***
+
+### Immutability Helper
+
+```js
+// вставка
+const personsWithNewOne = update(persons, { $splice: [[3, 0, newPerson]] });
+// удаление
+const personsWithoutSecond = update(persons, { $splice: [[2, 1]] });
+// обновление со значением
+const personsWithReaged = update(persons, { 3: { $merge: { age: 27 } } });
+
+// обновление с callback
+const personsWithUpdated = update(persons, {
+  3: person =>
+    update(person, {
+	  age: { $set: 27 }
+      names: { surname: { $set: 'Potter' } },
+    })
+});
+```
+
+Легко расширяется за счет добавления новых операций с $
+Пример, готовый к использованию `~/2.Sushi/utils/update.js`
+
+***
+
+### Задача 2.4. Cart
+
+***
+
+### Выводы
+1. Обновлять состояние нужно в **immutable-стиле**,
+используя средства языка, либо специальные функции
+2. Больше примеров того как **store обеспечивает связями**
+разные компоненты: обновление корзины с разных страниц,
+контекстная навигация
+
+***
+
+### Когда создавать контейнеры?
+
+**Не следует делать из всех компонентов контейнеры!**
+
+Часто достаточно создать **один контейнер на страницу**,
+а дальше передавать данные и обработчики через props.
+
+Также надо создавать контейнеры **для общих блоков**,
+вроде меню или чата.
+
+Например, для «страницы» `Cart` создан контейнер,
+а для «элемента на странице» `Purchase` — нет.
+
+С другой стороны для `Product` на «странице» `Menu` ранее был
+создан контейнер и это оказалось удобно при добавлении корзины.
+
+Поэтому полезно делать контейнеры для **компонентов,
+активно взаимодействующих с другими частями приложения**.
+
+</script></section>
+
+
+<!-- ************************************************* -->
+
+
+<section data-markdown><script type="text/template">
+
+## 2.5. Организация редьюсеров
+
+***
+
+### Слайсы
+
+Будем называть *слайсом* часть состояния, которая является значением этого состояния для некоторого ключа
+
+```js
+const state = {
+  page: 'menu',
+  products: [{ id: 1, name: 'Блюдо' }]
+};
+```
+
+В примере `page` — это один слайс, а `products` — это другой слайс
+
+***
+
+### Разделение действий по слайсам
+
+```js
+const rootReducer = (state = {}, action) => {
+  switch (action.type) {
+    case actionTypes.NAVIGATE_TO_PAGE:
+      return { ...state, page: action.page };
+    case actionTypes.LOAD_PRODUCTS:
+      return { ...state, products: action.products};
+  }
+  return state;
+}
+```
+
+Действия обычно меняют только один слайс,
+поэтому можно их разделить по слайсам.
+
+Здесь `NAVIGATE_TO_PAGE` меняет слайс `page`,
+а `LOAD_PRODUCTS` меняет слайс `products`.
+
+***
+
+### Разделение обработки слайсов
+
+```js
+const pageReducer = (state = Page.menu, action) => {
+  return action.type === actionTypes.NAVIGATE_TO_PAGE ? action.page : state;
+};
+const productsReducer = (state = [], action) => {
+  return action.type === actionTypes.LOAD_PRODUCTS ? action.products : state;
+};
+
+const rootReducer = (state = {}, action) => {
+  return {
+    page: pageReducer(state.page, action),
+    products: productsReducer(state.products, action)
+  };
+}
+```
+
+Каждый slice-редьюсер отвечает только за один кусочек состояния.
+А `rootReducer` собирает его полностью.
+
+***
+
+### combineReducers
+
+```js
+const rootReducer = combineReducers(
+  {
+    page: pageReducer,
+    products: productsReducer
+  }
+);
+```
+
+Можно написать функцию `combineReducers`,
+которая упростит объединение slice-редьюсеров
+
+***
+
+### Реализация combineReducers
+
+```js
+const combineReducers = reducers => {
+  return (state = {}, action) => {
+    return Object.keys(reducers).reduce((nextState, key) => {
+      nextState[key] = reducers[key](state[key], action);
+      return nextState;
+    }, {});
+  };
+};
+```
+
+`combineReducers` — уже написан в `redux`
+
+***
+
+### createReducer
+
+```js
+const pageReducer = createReducer(Page.menu, {
+  [actionTypes.NAVIGATE_TO_PAGE]: (state, action) => action.page
+});
+
+const productsReducer = createReducer([], {
+  [actionTypes.LOAD_PRODUCTS]: loadProducts
+});
+```
+
+Вместо switch можно использовать объект
+с обработчиками в качестве значений
+
+Можно написать функцию `createReducer`,
+которая упростит создание редьюсеров в таком стиле
+
+***
+
+### Реализация createReducer
+
+```js
+function createReducer(initialState, handlers) {
+  return function reducer(state = initialState, action) {
+    if (handlers.hasOwnProperty(action.type)) {
+      return handlers[action.type](state, action);
+    } else {
+      return state;
+    }
+  };
+}
+```
+
+`createReducer` — уже написан в пакете `redux-create-reducer`
+
+***
+
+### Задача 2.5. Refactoring
+
+***
+
+### Выводы
+
+1. `combineReducers` позволяет обрабатывать слайсы
+в отдельных редьюсерах
+2. В slice-редьюсерах **проще обновлять состояние**
+в immutable-стиле, ведь вложенность меньше на один уровень
+3. Как следствие, при проектировании состояния приложения
+надо стремиться к **более плоской структуре состояния**,
+к большему числу независимых слайсов
+4. `createReducer` и case-функции отлично подходят
+для создвания редьюсеров
+
+</script></section>
+
+
+<!-- ************************************************* -->
+
+
+<section data-markdown><script type="text/template">
+
+## 2.6. Cross Slice Reducer
+
+***
+
+### Действия на несколько слайсов
+
+Есть действия, которые можно обработать,
+только получив данные из нескольких слайсов,
+либо обновив сразу несколько слайсов
+
+Такие действия можно обработать с помощью подхода
+*Cross Slice Reducer*
+
+***
+
+### Обработка действий в два шага
+
+```js
+const combinedReducer = combineReducers({
+  a: sliceReducerA,
+  b: sliceReducerB
+});
+
+function rootReducer(state, action) {
+  const intermediateState = combinedReducer(state, action);
+  const finalState = crossSliceReducer(intermediateState, action);
+  return finalState;
+}
+```
+
+Сначала отрабатывают редьюсеры для одиночных слайсов,
+а затем при необходимости `crossSliceReducer` вносит изменения,
+задевающие несколько слайсов
+
+***
+
+### Пример Cross Slice Reducer
+
+```js
+function crossSliceReducer(state, action) {
+  switch (action.type) {
+    case 'SOME_SPECIAL_ACTION': {
+      return {
+        // специально state.b передается как дополнительный аргумент
+        a: handleSpecialCaseForA(state.a, action, state.b),
+        b: sliceReducerB(state.b, action)
+      };
+    }
+    default:
+      return state;
+  }
+}
+```
+
+***
+
+### Задача 2.6. Orders
+
+***
+
+### Выводы
+
+Редьюсер не обязательно декомпозируется по слайсам.
+Он может декомпозироваться по шагам.
+
+</script></section>
+
+
+<!-- ************************************************* -->
+
+
+<section data-markdown><script type="text/template">
+
+## 2.7. Middleware
+
+***
+
+### Обычный dispatch
+
+<img width="600px" src="assets/middleware0.png">
+
+***
+
+### dispatch с middleware
+
+<img width="600px" src="assets/middleware1.png">
+
+*Middleware* — промежуточный слой
+
+`dispatch` оборачивается другой функцией
+и в обертке кладется в `store`
+
+***
+
+### Логирование
+
+<img width="600px" src="assets/middleware-log.png">
+
+***
+
+### Измерение производительности
+
+<img width="600px" src="assets/middleware-measure.png">
+
+***
+
+### Фильтрация по условию
+
+<img width="600px" src="assets/middleware-filter.png">
+
+***
+
+### Вызов переданной функции
+
+<img width="600px" src="assets/middleware-call.png">
+
+***
+
+### Композиция middleware
+
+<img width="600px" src="assets/middleware-compose1.png">
+
+***
+
+### Каждый middleware вызывает next
+
+<img width="600px" src="assets/middleware-compose2.png">
+
+***
+
+### Каждому middleware доступно API от store
+
+<img width="600px" src="assets/middleware-compose3.png">
+
+***
+
+### Простейшее middleware
+
+```js
+const customMiddleWare = ({ getState, dispatch }) => next => action => {
+  return next(action);
+};
+```
+
+1. `{ getState, dispatch }` передается при подключении к `store`
+2. `next` обеспечивает композицию,
+содержит следующий `middleware` или базовый `dispatch`
+3. `action` — действие, которое надо обработать
+
+***
+
+### Подключение middleware
+
+```js
+const store = createStore(
+  rootReducer,
+  applyMiddleware(middleware1, middleware2, middleware3)
+);
+```
+
+`action` будет проходить `middleware` в порядке 1, 2, 3
+
+`applyMiddleware` — функция из `redux`
+
+***
+
+### Задача 2.7. Logging
+
+***
+
+### Выводы
+
+Middleware позволяет:
+- Добавлять новые фичи в обработку действий
+- Логировать все действия без модификации кода приложения
+
+Middleware для многих задач уже написаны
+А если нужно что-то специфическое — **легко написать свое!**
+
+</script></section>
+
+
+<!-- ************************************************* -->
+
+
+<section data-markdown><script type="text/template">
+
+## 2.8. Thunk
+
+***
+
+### Происхождение термина
+
+Вместо значения можно передать в качестве параметра функцию, которая возвращает это значение при вызове
+
+```js
+// обычное значение
+print(5 + 3);
+
+// функция, возвращающая значение
+print(() => 5 + 3);
+```
+Тогда, если значение не понадобится, его можно не вычислять
+
+Можно сказать, что **значение было «задумано»**, но не посчитано
+
+«Задумано» — «thought», 3-форма неправильного глагола «think»
+В шутку или заведомо неправильно говорят «thunk»
+
+**thunk** — это функция без параметров, которая вычисляет и возвращает значение
+
+***
+
+### Thunk Middleware в Redux
+
+<img width="400px" src="assets/middleware-call.png">
+
+Вместо `action` в `dispatch` передается функция,
+которая при своем вызове будет вызывать `dispatch`
+с нужными ей действиями
+
+***
+
+### Создатель действий для thunk
+
+```js
+// Action creator, создающий thunk
+const sumAndChange = (a, b) => (dispatch, getState, extraArgument) => {
+  dispatch({ type: 'CHANGE_VALUE', value: a + b });
+}
+
+// Dispatching с использованием action creator
+dispatch(sumAndChange(3, 2));
+
+// Thunk, который будет передан в dispatch со значениями из замыкания
+const thunk = (dispatch, getState, extraArgument) => {
+  dispatch({ type: 'CHANGE_VALUE', value: 3 + 2 });
+};
+```
+
+***
+
+### Реализация redux-thunk
+
+```js
+function createThunkMiddleware(extraArgument) {
+  return ({ dispatch, getState }) => next => action => {
+    if (typeof action === 'function') {
+      return action(dispatch, getState, extraArgument);
+    }
+    return next(action);
+  };
+}
+const thunk = createThunkMiddleware();
+thunk.withExtraArgument = createThunkMiddleware;
+export default thunk;
+```
+
+Нужен `dispatch` и он доступен
+
+`dispatch` с `thunkMiddleware` будет возвращать результат
+вызова функции, а не `action`, как это обычный `dispatch`
+
+Можно передать произвольное api через `extraArgument`
+
+***
+
+### Задача 2.8. Filter
+
+***
+
+### Выводы
+
+Thunk Middleware позволяет:
+
+- **Группировать вызовы** нескольких связанных действий
+в одну функцию. Например, для выполнения запросов
+- **Использовать Promise** в качестве возвращаемого значения
+и дожидаться результата
+- Передавать **произвольное API**
+
+</script></section>
+
+
+<!-- ************************************************* -->
+
+
+<section data-markdown><script type="text/template">
+
+## Заключение
+
+***
+
+### Обратная связь
+Заполни форму обратной связи по ссылке
+<a href="http://bit.ly/kontur-courses-feedback">http://bit.ly/kontur-courses-feedback</a>
 
 </script></section>
 			

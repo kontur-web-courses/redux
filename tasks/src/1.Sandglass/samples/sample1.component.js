@@ -5,20 +5,22 @@ import RoundButton, { RESTART_SIGN } from './components/RoundButton';
 import Timer from './components/Timer';
 
 class App extends React.Component {
-  state = {seconds: 15};
+  state = { seconds: 15 };
 
   handleDecrease = () => {
-    this.setState(prevState => ({seconds: prevState.seconds - 1}));
-  }
+    this.setState(prevState => ({ seconds: prevState.seconds - 1 }));
+  };
 
   handleIncrease = () => {
-    this.setState(prevState => ({seconds: prevState.seconds + 1}));
-  }
+    this.setState(prevState => ({ seconds: prevState.seconds + 1 }));
+  };
 
   render() {
     return (
-      <Timer seconds={this.state.seconds}
-        onDecrease={this.handleDecrease} onIncrease={this.handleIncrease}
+      <Timer
+        seconds={this.state.seconds}
+        onDecrease={this.handleDecrease}
+        onIncrease={this.handleIncrease}
       />
     );
   }

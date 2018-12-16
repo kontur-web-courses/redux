@@ -1,0 +1,9 @@
+.orderButtonContainer {
+  text-align: center;
+}
+
+.cartMessageContainer {
+  text-align: left;
+  font-size: 16px;
+  line-height: 32px;
+}
