@@ -18,9 +18,8 @@ export default class Product extends React.PureComponent {
     return (
       <div className="product">
         {this.renderTags(product.tags)}
-        <div className="image">
-          <img src={`/images/${product.image}`} />
-        </div>
+        <img className="image" src={`/images/${product.image}`} />
+
         <div className="title">{product.name}</div>
         <div className="description">{product.description}</div>
         <div className="buy">

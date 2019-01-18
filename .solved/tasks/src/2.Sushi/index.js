@@ -43,9 +43,11 @@ class App extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        <div className="app">
-          <h1>Sushi &amp; Rolls</h1>
-          <Navigation page={Page.menu} />
+        <div>
+          <header className="header">
+            <h1>Sushi &amp; Rolls</h1>
+            <Navigation page={Page.menu} />
+          </header>
           <Pages page={Page.menu} />
         </div>
       </Provider>

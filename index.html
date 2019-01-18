@@ -16,7 +16,7 @@
 	<script defer src="reveal/initialize.js"></script>
 	<script defer src="reveal/js/d3.min.js"></script>
 
-    <style>
+	<style>
 		.fragment-container {
 			position: relative;
 		}
@@ -27,16 +27,16 @@
 			width: 100%;
 		}
 
-        .tools.tools {
-          margin: -30% auto 0;
-          height: 100vh;
-          display: block;
-        }
+		.tools.tools {
+			margin: -30% auto 0;
+			height: 100vh;
+			display: block;
+		}
 		
 		.slides .center {
 			text-align: center;
 		}
-    </style>
+	</style>
 	
 	<title>Redux</title>
 </head>
@@ -48,7 +48,7 @@
 
 # Redux
 
-<p class="center"><a href="https://github.com/kontur-courses/react">https://github.com/kontur-courses/<b>redux</b></a></p>
+<p class="center"><a href="https://github.com/kontur-courses/redux">https://github.com/kontur-courses/<b>redux</b></a></p>
 
 </script></section>
 
@@ -202,7 +202,10 @@ class App extends React.Component {
 
 ***
 
-### Выделим dispatch
+### dispatch
+
+Выделим код, в котором меняется состояние
+в отдельную функцию, назовем ее `dispatch`
 
 ```js
 class App extends React.Component {
@@ -227,20 +230,20 @@ class App extends React.Component {
 
 Это чистая функция, которая:
 - создает начальное состояние
-- определяет как меняется состояние
+- определяет как обновляется состояние
 
 ***
 
-### Выделим изменения состояния в reducer
+### Выделим обновление состояния в reducer
 
 ```js
-// Изменение состояния в dispatch:
-this.setState(prevState => prevState.seconds + action.value); // было
-this.setState(prevState => timerReducer(prevState, action)); // должно быть
+// Обновление состояния в dispatch:
+this.setState(prevState => prevState.seconds + action.value); // до
+this.setState(prevState => timerReducer(prevState, action)); // после
 
 // Задание начального состояния:
-state = { seconds: 15 }; // было
-state = timerReducer(undefined, {}); // должно быть
+state = { seconds: 15 }; // до
+state = timerReducer(undefined, {}); // после
 
 // Тогда структура reducer:
 const timerReducer = (state, action) => {
@@ -280,11 +283,10 @@ const timerReducer = (state = { seconds: 15 }, ...) => {
 
 ***
 
-### Изменение состояния
-Reducer обязан возвращать текущее состояние.
-Если `action` не влияет на состояние, то должно вернуться старое.
-
-Но если `action` должен повлиять на состояние, то создается и возвращается новый объект состояния с необходимыми изменениями. Старый объект состояния не меняется.
+### Обновление состояния
+Reducer обязан вернуть актуальное состояние:
+1. Если `action` не влияет на состояние, то должно вернуться старое
+2. Но если `action` должен повлиять на состояние, то создается и возвращается новый объект состояния с необходимыми изменениями. Старый объект состояния не меняется
 ```js
     case 'CHANGE_SECONDS':
       return { seconds: state.seconds + action.value };
@@ -348,7 +350,7 @@ class App extends React.Component {
 ***
 
 ### Отделим состояние приложения от React
-1. `state` переносится вне компонента
+1. `state` переносится за пределы компонента
 2. Взаимодействие с объектом `state` скрывается
 за обертку `store` с набором допустимых методов
 3. `reducer`, определяющий правила изменения `state`
@@ -419,7 +421,7 @@ const createStore = reducer => {
   const subscribe = listener => {
     listeners.push(listener);
     // функция отписки
-    return () => { listeners = listeners.filter(l => l !== listener); };
+    return () => { listeners = listeners.filter(item => item !== listener); };
   };
   ...
   return { getState, dispatch, subscribe };
@@ -515,7 +517,7 @@ class App extends React.Component {
 Redux требуется только функция render,
 чтобы отрисовывать view при изменении состояния
 
-Этот функция можно реализовать на DOM API
+Эту функцию можно реализовать на DOM API
 
 ***
 
@@ -607,6 +609,33 @@ const getTotalSeconds = ({ hour, minute, second }) => {
 
 ***
 
+### Унифицированная обработка payload
+
+При унификации можно сделать деструктуризацию сразу,
+а в функции-обработчики передавать `payload`, а не весь `action`
+```js
+const changeSeconds = (state, { value }) => ({
+  seconds: state.seconds + value
+});
+const changeTime = (state, { hour, minute, second }) => ({
+  seconds: state.seconds + (hour * 60 + minute) * 60 + second
+});
+export const timerReducer = (state = { seconds: 15 }, { type, payload }) => {
+  switch (type) {
+    case 'CHANGE_SECONDS':
+      return changeSeconds(state, payload);
+    case 'CHANGE_TIME':
+      return changeTime(state, payload);
+    default:
+      return state;
+  }
+};
+```
+
+Код полностью: `~/1.Sandglass/samples/sample5.payload.js`
+
+***
+
 ### Типы действий повторяются
 
 ```js
@@ -651,7 +680,7 @@ const timerReducer = (state = { seconds: 15 }, action) => {
 
 Не обязательно для маленьких приложений, полезно в больших
 
-Код полностью: `~/1.Sandglass/samples/sample5.action.js`
+Код полностью: `~/1.Sandglass/samples/sample6.action.js`
 
 ***
 
@@ -683,7 +712,7 @@ export const timerReducer = (state = { seconds: 15 }, action) => {
 
 Полезно для больших приложений с множеством reducer'ов
 
-Код полностью: `~/1.Sandglass/samples/sample6.separated/`
+Код полностью: `~/1.Sandglass/samples/sample7.separated/`
 
 ***
 
@@ -767,6 +796,7 @@ Context может передать store на нужный уровень
 ***
 
 ### Идея передачи через Context
+
 ```js
 const Context = React.createContext();
 const store = createStore(reducer);
@@ -789,48 +819,27 @@ render() { // получаем store в компоненте-обертке и �
 
 ### Нюансы передачи через Context
 
-1. Компонент-провайдер должен подписаться на store,
+1. Компонент-провайдер должен **подписаться** на store,
    чтобы уведомлять консьюмеров
-2. Писать каждый раз логику Wrapper плохо,
-   нужен High Order Component
+2. Писать каждый раз логику Wrapper неудобно,
+   нужен **High Order Component**
 3. Оборачиваемый компонент не зависит от всего состояния,
-   значит надо передавать только необходимые части
+   значит надо **передавать только нужные части состояния**
 4. Компонент-провайдер следит за всеми изменениями store,
-   но оборачиваемые компоненты должны обновляться
-   при изменениях тех частей состояния, которые им нужны
+   но оборачиваемые компоненты должны обновляться только
+   **при изменениях используемых частей состояния**
+
+_ Но пока их проигнорируем... _
 
 ***
 
-### Provider с обновлением
-
-```js
-class Provider extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { storeState: props.store.getState(), store: props.store };
-  } // storeState нужен, чтобы обновлять контекст при изменениях
-  componentDidMount() {
-    this.unsubscribe = this.props.store.subscribe(() => {
-      const storeState = this.props.store.getState();
-      this.setState(state =>
-	    state.storeState !== storeState ? storeState : null);
-    });
-  } // любое изменение store.getState() приводит к изменению state и контекста
-  render() {
-    return <Context.Provider value={this.state}>
-             {this.props.children}</Context.Provider>;
-  } // далее другие методы класса
-```
-
-***
-
-### Использование Provider
+### Желаемое использование Provider
 
 ```js
 //App.js
 function App({store}) {
   return (
-    <Provider value={store}>
+    <Provider store={store}>
       <RootComponent />
     </Provider>
   );
@@ -839,134 +848,24 @@ function App({store}) {
 
 ***
 
-### HOC без лишних перерисовок
+### Желаемое использование HOC
 
 ```js
-function withStore(selectProps, WrappedComponent) {
-  // на pure не влияет setState в Provider, если не изменились значения props
-  class Connect extends PureComponent {
-    renderWrappedComponent = value => {
-      const { storeState, store } = value;	  
-      const derivedProps = selectProps(storeState, this.props, store);
-      return <WrappedComponent {...derivedProps} />;
-    };
-    render() {
-      return <Context.Consumer>
-	           {this.renderWrappedComponent}</Context.Consumer>;
-    }
-  }
-  return Connect;
-}
-```
-
-***
-
-### Мемоизация в selectProps
-
-```js
-renderWrappedComponent = value => {
-  const { storeState, store } = value;
-  // selectProps пусть выбирает нужное из store, кэшируя результат
-  const derivedProps = selectProps(storeState, this.props, store);
-  return <WrappedComponent {...derivedProps} />;
-};
-```
-`renderWrappedComponent` вызывается при каждом обновлении store
-
-Если `selectProps` будет запоминать значения `derivedProps`
-и создавать новый объект `derivedProps` только при изменениях,
-которые могут повлиять на `WrappedComponent`,
-то лишних перерисовок `WrappedComponent` не будет
-
-***
-
-### connect()
-
-```js
-function connect(mapStateToProps, mapDispatchToProps, mergeProps) {
-  return function wrapWithConnect(WrappedComponent) {
-    function makeDerivedPropsSelector() {
-      return function selectDerivedProps(state, props, store) {
-        // создается на основе параметров connect()
-      };
-    }
-    class Connect extends PureComponent {
-      constructor(props) {
-        super(props);
-        this.selectProps = makeDerivedPropsSelector();
-      } /* ... */
-    }
-    return Connect;
-  };
-}
-```
-Дополнительная обертка HOC, чтобы настроить
-mapping из состояния в свойства WrappedComponent
-
-***
-
-### pure в connect()
-
-```js
-function connect(mapStateToProps, mapDispatchToProps, mergeProps,
-  { pure = true, ...extraOptions } = {} // параметров даже больше
-) {
-  return function wrapWithConnect(WrappedComponent) {
-    function makeDerivedPropsSelector() {
-	  // зависит от pure
-      return function selectDerivedProps(state, props, store) {/* ... */}
-    }
-    class Connect extends (pure ? PureComponent : Component) {
-      /* ... */
-    }
-    return Connect;
-  };
-}
-```
-
-***
-
-### statics в connect()
-
-```js
-function connect(mapStateToProps, mapDispatchToProps, mergeProps,
-  { pure = true, ...extraOptions } = {}
-) {
-  return function wrapWithConnect(WrappedComponent) {
-    function makeDerivedPropsSelector() {
-	  /* ... */
-    }
-    class Connect extends (pure ? PureComponent : Component) {
-      /* ... */
-    }
-	// статические поля и функции из исходного компонента копируются в обертку
-    return hoistNonReactStatics(Connect, WrappedComponent);
-  };
-}
-```
-Копирование статических полей позволяет использовать
-результат `connect()` как исходный компонент
-
-***
-
-### Использование connect()
-
-```
-connect(
+// Настройка связи со store
+const withStore = connect(
   (state, props) => ({
     seconds: state.seconds
   }),
   (dispatch, props) => ({
     onChange: value => dispatch(changeSeconds(value))
   })
-)(Timer);
+);
+
+// Создание компонента
+const ConnectedTimer = withStore(Timer);
 ```
-
-Обычно задаются `mapStateToProps`, `mapDispatchToProps`
-
-`mergeProps` по умолчанию действует так:
-`{ ...ownProps, ...stateProps, ...dispatchProps }`
-и обычно не переопределяется
+`connect` — это High Order Function,
+порождающая High Order Component
 
 ***
 
@@ -1002,12 +901,10 @@ connect(
 Принимают данные и callbacks **только через props**
 Часто получают содержимое через props.children
 
-Редко имеют собственное состояние,
-это скорее **состояние UI**, чем данные
+Если имеют собственное состояние,
+то это скорее **состояние UI**, чем данные
 
 **Могут использовать presentational и container компоненты**
-
-Обычно пишутся как **functional components**
 
 *Примеры: Page, Sidebar, Loader, UserInfo, List*
 
@@ -1020,12 +917,10 @@ connect(
 Никогда не содержат стили, разметка только для компоновки
 **Обеспечивают данными и «поведением»** другие компоненты
 
-Обычно содержат состояние
-
-**Могут использовать presentational и container компоненты**
-
 Обычно создаются **через Higher Order Components**,
 например `connect()` из Redux, `createContainer()` из Relay
+
+**Могут использовать presentational и container компоненты**
 
 *Примеры: UserPage, FollowersSidebar, FollowedUserList*
 
@@ -1035,7 +930,7 @@ connect(
 - Лучшее разделение ответственности. Проще понимать код.
   Можно разрабатывать логику и отображение независимо.
 - Лучшее переиспользование presentational компонентов
-- Presentational компоненты — это «палитра приложения,
+- Presentational компоненты — это «палитра» приложения,
   можно сделать демо-страницу со всеми возможными видами для дизайнера
 
 ***
@@ -1061,6 +956,232 @@ connect(
 3. Компоненты удобно разделить
 на **presentational**, которые получают информацию из props,
 и **containers**, которые взаимодействуют со store
+
+***
+
+### Вернемся к нюансам
+
+_ Как это все-таки работает? _
+_ Это точно работает быстро? _
+
+1. Компонент-провайдер должен **подписаться** на store,
+   чтобы уведомлять консьюмеров
+2. Писать каждый раз логику Wrapper неудобно,
+   нужен **High Order Component**
+3. Оборачиваемый компонент не зависит от всего состояния,
+   значит надо **передавать только нужные части состояния**
+4. Компонент-провайдер следит за всеми изменениями store,
+   но оборачиваемые компоненты должны обновляться только
+   **при изменениях используемых частей состояния**
+
+***
+
+### Простой Provider
+
+```js
+// Чистый React Context
+function App({store}) {
+  return (
+    <Context.Provider value={store}>
+      <RootComponent />
+    </Context.Provider>
+  );
+}
+// Как нам хотелось
+function App({store}) {
+  return (
+    <Provider store={store}>
+      <RootComponent />
+    </Provider>
+  );
+}
+```
+
+Подходит! Но вспомним про нюансы и сделаем обертку
+
+***
+
+### Подписка на обновление в Provider
+
+```js
+class Provider extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { storeState: props.store.getState(), store: props.store };
+  } // storeState нужен, чтобы обновлять контекст при изменениях
+  componentDidMount() {
+    this.props.store.subscribe(() => {
+      const storeState = this.props.store.getState();
+      this.setState(state =>
+	    state.storeState !== storeState ? storeState : null);
+    });
+  } // любое изменение store.getState() приводит к изменению state и контекста
+  render() {
+    return <Context.Provider value={this.state}>
+             {this.props.children}</Context.Provider>;
+  } // далее другие методы класса
+```
+
+***
+
+### Простой HOC
+
+```js
+function withStore(WrappedComponent) {
+  class Connect extends Component {
+    renderWrappedComponent = contextValue => {
+      const { store } = contextValue;	  
+      return <WrappedComponent {...this.props} store={store} />;
+    };
+    render() {
+      return <Context.Consumer>{this.renderWrappedComponent}</Context.Consumer>;
+    }
+  }
+  return Connect;
+}
+```
+
+Надо обеспечить конфигурирование и убрать лишние перерисовки
+
+***
+
+### Меньше перерисовок в HOC
+
+```js
+function withStore(selectProps, WrappedComponent) {
+  // на pure не влияет setState в Provider и других родительских компонентах,
+  // если не изменились значения props
+  class Connect extends PureComponent {
+    renderWrappedComponent = contextValue => {
+      const { storeState, store } = contextValue;	  
+      const derivedProps = selectProps(storeState, this.props, store);
+      return <WrappedComponent {...derivedProps} />;
+    };
+    render() {
+      return <Context.Consumer>{this.renderWrappedComponent}</Context.Consumer>;
+    }
+  }
+  return Connect;
+}
+```
+
+***
+
+### Мемоизация в selectProps
+
+```js
+renderWrappedComponent = value => {
+  const { storeState, store } = value;
+  // selectProps пусть выбирает нужное из store, кэшируя результат
+  const derivedProps = selectProps(storeState, this.props, store);
+  return <WrappedComponent {...derivedProps} />;
+};
+```
+При каждом обновлении `store`
+вызывается `renderWrappedComponent`
+
+Но если `selectProps` будет запоминать значения `derivedProps`
+и создавать новый объект `derivedProps` только при изменениях,
+которые могут повлиять на `WrappedComponent`,
+лишних перерисовок `WrappedComponent` не будет
+
+Так и сделано!
+
+***
+
+### connect()
+
+```js
+function connect(mapStateToProps, mapDispatchToProps, mergeProps) {
+  return function wrapWithConnect(WrappedComponent) {
+    function makeDerivedPropsSelector() {
+      return function selectDerivedProps(state, props, store) {
+        // создается на основе mapStateToProps, mapDispatchToProps, mergeProps
+      };
+    }
+    class Connect extends PureComponent {
+      constructor(props) {
+        super(props);
+        this.selectProps = makeDerivedPropsSelector();
+      } /* ... */
+    }
+    return Connect;
+  };
+}
+```
+
+Дополнительная обертка HOC, чтобы настроить
+mapping из состояния в свойства WrappedComponent
+
+***
+
+### pure в connect()
+
+```js
+function connect(mapStateToProps, mapDispatchToProps, mergeProps,
+  { pure = true, ...extraOptions } = {} // параметров даже больше
+) {
+  return function wrapWithConnect(WrappedComponent) {
+    function makeDerivedPropsSelector() {
+	  // зависит от pure
+      return function selectDerivedProps(state, props, store) {/* ... */}
+    }
+    class Connect extends (pure ? PureComponent : Component) {
+      /* ... */
+    }
+    return Connect;
+  };
+}
+```
+
+По умолчанию задана опция `pure`, а значит HOC будет создавать `PureComponent`, но этом можно изменить
+
+***
+
+### statics в connect()
+
+```js
+function connect(mapStateToProps, mapDispatchToProps, mergeProps,
+  { pure = true, ...extraOptions } = {}
+) {
+  return function wrapWithConnect(WrappedComponent) {
+    function makeDerivedPropsSelector() {
+	  /* ... */
+    }
+    class Connect extends (pure ? PureComponent : Component) {
+      /* ... */
+    }
+	// статические поля и функции из исходного компонента копируются в обертку
+    return hoistNonReactStatics(Connect, WrappedComponent);
+  };
+}
+```
+Копирование статических полей позволяет использовать
+результат `connect()` как исходный компонент
+
+***
+
+### Все параметры connect()
+
+```js
+connect(
+  (state, props) => ({
+    seconds: state.seconds
+  }),
+  (dispatch, props) => ({
+    onChange: value => dispatch(changeSeconds(value))
+  }),
+  (stateProps, dispatchProps, ownProps) ({
+    ...ownProps, ...stateProps, ...dispatchProps
+  })
+)(Timer);
+```
+
+Обычно задаются `mapStateToProps`, `mapDispatchToProps`
+
+`mergeProps` по умолчанию действует так:
+`{ ...ownProps, ...stateProps, ...dispatchProps }`
+и обычно не переопределяется
 
 </script></section>
 
@@ -1090,7 +1211,7 @@ const state = {
 
 ***
 
-### Нужно показывается выбранный элемент?
+### Нужно показывать выбранный элемент?
 
 ```js
 const state = {
@@ -1281,8 +1402,8 @@ function load() {
 
 Всегда есть три шага:
 1. Показать, что загрузка началась, например, показать лоадер
-2. Добавить данные, показать результат
-3. Обработать ошибку, показать сообщение пользователю
+2. Добавить данные, убрать лоадер, показать результат
+3. Обработать ошибку, убрать лоадер, сообщить пользователю
 
 ***
 
@@ -1302,8 +1423,8 @@ async function loadAsync() {
 
 Всегда есть три шага:
 1. Показать, что загрузка началась, например, показать лоадер
-2. Добавить данные, показать результат
-3. Обработать ошибку, показать сообщение пользователю
+2. Добавить данные, убрать лоадер, показать результат
+3. Обработать ошибку, убрать лоадер, сообщить пользователю
 
 ***
 
@@ -1319,7 +1440,7 @@ export const FETCH_DATA_REQUEST = 'FETCH_DATA_REQUEST';
 // 2. После запроса
 export const FETCH_DATA_SUCCESS = 'FETCH_DATA_SUCCESS';
 // 3. Если что-то пошло не так
-export const FETCH_DATA_FAIL = 'FETCH_DATA_FAIL';
+export const FETCH_DATA_FAILURE = 'FETCH_DATA_FAILURE';
 ```
 
 Часто названиях их типов отличаются только последним словом,
@@ -1481,7 +1602,7 @@ function insertItem(array, index, item) {
 }
 
 function removeItem(array, index) {
-  return [...array.slice(0, index), ...array.slice(index + 1)];
+  return array.filter((item, i) => i !== index);
 }
 ```
 
@@ -1756,7 +1877,7 @@ function createReducer(initialState, handlers) {
 надо стремиться к **более плоской структуре состояния**,
 к большему числу независимых слайсов
 4. `createReducer` и case-функции отлично подходят
-для создвания редьюсеров
+для создания редьюсеров
 
 </script></section>
 

@@ -6,13 +6,13 @@ import './styles.css';
 
 export default function Navigation({ page, onNavigate }) {
   return (
-    <div className="navigation">
+    <nav className="navigation">
       <Tabs value={page} onChange={event => onNavigate && onNavigate(event.target.value)}>
         <Tabs.Tab id={Page.menu}>Меню</Tabs.Tab>
         <Tabs.Tab id={Page.cart}>Корзина</Tabs.Tab>
         <Tabs.Tab id={Page.orders}>Заказы</Tabs.Tab>
       </Tabs>
-    </div>
+    </nav>
   );
 }
 

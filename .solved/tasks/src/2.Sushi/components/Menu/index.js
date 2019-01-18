@@ -14,15 +14,17 @@ export default function Menu({ productsStatus, productIds }) {
       type="big"
       active={(productsStatus && productsStatus === Status.loading) || false}
     >
-      <div className="menu">
+      <main className="menu">
         <MenuFilter />
-        <div className="menuTable">
-          {productIds.map(productId => (
-            <Product key={productId} productId={productId} />
-          ))}
+        <div className="menuTableWrapper">
+          <div className="menuTable">
+            {productIds.map(productId => (
+              <Product key={productId} productId={productId} />
+            ))}
+          </div>
         </div>
         <MenuFilter />
-      </div>
+      </main>
     </Loader>
   );
 }

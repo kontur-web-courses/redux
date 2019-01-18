@@ -1,7 +1,11 @@
-.menuFilter {
+.menuFilterWrapper {
   padding: 20px;
-  width: 100%;
-  margin: 20px 0px;
+  margin: 20px 0;
   box-sizing: border-box;
   background: #E5E5E5;
+}
+
+.menuFilter {
+  width: 960px;
+  margin: 0 auto;
 }

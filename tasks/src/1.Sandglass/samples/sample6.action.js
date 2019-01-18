@@ -8,11 +8,9 @@ export const changeSeconds = value => ({
 
 export const changeTime = (hour, minute, second) => ({
   type: CHANGE_TIME,
-  payload: {
-    hour,
-    minute,
-    second
-  }
+  hour,
+  minute,
+  second
 });
 
 export const timerReducer = (state = { seconds: 15 }, action) => {
@@ -20,7 +18,7 @@ export const timerReducer = (state = { seconds: 15 }, action) => {
     case CHANGE_SECONDS:
       return { seconds: state.seconds + action.value };
     case CHANGE_TIME:
-      return { seconds: state.seconds + getTotalSeconds(action.payload) };
+      return { seconds: state.seconds + getTotalSeconds(action) };
     default:
       return state;
   }

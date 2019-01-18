@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ReactDom from 'react-dom';
 import './styles.css';
-import RoundButton, { RESTART_SIGN } from './components/RoundButton';
-import Timer from './components/Timer';
+import Timer from '../components/Timer';
 
 const timerReducer = (state = { seconds: 15 }, action) => {
   switch (action.type) {

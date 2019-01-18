@@ -1,18 +1,15 @@
 .product {
   background: #fff;
   width: 260px;
-  padding: 0px 20px 20px 20px;
+  padding: 0 20px 20px 20px;
   text-align: left;
   box-shadow: 0 0 10px #E5E5E5;
   margin: 10px;
 }
 
 .product .image {
-  margin: 10px auto 10px auto;
-  width: 240px;
-}
-
-.product .image img {
+  display: block;
+  margin: 10px auto;
   width: 240px;
 }
 
@@ -49,7 +46,7 @@
   background: #808080;
   color: white;
   padding: 5px;
-  margin: 0px 5px 0px 5px;
+  margin: 0 5px;
   width: 40px;
   font-size: 12px;
   text-align: center;

@@ -5,7 +5,7 @@ export const timerReducer = (state = { seconds: 15 }, action) => {
     case timerActionTypes.CHANGE_SECONDS:
       return { seconds: state.seconds + action.value };
     case timerActionTypes.CHANGE_TIME:
-      return { seconds: state.seconds + getTotalSeconds(action.payload) };
+      return { seconds: state.seconds + getTotalSeconds(action) };
     default:
       return state;
   }

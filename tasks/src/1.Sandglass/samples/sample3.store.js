@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ReactDom from 'react-dom';
 import PropTypes from 'prop-types';
 import './styles.css';
-import Timer from './components/Timer';
+import Timer from '../components/Timer';
 
 const createStore = reducer => {
   let state;

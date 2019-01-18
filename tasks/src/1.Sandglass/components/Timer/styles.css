@@ -1,18 +1,17 @@
 .timer {
   margin: 10px auto;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
 }
 
 .timerDisplay {
-  font-family: arial, sans-serif;
   display: inline-block;
   width: 160px;
   height: 80px;
   border-radius: 40px;
   font-size: 60px;
-  line-height: 80px;
   text-align: center;
-  margin: 0 10px 0 10px;
+  margin: 0 10px;
   background: #fff;
   color: #303030;
   font-weight: normal;

@@ -7,7 +7,7 @@ function insertItem(array, index, item) {
 }
 
 function removeItem(array, index) {
-  return [...array.slice(0, index), ...array.slice(index + 1)];
+  return array.filter((item, i) => i !== index);
 }
 
 function updateItem(array, index, item) {

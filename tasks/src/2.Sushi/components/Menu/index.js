@@ -14,14 +14,16 @@ export default function Menu({ productsStatus }) {
       type="big"
       active={(productsStatus && productsStatus === Status.loading) || false}
     >
-      <div className="menu">
+      <main className="menu">
         <MenuFilter />
-        <div className="menuTable">
-          <Product key={1} product={products[[1]]} />
-          <Product key={2} product={products[[2]]} />
+        <div className="menuTableWrapper">
+          <div className="menuTable">
+            <Product key={1} product={products[[1]]} />
+            <Product key={2} product={products[[2]]} />
+          </div>
         </div>
         <MenuFilter />
-      </div>
+      </main>
     </Loader>
   );
 }

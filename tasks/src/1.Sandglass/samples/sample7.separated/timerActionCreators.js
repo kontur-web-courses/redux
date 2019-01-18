@@ -1,4 +1,4 @@
-import * as timerActionTypes from '../constants/timerConstants.js';
+import * as timerActionTypes from './timerActionTypes';
 
 export const changeSeconds = value => ({
   type: timerActionTypes.CHANGE_SECONDS,
@@ -7,9 +7,7 @@ export const changeSeconds = value => ({
 
 export const changeTime = (hour, minute, second) => ({
   type: timerActionTypes.CHANGE_TIME,
-  payload: {
-    hour,
-    minute,
-    second
-  }
+  hour,
+  minute,
+  second
 });

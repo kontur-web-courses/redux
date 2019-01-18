@@ -22,7 +22,7 @@ class Provider extends Component {
     this.state = { storeState: props.store.getState(), store: props.store };
   } // storeState нужен, чтобы обновлять контекст при изменениях
   componentDidMount() {
-    this.unsubscribe = this.props.store.subscribe(() => {
+    this.props.store.subscribe(() => {
       const storeState = this.props.store.getState();
       this.setState(state =>
         state.storeState !== storeState ? storeState : null
@@ -53,8 +53,8 @@ function makeDerivedPropsSelector() {}
 function withStore(selectProps, WrappedComponent) {
   // на pure не влияет setState в Provider, если не изменились значения props
   class Connect extends PureComponent {
-    renderWrappedComponent = value => {
-      const { storeState, store } = value;
+    renderWrappedComponent = contextValue => {
+      const { storeState, store } = contextValue;
       // selectProps пусть выбирает нужное из store
       const derivedProps = selectProps(storeState, this.props, store);
       return <WrappedComponent {...derivedProps} />;
