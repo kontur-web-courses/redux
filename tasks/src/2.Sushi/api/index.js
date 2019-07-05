@@ -31,7 +31,7 @@ export default class Api {
   sendMetric(name, value) {
     return new Promise((resolve, reject) => {
       console.log(
-        `%c metric '${name}' with '${value}' has been send`,
+        `%c metric '${name}' with '${value}' has been sent`,
         'color: blue'
       );
       resolve();
