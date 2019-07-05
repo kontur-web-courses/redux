@@ -62,7 +62,7 @@ cd tasks
 npm install
 ```
 
-Затем запусти dev-сервер, чтобы видеть результаты решений задач:
+Затем запусти dev-сервер, чтобы видеть результаты решений заданий:
 ```cmd
 npm run start
 ```
@@ -75,15 +75,12 @@ npm run start
 
 ### Расположение заданий и примеров
 
-Все пути указаны от папки:
-`/tasks/src`
+Для выполнения заданий папку `/tasks` надо
+открыть в редакторе кода
 
-Если задание одно:
-- Папка задания: `~/{#.ИмяЗадания}/`
-- Основной файл задания: `~/{#.ИмяЗадания}/index.js`
-- Примеры: `~/{#.ИмяЗадания}/samples/`
+В презентации пути указаны от папки: `/tasks/src`
 
-Если заданий несколько:
+Расположение заданий:
 - Папка заданий: `~/{#.Папка}/`
 - Примеры: `~/{#.Папка}/samples/`
 - Формулировка задания: `~/{#.Папка}/{#.ИмяЗадания}.md`
@@ -122,16 +119,6 @@ npm run start
 
 > *Неизменяемый объект (immutable object)* — объект, состояние которого не может быть изменено после создания.
 > *Чистая функция (pure function)* — это функция без побочных эффектов, ее результат полностью определяется аргументами
-
-***
-
-### Redux — это компромисс
-
-<img src="assets/not-need-redux.png">
-
-С *Redux* будет больше кода,
-но это оправдано для *больших приложений*,
-которые пишут *большие команды*.
 
 ***
 
@@ -722,7 +709,7 @@ export const timerReducer = (state = { seconds: 15 }, action) => {
 
 ***
 
-### Задача 1. Sandglass
+### Задание 1. Sandglass
 
 ***
 
@@ -742,7 +729,7 @@ export const timerReducer = (state = { seconds: 15 }, action) => {
 Структура состояния приложения НЕ совпадает со структурой компонентов:
 - Структура состояния определяется **предметной областью** и **идеей приложения**, а структура компонентов ее представлением
 - Одна и та же часть состояния может использоваться многими компонентами
-*Timer и Sandglass*
+*как это делают Timer и Sandglass*
 - Проектирование состояния вместе с написанием reducer
 и создание компонентов для визуализации — две разные задачи
 *reducer был полностью написан и протестирован, а уже затем подключен к визуальной части*
@@ -759,6 +746,16 @@ export const timerReducer = (state = { seconds: 15 }, action) => {
 *setInterval*
 - Одно событие порождает изменения в разных частях состояния
 *встретится далее*
+
+***
+
+### Redux — это компромисс
+
+<img src="assets/not-need-redux.png">
+
+С *Redux* будет больше кода,
+но это оправдано для *больших приложений*,
+которые пишут *большие команды*.
 
 </script></section>
 
@@ -932,19 +929,11 @@ const ConnectedTimer = withStore(Timer);
 - Лучшее переиспользование presentational компонентов
 - Presentational компоненты — это «палитра» приложения,
   можно сделать демо-страницу со всеми возможными видами для дизайнера
+  *С этим поможет [Storybook](https://storybook.js.org/)*
 
 ***
 
-### Связь с другими классификациями
-
-- *Presentational* компоненты обычно **stateless pure functions**
-- *Container* компоненты обычно **stateful pure classes**
-
-Но это не обязательно
-
-***
-
-### Задача 2.1. Navigation
+### Задание 2.1. Navigation
 
 ***
 
@@ -1363,7 +1352,7 @@ const state = {
 
 ***
 
-### Задача 2.2. Menu
+### Задание 2.2. Menu
 
 ***
 
@@ -1473,7 +1462,7 @@ const reducer = (state, action) => {
 
 ***
 
-### Задача 2.3. Api
+### Задание 2.3. Api
 
 ***
 
@@ -1537,12 +1526,12 @@ const renamedPerson = {
 ### Обновление элемента массива
 
 ```js
-const persons = [
+const people = [
   { names: { surname: 'Westlake', name: 'Ronald' }, age: 42 },
   { names: { surname: 'Ace', name: 'Frederic' }, age: 26 }
 ];
 
-const updatedPersons = persons.map((person, index) =>
+const updatedPeople = people.map((person, index) =>
   index !== 1
     ? person
     : {
@@ -1564,7 +1553,7 @@ const updatedPersons = persons.map((person, index) =>
 ### Можно попробовать пошагово
 
 ```js
-const person = persons[1];
+const person = people[1];
 const renamedPerson = {
   ...person,
   names: {
@@ -1573,7 +1562,7 @@ const renamedPerson = {
   }
 };
 
-const updatedPersons = persons.map((person, index) =>
+const updatedPeople = people.map((person, index) =>
   index !== 1 ? person : renamedPerson
 );
 ```
@@ -1607,8 +1596,8 @@ function removeItem(array, index) {
 ```
 
 ```js
-const personsWithNewOne = insertItem(persons, 3, newPerson);
-const personsWithoutSecond = removeItem(persons, 2);
+const peopleWithNewOne = insertItem(people, 3, newPerson);
+const peopleWithoutSecond = removeItem(people, 2);
 ```
 
 ***
@@ -1630,7 +1619,7 @@ function updateItem(array, index, item) {
 ```
 
 ```js
-const personsWithReaged = updateItem(persons, 3, { age: 27 });
+const peopleWithReaged = updateItem(people, 3, { age: 27 });
 ```
 
 ***
@@ -1649,7 +1638,7 @@ function updateItemByIndex(array, index, updateCallback) {
 ```
 
 ```js
-const personsWithUpdated = updateItemByIndex(persons, 3, person => ({
+const peopleWithUpdated = updateItemByIndex(people, 3, person => ({
   ...person,
   age: 27,
   names: {
@@ -1667,14 +1656,14 @@ Callback позволяет продолжать обновление вглуб
 
 ```js
 // вставка
-const personsWithNewOne = update(persons, { $splice: [[3, 0, newPerson]] });
+const peopleWithNewOne = update(people, { $splice: [[3, 0, newPerson]] });
 // удаление
-const personsWithoutSecond = update(persons, { $splice: [[2, 1]] });
+const peopleWithoutSecond = update(people, { $splice: [[2, 1]] });
 // обновление со значением
-const personsWithReaged = update(persons, { 3: { $merge: { age: 27 } } });
+const peopleWithReaged = update(people, { 3: { $merge: { age: 27 } } });
 
 // обновление с callback
-const personsWithUpdated = update(persons, {
+const peopleWithUpdated = update(people, {
   3: person =>
     update(person, {
 	  age: { $set: 27 }
@@ -1688,7 +1677,7 @@ const personsWithUpdated = update(persons, {
 
 ***
 
-### Задача 2.4. Cart
+### Задание 2.4. Cart
 
 ***
 
@@ -1821,7 +1810,7 @@ const combineReducers = reducers => {
 };
 ```
 
-`combineReducers` — уже написан в `redux`
+`combineReducers` уже написан в `redux`
 
 ***
 
@@ -1859,11 +1848,11 @@ function createReducer(initialState, handlers) {
 }
 ```
 
-`createReducer` — уже написан в пакете `redux-create-reducer`
+`createReducer` уже написан в пакете `redux-create-reducer`
 
 ***
 
-### Задача 2.5. Refactoring
+### Задание 2.5. Refactoring
 
 ***
 
@@ -1943,7 +1932,7 @@ function crossSliceReducer(state, action) {
 
 ***
 
-### Задача 2.6. Orders
+### Задание 2.6. Orders
 
 ***
 
@@ -2053,7 +2042,7 @@ const store = createStore(
 
 ***
 
-### Задача 2.7. Logging
+### Задание 2.7. Logging
 
 ***
 
@@ -2154,7 +2143,7 @@ export default thunk;
 
 ***
 
-### Задача 2.8. Filter
+### Задание 2.8. Filter
 
 ***
 
