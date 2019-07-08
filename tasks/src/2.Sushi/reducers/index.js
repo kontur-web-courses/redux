@@ -43,7 +43,56 @@ function loadProductsSuccess(state, action) {
   };
 }
 
+const chosenProductsReducer = createReducer(
+  {
+    tags: [],
+    ids: [],
+    status: Status.none
+  },
+  {
+    [actionTypes.CHANGE_PRODUCT_TAG]: changeProductTag,
+    [actionTypes.LOAD_BY_TAGS_REQUEST]: loadByTagsRequest,
+    [actionTypes.LOAD_BY_TAGS_SUCCESS]: loadByTagsSuccess,
+    [actionTypes.LOAD_BY_TAGS_FAILURE]: loadByTagsFailure
+  }
+);
+
+function changeProductTag(state, { productTag }) {
+  const tags = state.tags.some(t => t === productTag)
+    ? state.tags.filter(t => t !== productTag)
+    : [...state.tags, productTag];
+  return {
+    ...state,
+    tags
+  };
+}
+
+function loadByTagsRequest(state, action) {
+  return {
+    ...state,
+    status: Status.loading
+  };
+}
+
+function loadByTagsSuccess(state, { productIds }) {
+  return {
+    ...state,
+    ids: productIds,
+    status: Status.loaded
+  };
+}
+
+function loadByTagsFailure(state, { productIds }) {
+  return {
+    ...state,
+    tags: [],
+    ids: [],
+    status: Status.none
+  };
+}
+
 export const rootReducer = combineReducers({
   page: pageReducer,
-  products: productsReducer
+  products: productsReducer,
+  chosenProducts: chosenProductsReducer
 });
