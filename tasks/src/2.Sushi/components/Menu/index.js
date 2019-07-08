@@ -4,11 +4,11 @@ import Loader from '@skbkontur/react-ui/Loader';
 import './styles.css';
 import ProductTag from '../../constants/ProductTag';
 import Status from '../../constants/Status';
-import Product from '../../components/Product';
+import Product from '../../containers/Product';
 import MenuFilter from '../../components/MenuFilter';
-import products from '../../api/products'
+import products from '../../api/products';
 
-export default function Menu({ productsStatus }) {
+export default function Menu({ productsStatus, productIds }) {
   return (
     <Loader
       type="big"
@@ -18,8 +18,9 @@ export default function Menu({ productsStatus }) {
         <MenuFilter />
         <div className="menuTableWrapper">
           <div className="menuTable">
-            <Product key={1} product={products[[1]]} />
-            <Product key={2} product={products[[2]]} />
+            {productIds.map(productId => (
+              <Product key={productId} productId={productId} />
+            ))}
           </div>
         </div>
         <MenuFilter />
@@ -29,5 +30,6 @@ export default function Menu({ productsStatus }) {
 }
 
 Menu.propTypes = {
-  productsStatus: PropTypes.number
+  productsStatus: PropTypes.number,
+  productIds: PropTypes.array
 };
