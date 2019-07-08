@@ -2,13 +2,14 @@ import React from 'react';
 import ReactDom from 'react-dom';
 import PropTypes from 'prop-types';
 import { createStore } from 'redux';
+import { Provider } from 'react-redux';
 import 'regenerator-runtime/runtime';
 import './styles.css';
 import Page from './constants/Page';
 import Status from './constants/Status';
 import ErrorBoundary from './components/ErrorBoundary';
-import Navigation from './components/Navigation';
-import Pages from './components/Pages';
+import Navigation from './containers/Navigation';
+import Pages from './containers/Pages';
 import { rootReducer } from './reducers';
 import products from './api/products';
 import Api from './api';
@@ -35,15 +36,17 @@ const store = createStore(rootReducer, preloadedState);
 class App extends React.Component {
   render() {
     return (
-      <div>
-        <ErrorBoundary>
-          <header className="header">
-            <h1>Sushi &amp; Rolls</h1>
-            <Navigation page={Page.menu} />
-          </header>
-          <Pages page={Page.menu} />
-        </ErrorBoundary>
-      </div>
+      <Provider store={store}>
+        <div>
+          <ErrorBoundary>
+            <header className="header">
+              <h1>Sushi &amp; Rolls</h1>
+              <Navigation />
+            </header>
+            <Pages />
+          </ErrorBoundary>
+        </div>
+      </Provider>
     );
   }
 }
