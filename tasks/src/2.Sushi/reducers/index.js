@@ -1,40 +1,30 @@
+import { combineReducers } from 'redux';
+import { createReducer } from 'redux-create-reducer';
 import Page from '../constants/Page';
 import Status from '../constants/Status';
 import ProductTag from '../constants/ProductTag';
 import * as actionTypes from '../actionTypes';
 
-// defaultState не используется, если в createStore передается preloadedState.
-const defaultState = {
-  page: Page.menu,
-  products: {
+const pageReducer = createReducer(Page.menu, {
+  [actionTypes.NAVIGATE_TO_PAGE]: (state, action) => action.page
+});
+
+const productsReducer = createReducer(
+  {
     allIds: [],
     byId: {},
     status: Status.none
+  },
+  {
+    [actionTypes.LOAD_PRODUCTS_REQUEST]: loadProductsRequest,
+    [actionTypes.LOAD_PRODUCTS_SUCCESS]: loadProductsSuccess
   }
-};
-
-export function rootReducer(state = defaultState, action) {
-  switch (action.type) {
-    case actionTypes.NAVIGATE_TO_PAGE:
-      return {
-        ...state,
-        page: action.page
-      };
-    case actionTypes.LOAD_PRODUCTS_REQUEST:
-      return loadProductsRequest(state, action);
-    case actionTypes.LOAD_PRODUCTS_SUCCESS:
-      return loadProductsSuccess(state, action);
-  }
-  return state;
-}
+);
 
 function loadProductsRequest(state, action) {
   return {
     ...state,
-    products: {
-      ...state.products,
-      status: Status.loading
-    }
+    status: Status.loading
   };
 }
 
@@ -47,11 +37,13 @@ function loadProductsSuccess(state, action) {
   );
   return {
     ...state,
-    products: {
-      ...state.products,
-      allIds: productsAllIds,
-      byId: productsById,
-      status: Status.loaded
-    }
+    allIds: productsAllIds,
+    byId: productsById,
+    status: Status.loaded
   };
 }
+
+export const rootReducer = combineReducers({
+  page: pageReducer,
+  products: productsReducer
+});
