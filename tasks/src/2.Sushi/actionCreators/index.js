@@ -44,3 +44,9 @@ export const changeProductTag = productTag => async (
   await dispatch(loadByTags());
   await api.sendMetric('changeProductTag', 'done');
 };
+
+export const changePurchaseQuantity = (productId, value) => ({
+  type: actionTypes.CHANGE_PURCHASE_QUANTITY,
+  productId,
+  value
+});
