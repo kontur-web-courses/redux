@@ -4,7 +4,8 @@ import Menu from '../components/Menu';
 
 export default connect(
   (state, props) => ({
-    productIds: state.products.allIds
+    productIds: state.products.allIds,
+    productsStatus: state.products.status
   }),
   (dispatch, props) => ({})
 )(Menu);

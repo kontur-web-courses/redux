@@ -15,6 +15,7 @@ import { rootReducer } from './reducers';
 import * as actionTypes from './actionTypes';
 import products from './api/products';
 import Api from './api';
+import { loadProductsRequest, loadProductsSuccess } from './actionCreators';
 
 const customMiddleWare = ({ getState, dispatch }) => next => action => {
   // console.log(action.type);
@@ -26,30 +27,21 @@ const customMiddleWare = ({ getState, dispatch }) => next => action => {
   return next(action);
 };
 
-const productsAllIds = products.map(p => p.id);
-const productsById = products.reduce(
-  (result, product) => ({ ...result, [product.id]: product }),
-  {}
-);
-
-const preloadedState = {
-  page: Page.menu,
-  products: {
-    allIds: productsAllIds,
-    byId: productsById,
-    status: Status.loaded
-  }
-};
-
 const api = new Api({ baseUrl: 'http://sampleserviceurl?foo=bar' });
 
 const store = createStore(
   rootReducer,
-  preloadedState,
   applyMiddleware(customMiddleWare, logger)
 );
 
 class App extends React.Component {
+  componentDidMount() {
+    store.dispatch(loadProductsRequest());
+    api.fetchProducts().then(products => {
+      store.dispatch(loadProductsSuccess(products));
+    });
+  }
+
   render() {
     return (
       <Provider store={store}>
