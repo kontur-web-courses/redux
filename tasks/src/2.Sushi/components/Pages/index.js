@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Page from '../../constants/Page';
-import Menu from '../../components/Menu';
+import Menu from '../../containers/Menu';
 import Cart from '../../components/Cart';
 import Orders from '../../components/Orders';
 
