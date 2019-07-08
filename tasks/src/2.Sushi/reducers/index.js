@@ -20,6 +20,38 @@ export function rootReducer(state = defaultState, action) {
         ...state,
         page: action.page
       };
+    case actionTypes.LOAD_PRODUCTS_REQUEST:
+      return loadProductsRequest(state, action);
+    case actionTypes.LOAD_PRODUCTS_SUCCESS:
+      return loadProductsSuccess(state, action);
   }
   return state;
+}
+
+function loadProductsRequest(state, action) {
+  return {
+    ...state,
+    products: {
+      ...state.products,
+      status: Status.loading
+    }
+  };
+}
+
+function loadProductsSuccess(state, action) {
+  const { products } = action;
+  const productsAllIds = products.map(p => p.id);
+  const productsById = products.reduce(
+    (result, product) => ({ ...result, [product.id]: product }),
+    {}
+  );
+  return {
+    ...state,
+    products: {
+      ...state.products,
+      allIds: productsAllIds,
+      byId: productsById,
+      status: Status.loaded
+    }
+  };
 }
