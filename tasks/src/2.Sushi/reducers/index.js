@@ -10,8 +10,7 @@ const defaultState = {
     allIds: [],
     byId: {},
     status: Status.none
-  },
-  purchases: []
+  }
 };
 
 export function rootReducer(state = defaultState, action) {
