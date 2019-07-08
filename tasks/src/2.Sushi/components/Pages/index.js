@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Page from '../../constants/Page';
 import Menu from '../../containers/Menu';
 import Cart from '../../containers/Cart';
-import Orders from '../../components/Orders';
+import Orders from '../../containers/Orders';
 
 export default function Pages({ page }) {
   switch (page) {

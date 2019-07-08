@@ -110,9 +110,36 @@ function createPurchase(id, quantity) {
   };
 }
 
-export const rootReducer = combineReducers({
+const ordersReducer = createReducer([], {});
+
+const combinedReducer = combineReducers({
   page: pageReducer,
   products: productsReducer,
   chosenProducts: chosenProductsReducer,
-  purchases: purchasesReducer
+  purchases: purchasesReducer,
+  orders: ordersReducer
 });
+
+const crossSliceReducer = (state, action) => {
+  switch (action.type) {
+    case actionTypes.ORDER: {
+      if (state.purchases.length > 0) {
+        return {
+          ...state,
+          page: Page.orders,
+          purchases: [],
+          orders: [state.purchases, ...state.orders]
+        };
+      }
+      return state;
+    }
+    default:
+      return state;
+  }
+}
+
+export const rootReducer = (state, action) => {
+  const intermediateState = combinedReducer(state, action);
+  const finalState = crossSliceReducer(intermediateState, action);
+  return finalState;
+}

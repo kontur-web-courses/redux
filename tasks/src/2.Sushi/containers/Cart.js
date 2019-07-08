@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Cart from '../components/Cart';
 import Page from '../constants/Page';
-import { changePurchaseQuantity, navigateTo } from '../actionCreators';
+import { changePurchaseQuantity, navigateTo, order } from '../actionCreators';
 
 export default connect(
   (state, props) => ({
@@ -14,6 +14,7 @@ export default connect(
     onDecreaseById: productId =>
       dispatch(changePurchaseQuantity(productId, -1)),
     onIncreaseById: productId => dispatch(changePurchaseQuantity(productId, 1)),
-    onNavigateToMenu: () => dispatch(navigateTo(Page.menu))
+    onNavigateToMenu: () => dispatch(navigateTo(Page.menu)),
+    onOrder: () => dispatch(order())
   })
 )(Cart);
