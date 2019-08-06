@@ -6,6 +6,7 @@ import 'regenerator-runtime/runtime';
 import './styles.css';
 import Page from './constants/Page';
 import Status from './constants/Status';
+import ErrorBoundary from './components/ErrorBoundary';
 import Navigation from './components/Navigation';
 import Pages from './components/Pages';
 import { rootReducer } from './reducers';
@@ -35,11 +36,13 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <header className="header">
-          <h1>Sushi &amp; Rolls</h1>
-          <Navigation page={Page.menu} />
-        </header>
-        <Pages page={Page.menu} />
+        <ErrorBoundary>
+          <header className="header">
+            <h1>Sushi &amp; Rolls</h1>
+            <Navigation page={Page.menu} />
+          </header>
+          <Pages page={Page.menu} />
+        </ErrorBoundary>
       </div>
     );
   }
