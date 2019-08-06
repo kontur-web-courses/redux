@@ -6,11 +6,23 @@ import Link from '@skbkontur/react-ui/Link';
 import Purchases from '../Purchases';
 
 export default function Cart(props) {
-  const { onOrder, onNavigateToMenu, ...rest } = props;
-  if (props.purchases && props.purchases.length > 0) {
+  const {
+    onOrder,
+    onNavigateToMenu,
+    productsStatus,
+    onDecreaseById,
+    onIncreaseById
+  } = props;
+  // TODO: написать корректное условие, передать нужные параметры
+  // eslint-disable-next-line no-constant-condition
+  if (false) {
     return (
       <div>
-        <Purchases {...props} />
+        <Purchases
+          productsStatus={productsStatus}
+          onDecreaseById={onDecreaseById}
+          onIncreaseById={onIncreaseById}
+        />
         <div className="orderButtonContainer">
           <Button use="pay" size="large" onClick={onOrder}>
             Заказать
@@ -27,8 +39,6 @@ export default function Cart(props) {
 }
 
 Cart.propTypes = {
-  purchases: PropTypes.array,
-  productsById: PropTypes.object,
   productsStatus: PropTypes.number,
   onDecreaseById: PropTypes.func,
   onIncreaseById: PropTypes.func,

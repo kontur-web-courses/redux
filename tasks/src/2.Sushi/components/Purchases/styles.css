@@ -9,25 +9,3 @@
   margin: 0 0 20px;
   box-sizing: border-box;
 }
-
-.purchasesTotal {
-  display: flex;
-  text-align: right;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: center;
-  height: 60px;
-  font-weight: bold;
-  font-size: 20px;
-  line-height: 32px;
-}
-
-.purchasesTotal .sign {
-  text-align: center;
-  width: 40px;
-}
-
-.purchasesTotal .cost {
-  width: 80px;
-  text-align: right;
-}

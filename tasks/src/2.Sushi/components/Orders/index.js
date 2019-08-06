@@ -5,8 +5,8 @@ import Link from '@skbkontur/react-ui/Link';
 import Purchases from '../../components/Purchases';
 
 export default function Orders({
+  // TODO: добавить нужные параметры
   orders,
-  productsById,
   productsStatus,
   onNavigateToMenu
 }) {
@@ -14,8 +14,6 @@ export default function Orders({
     return orders.map((order, index) => (
       <Purchases
         key={index}
-        purchases={order}
-        productsById={productsById}
         productsStatus={productsStatus}
       />
     ));
@@ -29,7 +27,6 @@ export default function Orders({
 
 Orders.propTypes = {
   orders: PropTypes.array,
-  productsById: PropTypes.object,
   productsStatus: PropTypes.number,
   onNavigateToMenu: PropTypes.func
 };

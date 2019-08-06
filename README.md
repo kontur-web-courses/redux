@@ -15,12 +15,14 @@
 
 ## Необходимые знания
 
-Понадобится знание JS и React
+Понадобится знание JS, Promise и async/await в JS, React
 
 
 ## Самостоятельная подготовка
 
 Рекомендуется пройти блок [React](https://github.com/kontur-courses/react)
+
+Рекомендуется пройти блок [AsyncJS](https://github.com/kontur-courses/async-js)
 
 Предполагаем, что ты уже знаком с ES2015+ синтаксисом JavaScript. Если нет, прочти эту [статью](http://www.js-craft.io/blog/10-The-10-min-ES6-course-for-the-beginner-React-Developer/) или потренируйся в новом синтаксисе [тут](http://es6katas.org/).
 

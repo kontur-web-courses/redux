@@ -1526,7 +1526,6 @@ function createReducer(initialState, handlers) {
 ***
 
 ### Выводы
-
 1. `combineReducers` позволяет обрабатывать слайсы
 в отдельных редьюсерах
 2. В slice-редьюсерах **проще обновлять состояние**,
@@ -1545,120 +1544,11 @@ function createReducer(initialState, handlers) {
 
 <section data-markdown><script type="text/template">
 
-## 2.6. Thunk
+## 2.6. Immutability
 
 ***
 
-### Происхождение термина
-
-Вместо значения можно передать в качестве параметра функцию, которая возвращает это значение при вызове
-
-```js
-// обычное значение
-print(5 + 3);
-
-// функция, возвращающая значение
-print(() => 5 + 3);
-```
-Тогда, если значение не понадобится, его можно не вычислять
-
-Можно сказать, что **значение было «задумано»**, но не посчитано
-
-«Задумано» — «thought», 3-форма неправильного глагола «think»
-В шутку или заведомо неправильно говорят «thunk»
-
-**thunk** — это функция без параметров, которая вычисляет и возвращает значение
-
-***
-
-### Thunk Middleware в Redux
-
-<img width="400px" src="assets/middleware-call.png">
-
-Вместо `action` в `dispatch` передается функция,
-которая при своем вызове будет вызывать `dispatch`
-с нужными ей действиями
-
-***
-
-### Создатель действий для thunk
-
-```js
-// Action creator, создающий thunk
-const sumAndChange = (a, b) => (dispatch, getState, extraArgument) => {
-  dispatch({ type: 'CHANGE_VALUE', value: a + b });
-}
-
-// Dispatching с использованием action creator
-dispatch(sumAndChange(3, 2));
-
-// Thunk, который будет передан в dispatch со значениями из замыкания
-const thunk = (dispatch, getState, extraArgument) => {
-  dispatch({ type: 'CHANGE_VALUE', value: 3 + 2 });
-};
-```
-
-***
-
-### Реализация redux-thunk
-
-```js
-function createThunkMiddleware(extraArgument) {
-  return ({ dispatch, getState }) => next => action => {
-    if (typeof action === 'function') {
-      return action(dispatch, getState, extraArgument);
-    }
-    return next(action);
-  };
-}
-const thunk = createThunkMiddleware(); // версия без extraArgument
-thunk.withExtraArgument = createThunkMiddleware; // для версии с extraArgument
-export default thunk;
-```
-
-Нужен `dispatch` и он доступен
-
-`dispatch` с `thunkMiddleware` возвращает результат
-вызова функции, а не `action`, как делает обычный `dispatch`
-
-Можно передать произвольное API через `extraArgument`
-
-***
-
-### Задание 2.6. Filter
-
-***
-
-### Выводы
-
-**Thunk Middleware** позволяет:
-
-- **Группировать вызовы** нескольких связанных действий
-в одну функцию. Например, для выполнения запросов
-- **Использовать Promise** в качестве возвращаемого значения
-и дожидаться результата
-- Передавать **произвольное API**
-
-</script></section>
-
-
-<!-- ************************************************* -->
-
-
-<section data-markdown><script type="text/template">
-
-## 2.7. Inside Provider
-
-***
-
-### Более подробный взгляд на
-
-- immutable-обновления
-- реализацию `Provider` и `connect`
-
-***
-
-### Immutable-обновления
+### Mutable vs Immutable
 
 ```js
 const person = {
@@ -1673,6 +1563,49 @@ person.age = 28;
 const reagedPerson = { ...person, age: 27 };
 // а значит person.names переиспользуется
 ```
+
+***
+
+### Зачем это нужно?
+
+1. ?
+2. ?
+
+***
+
+### Пункт 1
+
+Обновление не ломает существующие объекты и компоненты:
+- кто в курсе используют новое **согласованное состояние**
+- кто не в курсе используют старое **согласованное состояние**
+
+***
+
+### Пункт 2
+
+При обновлении внутри меняется родитель
+<img width="800px" src="assets/immutable1.png">
+<img width="800px" src="assets/immutable2.png">
+Значит **совпадение ссылок гарантирует неизменность!**
+
+***
+
+### Как это делать?
+
+***
+
+### Простой случай
+
+```js
+const person = {
+  names: { surname: 'Ace', name: 'Frederic' },
+  age: 26
+};
+
+const reagedPerson = { ...person, age: 27 };
+```
+
+Действительно просто!
 
 ***
 
@@ -1849,16 +1782,131 @@ const peopleWithUpdated = update(people, {
 
 ***
 
-### Поэтому immutable — не больно!
+### В итоге immutable — не больно!
 
 ***
 
-### Важная особенность
+### Задание 2.6. TangledFilter
 
-При обновлении внутри меняется родитель
-<img width="800px" src="assets/immutable1.png">
-<img width="800px" src="assets/immutable2.png">
-Значит совпадение ссылок гарантирует неизменность
+***
+
+### Выводы
+1. Обновлять состояние нужно в **immutable-стиле**,
+используя средства языка, либо специальные функции,
+иначе работать не будет
+2. Идеология Redux делает обновление нескольких компонентов, зависящих от одного значения, тривиальным
+
+</script></section>
+
+
+<!-- ************************************************* -->
+
+
+<section data-markdown><script type="text/template">
+
+## 2.7. Thunk
+
+***
+
+### Происхождение термина
+
+Вместо значения можно передать в качестве параметра функцию, которая возвращает это значение при вызове
+
+```js
+// обычное значение
+print(5 + 3);
+
+// функция, возвращающая значение
+print(() => 5 + 3);
+```
+Тогда, если значение не понадобится, его можно не вычислять
+
+Можно сказать, что **значение было «задумано»**, но не посчитано
+
+«Задумано» — «thought», 3-форма неправильного глагола «think»
+В шутку или заведомо неправильно говорят «thunk»
+
+**thunk** — это функция без параметров, которая вычисляет и возвращает значение
+
+***
+
+### Thunk Middleware в Redux
+
+<img width="400px" src="assets/middleware-call.png">
+
+Вместо `action` в `dispatch` передается функция,
+которая при своем вызове будет вызывать `dispatch`
+с нужными ей действиями
+
+***
+
+### Создатель действий для thunk
+
+```js
+// Action creator, создающий thunk
+const sumAndChange = (a, b) => (dispatch, getState, extraArgument) => {
+  dispatch({ type: 'CHANGE_VALUE', value: a + b });
+}
+
+// Dispatching с использованием action creator
+dispatch(sumAndChange(3, 2));
+
+// Thunk, который будет передан в dispatch со значениями из замыкания
+const thunk = (dispatch, getState, extraArgument) => {
+  dispatch({ type: 'CHANGE_VALUE', value: 3 + 2 });
+};
+```
+
+***
+
+### Реализация redux-thunk
+
+```js
+function createThunkMiddleware(extraArgument) {
+  return ({ dispatch, getState }) => next => action => {
+    if (typeof action === 'function') {
+      return action(dispatch, getState, extraArgument);
+    }
+    return next(action);
+  };
+}
+const thunk = createThunkMiddleware(); // версия без extraArgument
+thunk.withExtraArgument = createThunkMiddleware; // для версии с extraArgument
+export default thunk;
+```
+
+Нужен `dispatch` и он доступен
+
+`dispatch` с `thunkMiddleware` возвращает результат
+вызова функции, а не `action`, как делает обычный `dispatch`
+
+Можно передать произвольное API через `extraArgument`
+
+***
+
+### Задание 2.7. UnstableFilter
+
+***
+
+### Выводы
+
+**Thunk Middleware** позволяет:
+
+- **Группировать вызовы** нескольких связанных действий
+в одну функцию. Например, для выполнения запросов
+- **Использовать Promise** в качестве возвращаемого значения
+и дожидаться результата
+- Передавать **произвольное API**
+
+</script></section>
+
+
+<!-- ************************************************* -->
+
+
+<section data-markdown><script type="text/template">
+
+## 2.8. Inside Provider
 
 ***
 
@@ -2167,16 +2215,14 @@ connect(
 
 ***
 
-### Задание 2.7. Cart
+### Задание 2.8. Cart
 
 ***
 
-### Выводы
-1. Обновлять состояние нужно в **immutable-стиле**,
-используя средства языка, либо специальные функции
-2. Больше примеров того как **store обеспечивает связями**
-разные компоненты: обновление корзины с разных страниц,
-контекстная навигация
+### Вопросы
+1. С чего начали делать задачу? Что делали потом?
+2. Как боролись с immutable-обновлениями?
+3. Какие еще были сложности?
 
 ***
 
@@ -2190,11 +2236,11 @@ connect(
 Также надо создавать контейнеры **для общих блоков**,
 вроде меню или чата.
 
-Например, для «страницы» `Cart` создан контейнер,
+Например, для «страницы» `Cart` стоит создать контейнер,
 а для «элемента на странице» `Purchase` — нет.
 
 С другой стороны для `Product` на «странице» `Menu` ранее был
-создан контейнер и это оказалось удобно при добавлении корзины.
+создан контейнер и при добавлении корзины его удобно использовать.
 
 Поэтому полезно делать контейнеры для **компонентов,
 активно взаимодействующих с другими частями приложения**.
@@ -2207,7 +2253,7 @@ connect(
 
 <section data-markdown><script type="text/template">
 
-## 2.8. Cross Slice Reducer
+## 2.9. Cross Slice Reducer
 
 ***
 
@@ -2263,7 +2309,7 @@ function crossSliceReducer(state, action) {
 
 ***
 
-### Задание 2.8. Orders
+### Задание 2.9. Orders
 
 ***
 

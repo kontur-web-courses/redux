@@ -11,8 +11,7 @@ import PurchaseCounter from '../../components/PurchaseCounter';
 
 export default class Purchase extends React.PureComponent {
   render() {
-    const { number, product, purchase } = this.props;
-    const quantity = (purchase && purchase.quantity) || 0;
+    const { number, product, quantity } = this.props;
     const cost = product.price * quantity;
     return (
       <div className="purchase">
@@ -60,7 +59,7 @@ export default class Purchase extends React.PureComponent {
 Purchase.propTypes = {
   number: PropTypes.number.isRequired,
   product: PropTypes.object.isRequired,
-  purchase: PropTypes.object,
+  quantity: PropTypes.number.isRequired,
   onDecreaseById: PropTypes.func,
   onIncreaseById: PropTypes.func
 };
