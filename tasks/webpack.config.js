@@ -34,7 +34,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: 'style-loader!css-loader'
+        loader: 'style-loader!css-loader?modules=global',
       },
       {
         test: /\.(png|woff|woff2|eot)$/,
