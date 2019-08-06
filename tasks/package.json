@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack --mode development && exit 0",
     "start": "webpack-dev-server  --mode development",
-    "test-sandglass": "jest ./src/1.Sandglass/"
+    "test": "jest ./src/1.Sandglass/"
   },
   "keywords": [],
   "author": "",
