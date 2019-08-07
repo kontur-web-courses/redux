@@ -5,7 +5,7 @@ import './styles.css';
 import ProductTag from '../../constants/ProductTag';
 import Status from '../../constants/Status';
 import Product from '../../containers/Product';
-import MenuFilter from '../../components/MenuFilter';
+import MenuFilter from '../../containers/MenuFilter';
 import products from '../../api/products';
 
 export default function Menu({ productsStatus, productIds }) {

@@ -43,7 +43,29 @@ function loadProductsSuccess(state, action) {
   };
 }
 
+const chosenProductsReducer = createReducer(
+  {
+    tags: [],
+    ids: [],
+    status: Status.none
+  },
+  {
+    [actionTypes.CHANGE_PRODUCT_TAG]: changeProductTag
+  }
+);
+
+function changeProductTag(state, { productTag }) {
+  const tags = state.tags.some(t => t === productTag)
+    ? state.tags.filter(t => t !== productTag)
+    : [...state.tags, productTag];
+  return {
+    ...state,
+    tags
+  };
+}
+
 export const rootReducer = combineReducers({
   page: pageReducer,
-  products: productsReducer
+  products: productsReducer,
+  chosenProducts: chosenProductsReducer
 });

@@ -13,3 +13,8 @@ export const loadProductsSuccess = products => ({
   type: actionTypes.LOAD_PRODUCTS_SUCCESS,
   products
 });
+
+export const changeProductTag = productTag => ({
+  type: actionTypes.CHANGE_PRODUCT_TAG,
+  productTag
+});
