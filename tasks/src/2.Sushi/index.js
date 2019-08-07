@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import logger from 'redux-logger';
+import thunk from 'redux-thunk';
 import 'regenerator-runtime/runtime';
 import './styles.css';
 import Page from './constants/Page';
@@ -31,7 +32,7 @@ const api = new Api({ baseUrl: 'http://sampleserviceurl?foo=bar' });
 
 const store = createStore(
   rootReducer,
-  applyMiddleware(customMiddleWare, logger)
+  applyMiddleware(thunk.withExtraArgument(api), customMiddleWare, logger)
 );
 
 class App extends React.Component {

@@ -50,7 +50,10 @@ const chosenProductsReducer = createReducer(
     status: Status.none
   },
   {
-    [actionTypes.CHANGE_PRODUCT_TAG]: changeProductTag
+    [actionTypes.CHANGE_PRODUCT_TAG]: changeProductTag,
+    [actionTypes.LOAD_BY_TAGS_REQUEST]: loadByTagsRequest,
+    [actionTypes.LOAD_BY_TAGS_SUCCESS]: loadByTagsSuccess,
+    [actionTypes.LOAD_BY_TAGS_FAILURE]: loadByTagsFailure
   }
 );
 
@@ -61,6 +64,30 @@ function changeProductTag(state, { productTag }) {
   return {
     ...state,
     tags
+  };
+}
+
+function loadByTagsRequest(state, action) {
+  return {
+    ...state,
+    status: Status.loading
+  };
+}
+
+function loadByTagsSuccess(state, { productIds }) {
+  return {
+    ...state,
+    ids: productIds,
+    status: Status.loaded
+  };
+}
+
+function loadByTagsFailure(state, { productIds }) {
+  return {
+    ...state,
+    tags: [],
+    ids: [],
+    status: Status.none
   };
 }
 
