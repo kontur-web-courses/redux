@@ -50,3 +50,7 @@ export const changePurchaseQuantity = (productId, value) => ({
   productId,
   value
 });
+
+export const order = () => ({
+  type: actionTypes.ORDER
+});
