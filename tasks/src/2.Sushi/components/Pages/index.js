@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Page from '../../constants/Page';
 import Menu from '../../containers/Menu';
-import Cart from '../../components/Cart';
+import Cart from '../../containers/Cart';
 import Orders from '../../components/Orders';
 
 export default function Pages({ page }) {

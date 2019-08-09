@@ -91,8 +91,28 @@ function loadByTagsFailure(state, { productIds }) {
   };
 }
 
+const purchasesReducer = createReducer([], {
+  [actionTypes.CHANGE_PURCHASE_QUANTITY]: changePurchaseQuantity
+});
+
+function changePurchaseQuantity(state, { productId, value }) {
+  return state.some(p => p.id === productId)
+    ? state.map(p =>
+        p.id === productId ? createPurchase(productId, p.quantity + value) : p
+      )
+    : [...state, createPurchase(productId, value)];
+}
+
+function createPurchase(id, quantity) {
+  return {
+    id,
+    quantity: Math.max(0, quantity)
+  };
+}
+
 export const rootReducer = combineReducers({
   page: pageReducer,
   products: productsReducer,
-  chosenProducts: chosenProductsReducer
+  chosenProducts: chosenProductsReducer,
+  purchases: purchasesReducer
 });
