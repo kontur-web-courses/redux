@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './styles.css';
-import Link from '@skbkontur/react-ui/Link';
+import {Link} from '@skbkontur/react-ui';
 import Purchases from '../../components/Purchases';
 
 export default function Orders({

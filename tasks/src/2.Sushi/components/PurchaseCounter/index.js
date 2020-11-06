@@ -2,10 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import AddIcon from '@skbkontur/react-icons/Add';
 import RemoveIcon from '@skbkontur/react-icons/Remove';
-import Button from '@skbkontur/react-ui/Button';
-import Input from '@skbkontur/react-ui/Input';
-import Group from '@skbkontur/react-ui/Group';
-import Gapped from '@skbkontur/react-ui/Gapped';
+import {Button, Input, Group, Gapped} from '@skbkontur/react-ui';
 import './styles.css';
 
 export default function PurchaseCounter({ value, onDecrease, onIncrease }) {

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Gapped from '@skbkontur/react-ui/Gapped';
+import {Gapped} from '@skbkontur/react-ui';
 import './styles.css';
 
 export default function PurchasesTotalCost({ totalCost }) {

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Tabs from '@skbkontur/react-ui/Tabs';
+import {Tabs} from '@skbkontur/react-ui';
 import Page from '../../constants/Page';
 import './styles.css';
 

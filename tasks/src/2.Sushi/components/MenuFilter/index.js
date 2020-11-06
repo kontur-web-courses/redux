@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Gapped from '@skbkontur/react-ui/Gapped';
-import Checkbox from '@skbkontur/react-ui/Checkbox';
+import {Gapped, Checkbox} from '@skbkontur/react-ui';
 import './styles.css';
 import ProductTag from '../../constants/ProductTag';
 

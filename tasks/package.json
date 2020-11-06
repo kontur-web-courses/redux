@@ -36,8 +36,8 @@
     "webpack-dev-server": "3.1.14"
   },
   "dependencies": {
-    "@skbkontur/react-icons": "3.1.1",
-    "@skbkontur/react-ui": "0.30.0",
+    "@skbkontur/react-icons": "4.3.1",
+    "@skbkontur/react-ui": "2.7.0",
     "immutability-helper": "3.1.1",
     "react": "17.0.1",
     "react-dom": "17.0.1",
