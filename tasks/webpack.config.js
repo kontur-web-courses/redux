@@ -1,15 +1,18 @@
-var path = require('path');
-var tasks = require('./tasks').tasks;
+const path = require('path');
+const tasks = require('./tasks').tasks;
+const webpack = require('webpack');
 
+const entries = {};
+const rewrites = [];
 
-var entries = {};
-var rewrites = [];
-for (var k in tasks) {
+const publicPath = '/build';
+
+for (let k in tasks) {
   addTask(tasks[k].order, tasks[k].id);
 }
 
 function addTask(order, id) {
-  var orderAndId = order + '.' + id;
+  const orderAndId = order + '.' + id;
   entries[id] = ['./src/' + orderAndId + '/index.js'];
   rewrites.push({
     from: new RegExp('^\/(' + orderAndId.replace(/\./, '\\.') + ')|(' + order + ')$', 'i'),
@@ -21,7 +24,7 @@ module.exports = {
   entry: entries,
   output: {
     path: path.resolve('build'),
-    publicPath: 'build',
+    publicPath,
     filename: '[name].js',
   },
   devtool: 'source-map',
@@ -34,7 +37,12 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: 'style-loader!css-loader?modules=global',
+        use: ['style-loader', {
+          loader: 'css-loader',
+          options: {
+            modules: 'global'
+          }
+        }]
       },
       {
         test: /\.(png|woff|woff2|eot)$/,
@@ -42,6 +50,11 @@ module.exports = {
       }
     ]
   },
+  plugins: [
+    new webpack.ProvidePlugin({
+      process: 'process/browser',
+    })
+  ],
   resolve: {
     modules: ['node_modules'],
     extensions: ['.js', '.jsx'],
@@ -50,5 +63,7 @@ module.exports = {
     historyApiFallback: {
       rewrites: rewrites,
     },
+    open: true,
+    publicPath
   }
 };
