@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Gapped from '@skbkontur/react-ui/Gapped';
-import Loader from '@skbkontur/react-ui/Loader';
+import {Gapped, Loader} from '@skbkontur/react-ui';
 import './styles.css';
 import ProductTag from '../../constants/ProductTag';
 import Status from '../../constants/Status';

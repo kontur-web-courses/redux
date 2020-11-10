@@ -1,4 +1,4 @@
-var tasks = [
+const tasks = [
   { order: '1', id: 'Sandglass' },
   { order: '2', id: 'Sushi' },
 ];

@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Button from '@skbkontur/react-ui/Button';
+import {Button, Link} from '@skbkontur/react-ui';
 import './styles.css';
-import Link from '@skbkontur/react-ui/Link';
 import Purchases from '../Purchases';
 
 export default function Cart(props) {
