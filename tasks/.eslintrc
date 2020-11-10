@@ -12,7 +12,15 @@
     "object-shorthand": "off",
     "prefer-template": "off",
     "no-debugger": "off",
-    "no-unused-vars": "off"
+    "no-unused-vars": "off",
+    "no-use-before-define": [
+      "error",
+      {
+        "functions": false,
+        "classes": false,
+        "variables": false
+      }
+    ]
   },
   "env": {
     "browser": true,
