@@ -1009,6 +1009,56 @@ const ConnectedTimer = withStore(Timer);
 
 ***
 
+### Простейшее middleware
+
+```js
+const customMiddleWare = ({ getState, dispatch }) => next => action => {
+  return next(action);
+};
+```
+
+1. `{ getState, dispatch }` передается при подключении к `store`
+2. `next` обеспечивает композицию,
+содержит базовый `dispatch` или следующий `middleware`
+3. `action` — действие, которое надо обработать
+
+***
+
+### Более сложный пример
+
+```js
+// Отправляет отчеты об ошибках когда обновляется
+// состояние и уведомляются слушатели.
+const crashReporter = ({ getState, dispatch }) => next => action => {
+  try {
+    return next(action)
+  } catch (err) {
+    console.error('Caught an exception!', err)
+    // Можно отправить логи на сервер
+    throw err
+  }
+}
+```
+
+***
+
+### Подключение middleware
+
+```js
+const store = createStore(
+  rootReducer,
+  applyMiddleware(middleware)
+);
+```
+
+`applyMiddleware` — функция из `redux`
+
+***
+
+### Задание 2.2. Logging
+
+***
+
 ### Композиция middleware
 
 <img width="600px" src="assets/middleware-compose1.png">
@@ -1027,22 +1077,7 @@ const ConnectedTimer = withStore(Timer);
 
 ***
 
-### Простейшее middleware
-
-```js
-const customMiddleWare = ({ getState, dispatch }) => next => action => {
-  return next(action);
-};
-```
-
-1. `{ getState, dispatch }` передается при подключении к `store`
-2. `next` обеспечивает композицию,
-содержит следующий `middleware` или базовый `dispatch`
-3. `action` — действие, которое надо обработать
-
-***
-
-### Подключение middleware
+### Подключение нескольких middleware
 
 ```js
 const store = createStore(
@@ -1055,10 +1090,6 @@ const store = createStore(
 А результат будет выходить в порядке 3, 2, 1
 
 `applyMiddleware` — функция из `redux`
-
-***
-
-### Задание 2.2. Logging
 
 ***
 
