@@ -1,9 +1,6 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-import PropTypes from 'prop-types';
 import { createStore } from 'redux';
-import 'regenerator-runtime/runtime';
-import './styles.css';
 import Page from './constants/Page';
 import Status from './constants/Status';
 import ErrorBoundary from './components/ErrorBoundary';
@@ -12,6 +9,9 @@ import Pages from './components/Pages';
 import { rootReducer } from './reducers';
 import products from './api/products';
 import Api from './api';
+
+import 'regenerator-runtime/runtime';
+import './styles.css';
 
 const productsAllIds = products.map(p => p.id);
 const productsById = products.reduce(
@@ -47,7 +47,5 @@ class App extends React.Component {
     );
   }
 }
-
-App.propTypes = {};
 
 ReactDom.render(<App />, document.getElementById('app'));

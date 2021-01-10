@@ -1,14 +1,14 @@
-import update from 'immutability-helper';
+import update, { extend } from 'immutability-helper';
 
-update.extend('$filter', function(predicate, original) {
+extend<Array<unknown>>('$filter', function(predicate, original) {
   return original.filter(predicate);
 });
 
-update.extend('$map', function(callback, original) {
+extend<Array<unknown>>('$map', function(callback, original) {
   return original.map(callback);
 });
 
-update.extend('$pushOrUpdate', function({ condition, updater }, original) {
+extend<Array<unknown>>('$pushOrUpdate', function({ condition, updater }, original) {
   const result = [];
   let found = false;
   for(const item of original) {
@@ -25,7 +25,7 @@ update.extend('$pushOrUpdate', function({ condition, updater }, original) {
   return result;
 });
 
-update.extend('$applyUpdate', function(callback, original) {
+extend('$applyUpdate', function(callback, original) {
   return update(original, callback(original));
 });
 

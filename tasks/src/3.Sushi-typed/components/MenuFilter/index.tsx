@@ -1,10 +1,14 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {Gapped, Checkbox} from '@skbkontur/react-ui';
 import './styles.css';
 import ProductTag from '../../constants/ProductTag';
 
-export default class MenuFilter extends React.Component {
+interface IMenuFilterProps {
+  chosenTags?: ProductTag[],
+  onChange?: (productTag: ProductTag) => void
+}
+
+export default class MenuFilter extends React.Component<IMenuFilterProps> {
   render() {
     return (
       <div className="menuFilterWrapper">
@@ -46,8 +50,3 @@ export default class MenuFilter extends React.Component {
     this.props.onChange && this.props.onChange(productTag);
   };
 }
-
-MenuFilter.propTypes = {
-  chosenTags: PropTypes.array,
-  onChange: PropTypes.func
-};

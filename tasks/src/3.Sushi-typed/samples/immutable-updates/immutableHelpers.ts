@@ -1,4 +1,4 @@
-import update from '../utils/update';
+import update from '../../utils/update';
 
 function changeQuantity(state, { id, delta }) {
   const values = state.values;

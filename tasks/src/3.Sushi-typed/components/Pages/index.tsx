@@ -1,11 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Page from '../../constants/Page';
-import Menu from '../../components/Menu';
-import Cart from '../../components/Cart';
-import Orders from '../../components/Orders';
+import Menu from '../Menu';
+import Cart from '../Cart';
+import Orders from '../Orders';
 
-export default function Pages({ page }) {
+interface IPages {
+  page: string;
+}
+
+export default function Pages({ page }: IPages) {
   switch (page) {
     case Page.menu:
       return <Menu />;
@@ -17,7 +21,3 @@ export default function Pages({ page }) {
       throw 'Unknown page';
   }
 }
-
-Pages.propTypes = {
-  page: PropTypes.string.isRequired
-};

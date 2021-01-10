@@ -1,24 +1,31 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {Gapped, Loader} from '@skbkontur/react-ui';
 import './styles.css';
 import ProductTag from '../../constants/ProductTag';
 import Status from '../../constants/Status';
 import Purchase from '../Purchase';
 import PurchasesTotalCost from '../PurchasesTotalCost';
+import {IProduct} from "../../api/products";
+import {tryParseProductId} from "../../types/ProductId";
+
+interface PurchasesProps {
+  productsStatus?: number;
+  onDecreaseById?: () => void,
+  onIncreaseById?: () => void
+}
 
 export default function Purchases({
   // TODO: добавить нужные параметры
   productsStatus,
   onDecreaseById,
   onIncreaseById
-}) {
+}: PurchasesProps): JSX.Element {
   // TODO: сумма (цена * количество) по всем покупкам
   const totalCost = 123;
 
   // TODO: использовать заказанные продукты
-  const fakeProduct = {
-    id: -1,
+  const fakeProduct: IProduct = {
+    id: tryParseProductId(-1),
     name: 'Поддельный ролл',
     description: 'Рис и водоросли',
     price: 50,
@@ -55,9 +62,3 @@ export default function Purchases({
     </Loader>
   );
 }
-
-Purchases.propTypes = {
-  productsStatus: PropTypes.number,
-  onDecreaseById: PropTypes.func,
-  onIncreaseById: PropTypes.func
-};

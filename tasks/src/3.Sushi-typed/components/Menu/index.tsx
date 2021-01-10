@@ -4,8 +4,8 @@ import {Loader} from '@skbkontur/react-ui';
 import './styles.css';
 import ProductTag from '../../constants/ProductTag';
 import Status from '../../constants/Status';
-import Product from '../../components/Product';
-import MenuFilter from '../../components/MenuFilter';
+import Product from '../Product';
+import MenuFilter from '../MenuFilter';
 import products from '../../api/products'
 
 export default function Menu({ productsStatus }) {
@@ -18,8 +18,8 @@ export default function Menu({ productsStatus }) {
         <MenuFilter />
         <div className="menuTableWrapper">
           <div className="menuTable">
-            <Product key={1} product={products[[1]]} />
-            <Product key={2} product={products[[2]]} />
+            <Product key={1} product={products[1]} />
+            <Product key={2} product={products[2]} />
           </div>
         </div>
         <MenuFilter />

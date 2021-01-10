@@ -1,12 +1,18 @@
 import products from './products';
 
+export interface IApiConfig {
+  baseUrl: string;
+}
+
 export default class Api {
-  constructor(config) {
+  baseUrl: string;
+
+  constructor(config: IApiConfig) {
     //NOTE: здесь могла бы быть необходимая конфигурация
     this.baseUrl = config.baseUrl;
   }
 
-  fetchProducts() {
+  fetchProducts(): Promise<unknown> {
     return delay(1000).then(() => products);
   }
 
@@ -28,7 +34,7 @@ export default class Api {
     });
   }
 
-  sendMetric(name, value) {
+  sendMetric(name, value): Promise<void> {
     return new Promise((resolve, reject) => {
       console.log(
         `%c metric '${name}' with '${value}' has been sent`,

@@ -1,10 +1,14 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {Tabs} from '@skbkontur/react-ui';
 import Page from '../../constants/Page';
 import './styles.css';
 
-export default function Navigation({ page, onNavigate }) {
+interface INavigationProps {
+  page: string,
+  onNavigate?: (page: string) => void
+}
+
+export default function Navigation({ page, onNavigate }: INavigationProps) {
   return (
     <nav className="navigation">
       <Tabs value={page} onValueChange={value => onNavigate && onNavigate(value)}>
@@ -15,8 +19,3 @@ export default function Navigation({ page, onNavigate }) {
     </nav>
   );
 }
-
-Navigation.propTypes = {
-  page: PropTypes.string.isRequired,
-  onNavigate: PropTypes.func
-};

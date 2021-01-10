@@ -5,10 +5,25 @@ import RemoveIcon from '@skbkontur/react-icons/Remove';
 import ShoppingCartSolidIcon from '@skbkontur/react-icons/ShoppingCartSolid';
 import {Button, Input, Group, Gapped} from '@skbkontur/react-ui';
 import './styles.css';
-import PurchaseCounter from '../../components/PurchaseCounter';
+import PurchaseCounter from '../PurchaseCounter';
 import ProductTag from '../../constants/ProductTag';
+import {IProduct} from "../../api/products";
+import {ProductId} from "../../types/ProductId";
 
-export default class Product extends React.PureComponent {
+// ToDo (kb) перенести (!)
+export interface IPurchase {
+  quantity: number;
+}
+
+interface IProductProps {
+  product: IProduct;
+  purchase?: IPurchase,
+  onDecrease?: (productId: ProductId) => void,
+  onIncrease?: (productId: ProductId) => void,
+  onPay?: () => void
+}
+
+export default class Product extends React.PureComponent<IProductProps> {
   render() {
     const { product, purchase, onPay } = this.props;
     const quantity = (purchase && purchase.quantity) || 0;
@@ -60,11 +75,3 @@ export default class Product extends React.PureComponent {
     this.props.onIncrease && this.props.onIncrease(this.props.product.id);
   };
 }
-
-Product.propTypes = {
-  product: PropTypes.object.isRequired,
-  purchase: PropTypes.object,
-  onDecrease: PropTypes.func,
-  onIncrease: PropTypes.func,
-  onPay: PropTypes.func
-};

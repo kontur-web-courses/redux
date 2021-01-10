@@ -1,8 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, {ErrorInfo} from 'react';
 import './styles.css';
 
-export default class ErrorBoundary extends React.Component {
+interface IErrorBoundaryState {
+  error: Error | null,
+  errorInfo: ErrorInfo | null
+}
+
+export default class ErrorBoundary extends React.Component<{}, IErrorBoundaryState> {
   constructor(props) {
     super(props);
     this.state = { error: null, errorInfo: null };
@@ -32,7 +36,3 @@ export default class ErrorBoundary extends React.Component {
     return this.props.children;
   }
 }
-
-ErrorBoundary.propTypes = {
-  children: PropTypes.any
-};

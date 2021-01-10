@@ -1,12 +1,21 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import AddIcon from '@skbkontur/react-icons/Add';
 import RemoveIcon from '@skbkontur/react-icons/Remove';
 import {Button, Input, Group, Gapped} from '@skbkontur/react-ui';
 import './styles.css';
-import PurchaseCounter from '../../components/PurchaseCounter';
+import PurchaseCounter from '../PurchaseCounter';
+import {IProduct} from "../../api/products";
+import {ProductId} from "../../types/ProductId";
 
-export default class Purchase extends React.PureComponent {
+interface IPurchaseProps {
+  number: number,
+  product: IProduct,
+  quantity: number,
+  onDecreaseById?: (productId: ProductId) => void,
+  onIncreaseById?: (productId: ProductId) => void
+}
+
+export default class Purchase extends React.PureComponent<IPurchaseProps> {
   render() {
     const { number, product, quantity } = this.props;
     const cost = product.price * quantity;
@@ -52,11 +61,3 @@ export default class Purchase extends React.PureComponent {
     this.props.onIncreaseById(this.props.product.id);
   };
 }
-
-Purchase.propTypes = {
-  number: PropTypes.number.isRequired,
-  product: PropTypes.object.isRequired,
-  quantity: PropTypes.number.isRequired,
-  onDecreaseById: PropTypes.func,
-  onIncreaseById: PropTypes.func
-};

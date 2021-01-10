@@ -1,10 +1,17 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {Button, Link} from '@skbkontur/react-ui';
 import './styles.css';
 import Purchases from '../Purchases';
 
-export default function Cart(props) {
+interface ICartProps {
+  productsStatus?: number,
+  onDecreaseById?: () => void,
+  onIncreaseById?: () => void,
+  onOrder?: () => void,
+  onNavigateToMenu?: () => void
+}
+
+export default function Cart(props: ICartProps) {
   const {
     onOrder,
     onNavigateToMenu,
@@ -36,11 +43,3 @@ export default function Cart(props) {
     </div>
   );
 }
-
-Cart.propTypes = {
-  productsStatus: PropTypes.number,
-  onDecreaseById: PropTypes.func,
-  onIncreaseById: PropTypes.func,
-  onOrder: PropTypes.func,
-  onNavigateToMenu: PropTypes.func
-};
