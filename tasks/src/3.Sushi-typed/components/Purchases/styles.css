@@ -1,0 +1,11 @@
+.purchasesWrapper {
+  width: 960px;
+  margin: 0 auto;
+}
+.purchases {
+  background: #fff;
+  box-shadow: 0 0 10px #E5E5E5;
+  padding: 20px;
+  margin: 0 0 20px;
+  box-sizing: border-box;
+}

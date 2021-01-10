@@ -1,0 +1,38 @@
+.purchase {
+  display: flex;
+  text-align: left;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.purchase .number {
+  font-size: 24px;
+}
+
+.purchase .image {
+  margin: 10px;
+  width: 120px;
+}
+
+.purchase .image img {
+  width: 120px;
+}
+
+.purchase .price {
+  text-align: right;
+  line-height: 32px;
+}
+
+.purchase .sign {
+  text-align: center;
+  width: 40px;
+}
+
+.purchase .cost {
+  width: 80px;
+  text-align: right;
+  line-height: 32px;
+}
