@@ -8,12 +8,15 @@ const rewrites = [];
 const publicPath = '/build';
 
 for (let k in tasks) {
-  addTask(tasks[k].order, tasks[k].id);
+  const {order, id, typed} = tasks[k];
+  addTask(order, id, typed);
 }
 
-function addTask(order, id) {
+function addTask(order, id, typed = false) {
   const orderAndId = order + '.' + id;
-  entries[id] = ['./src/' + orderAndId + '/index.js'];
+  const indexFileName = typed ? 'index.tsx' : 'index.js';
+
+  entries[id] = [`./src/${orderAndId}/${indexFileName}`];
   rewrites.push({
     from: new RegExp('^\/(' + orderAndId.replace(/\./, '\\.') + ')|(' + order + ')$', 'i'),
     to: '/src/' + orderAndId + '/index.html'
@@ -30,6 +33,13 @@ module.exports = {
   devtool: 'source-map',
   module: {
     rules: [
+      {
+        test: /\.tsx?$/,
+        loader: "ts-loader",
+        options: {
+          configFile: 'tsconfig.json',
+        }
+      },
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
@@ -57,7 +67,7 @@ module.exports = {
   ],
   resolve: {
     modules: ['node_modules'],
-    extensions: ['.js', '.jsx'],
+    extensions: ['.js', '.jsx', '.ts', '.tsx'],
   },
   devServer: {
     historyApiFallback: {

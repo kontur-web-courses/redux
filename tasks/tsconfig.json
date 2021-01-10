@@ -1,0 +1,26 @@
+{
+    "compilerOptions": {
+        "sourceMap": true,
+        "module": "commonjs",
+        "target": "esnext",
+        "baseUrl": ".",
+        "jsx": "react",
+        "allowSyntheticDefaultImports": true,
+        "moduleResolution": "node",
+        "experimentalDecorators": true,
+        "typeRoots": [
+          "node_modules/@types"
+        ],
+        "lib": [
+            "esnext",
+            "dom"
+        ]
+    },
+    "exclude":[
+        "node_modules",
+        "src/3.Sushi-typed/samples"
+    ],
+    "include": [
+        "src/3.Sushi-typed/**/*"
+    ]
+}
