@@ -6,7 +6,6 @@ import Status from '../../constants/Status';
 import Purchase from '../Purchase';
 import PurchasesTotalCost from '../PurchasesTotalCost';
 import {IProduct} from "../../api/products";
-import {tryParseProductId} from "../../types/ProductId";
 
 interface PurchasesProps {
   productsStatus?: number;
@@ -25,7 +24,7 @@ export default function Purchases({
 
   // TODO: использовать заказанные продукты
   const fakeProduct: IProduct = {
-    id: tryParseProductId(-1),
+    id: -1,
     name: 'Поддельный ролл',
     description: 'Рис и водоросли',
     price: 50,

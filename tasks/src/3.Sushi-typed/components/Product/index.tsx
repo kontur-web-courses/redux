@@ -8,7 +8,6 @@ import './styles.css';
 import PurchaseCounter from '../PurchaseCounter';
 import ProductTag from '../../constants/ProductTag';
 import {IProduct} from "../../api/products";
-import {ProductId} from "../../types/ProductId";
 
 // ToDo (kb) перенести (!)
 export interface IPurchase {
@@ -18,8 +17,8 @@ export interface IPurchase {
 interface IProductProps {
   product: IProduct;
   purchase?: IPurchase,
-  onDecrease?: (productId: ProductId) => void,
-  onIncrease?: (productId: ProductId) => void,
+  onDecrease?: (productId: number) => void,
+  onIncrease?: (productId: number) => void,
   onPay?: () => void
 }
 

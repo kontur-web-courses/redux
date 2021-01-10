@@ -5,14 +5,13 @@ import {Button, Input, Group, Gapped} from '@skbkontur/react-ui';
 import './styles.css';
 import PurchaseCounter from '../PurchaseCounter';
 import {IProduct} from "../../api/products";
-import {ProductId} from "../../types/ProductId";
 
 interface IPurchaseProps {
   number: number,
   product: IProduct,
   quantity: number,
-  onDecreaseById?: (productId: ProductId) => void,
-  onIncreaseById?: (productId: ProductId) => void
+  onDecreaseById?: (productId: number) => void,
+  onIncreaseById?: (productId: number) => void
 }
 
 export default class Purchase extends React.PureComponent<IPurchaseProps> {

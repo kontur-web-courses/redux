@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-import { createStore } from 'redux';
+import {createStore} from 'redux';
 import Page from './constants/Page';
 import Status from './constants/Status';
 import ErrorBoundary from './components/ErrorBoundary';
 import Navigation from './components/Navigation';
 import Pages from './components/Pages';
-import { rootReducer } from './reducers';
-import products from './api/products';
+import {rootReducer} from './reducers';
+import products, {IProduct} from './api/products';
 import Api from './api';
 
 import 'regenerator-runtime/runtime';

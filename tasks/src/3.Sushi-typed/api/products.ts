@@ -1,8 +1,7 @@
 import ProductTag from '../constants/ProductTag';
-import {ProductId, tryParseProductId} from "../types/ProductId";
 
 export interface IProduct {
-  id: ProductId;
+  id: number;
   name: string;
   description: string;
   price: number;
@@ -12,7 +11,7 @@ export interface IProduct {
 
 const products: IProduct[] = [
   {
-    id: tryParseProductId(1),
+    id: 1,
     name: 'Бонито ролл',
     description: 'Лосось, сливочный сыр, стружка тунца',
     price: 155,
@@ -20,7 +19,7 @@ const products: IProduct[] = [
     tags: []
   },
   {
-    id: tryParseProductId(2),
+    id: 2,
     name: 'Филадельфия',
     description: 'Лосось, огурец, сливочный сыр, зеленый лук',
     price: 275,
@@ -28,7 +27,7 @@ const products: IProduct[] = [
     tags: []
   },
   {
-    id: tryParseProductId(3),
+    id: 3,
     name: 'Авокадо маки',
     description: 'Ролл со спелым авокадо',
     price: 75,
@@ -36,7 +35,7 @@ const products: IProduct[] = [
     tags: [ProductTag.veg]
   },
   {
-    id: tryParseProductId(4),
+    id: 4,
     name: 'Сяке маки',
     description: 'Ролл с лососем',
     price: 105,
@@ -44,7 +43,7 @@ const products: IProduct[] = [
     tags: []
   },
   {
-    id: tryParseProductId(5),
+    id: 5,
     name: 'Текка маки',
     description: 'Ролл с тунцом',
     price: 90,
@@ -52,7 +51,7 @@ const products: IProduct[] = [
     tags: []
   },
   {
-    id: tryParseProductId(6),
+    id: 6,
     name: 'Унаги маки',
     description: 'Копченый угорь, огурец, кунжут, соус кабаяки',
     price: 120,
@@ -60,7 +59,7 @@ const products: IProduct[] = [
     tags: []
   },
   {
-    id: tryParseProductId(7),
+    id: 7,
     name: 'Окинава',
     description: 'Угорь, такуан, сливочный сыр, соус унаги, кунжут',
     price: 245,
@@ -68,7 +67,7 @@ const products: IProduct[] = [
     tags: [ProductTag.new]
   },
   {
-    id: tryParseProductId(8),
+    id: 8,
     name: 'Овощной ролл',
     description: 'Томат, огурец, салат айсберг, баклажан, чесночный соус',
     price: 155,
@@ -76,7 +75,7 @@ const products: IProduct[] = [
     tags: [ProductTag.veg]
   },
   {
-    id: tryParseProductId(9),
+    id: 9,
     name: 'Пад тай',
     description:
       'Черный рис, болгарский перец, ананас, креветка, кокосовая стружка, соус спайси и  сливочный сыр',
@@ -85,7 +84,7 @@ const products: IProduct[] = [
     tags: [ProductTag.hot, ProductTag.new]
   },
   {
-    id: tryParseProductId(10),
+    id: 10,
     name: 'Филадельфия Де Люкс',
     description:
       'Больше лосося, больше нежного сливочного сыра, больше икры лосося',
