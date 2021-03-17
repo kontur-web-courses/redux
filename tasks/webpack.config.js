@@ -64,6 +64,7 @@ module.exports = {
       rewrites: rewrites,
     },
     open: true,
-    publicPath
+    publicPath,
+    hot: true
   }
 };
