@@ -1706,7 +1706,7 @@ const updatedPeople = people.map((person, index) =>
 2. Обновлять в несколько шагов
 3. Написать вспомогательные функции
 Примеры: `~/2.Sushi/samples/immutable-updates/`
-4. Использовать [immutability-helper](https://github.com/kolodny/immutability-helper)
+4. Использовать сторонние библиотеки
 
 ***
 
@@ -1780,30 +1780,6 @@ const peopleWithUpdated = updateItemByIndex(people, 3, person => ({
 ```
 
 Callback позволяет продолжать обновление вглубь
-
-***
-
-### Примеры с Immutability Helper
-
-```js
-// вставка
-const peopleWithNewOne = update(people, { $splice: [[3, 0, newPerson]] });
-// удаление
-const peopleWithoutSecond = update(people, { $splice: [[2, 1]] });
-// обновление со значением
-const peopleWithReaged = update(people, { 3: { $merge: { age: 27 } } });
-
-// обновление с callback
-const peopleWithUpdated = update(people, {
-  3: person =>
-    update(person, {
-	  age: { $set: 27 }
-      names: { surname: { $set: 'Potter' } },
-    })
-});
-```
-
-Легко расширяется за счет добавления новых операций с $
 
 ***
 
