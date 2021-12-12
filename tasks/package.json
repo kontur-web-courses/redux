@@ -44,16 +44,16 @@
   "dependencies": {
     "@skbkontur/react-icons": "4.4.0",
     "@skbkontur/react-ui": "2.14.1",
-    "immutability-helper": "3.1.1",
-    "process": "0.11.10",
-    "react": "16.14.0",
-    "react-dom": "16.14.0",
-    "react-redux": "7.2.2",
-    "redux": "4.0.5",
-    "redux-create-reducer": "2.0.1",
-    "redux-logger": "3.0.6",
-    "redux-thunk": "2.3.0",
-    "regenerator-runtime": "0.13.7",
-    "save": "2.4.0"
+    "immutability-helper": "^3.1.1",
+    "process": "^0.11.10",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-redux": "^7.2.6",
+    "redux": "^4.1.2",
+    "redux-create-reducer": "^2.0.1",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.4.1",
+    "regenerator-runtime": "^0.13.9",
+    "save": "^2.4.0"
   }
 }
