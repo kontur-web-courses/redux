@@ -1,6 +1,6 @@
 {
   "name": "redux-tasks",
-  "version": "1.1.0",
+  "version": "2.0.0-beta.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -31,7 +31,7 @@
     "css-loader": "5.0.1",
     "eslint": "7.12.1",
     "eslint-loader": "4.0.2",
-    "eslint-plugin-import": "2.22.1",
+    "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-react": "7.21.5",
     "file-loader": "6.2.0",
     "jest": "26.6.3",
@@ -42,6 +42,7 @@
     "webpack-dev-server": "3.11.2"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.8.3",
     "@skbkontur/react-icons": "4.4.0",
     "@skbkontur/react-ui": "2.14.1",
     "immutability-helper": "^3.1.1",

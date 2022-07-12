@@ -45,9 +45,14 @@ module.exports = {
         }]
       },
       {
-        test: /\.(png|woff|woff2|eot)$/,
-        use: ['file-loader']
-      }
+        test: /\.(woff|woff2|png|jpg|gif|eot|svg)$/,
+        type: 'asset',
+        parser: {
+          dataUrlCondition: {
+            maxSize: 2000,
+          },
+        },
+      },
     ]
   },
   plugins: [

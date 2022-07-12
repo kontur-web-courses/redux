@@ -84,6 +84,6 @@ function connect(mapStateToProps, mapDispatchToProps,
         this.selectProps = makeDerivedPropsSelector();
       }
       /* ... */
-    }
+    };
   };
 }
