@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Loader} from '@skbkontur/react-ui';
-import './styles.css';
-import ProductTag from '../../constants/ProductTag';
-import Status from '../../constants/Status';
-import Product from '../../components/Product';
-import MenuFilter from '../../components/MenuFilter';
-import products from '../../api/products'
+import ProductTag from '../../../constants/ProductTag';
+import products from '../../../api/products';
+import Status from '../../../constants/Status';
+import {Product} from '../Product/Product';
+import {MenuFilter} from '../../chosenProducts/MenuFilter/MenuFilter';
+import './Menu.css';
 
-export default function Menu({ productsStatus }) {
+export const Menu = ({ productsStatus }) => {
   return (
     <Loader
       type="big"
@@ -26,7 +26,7 @@ export default function Menu({ productsStatus }) {
       </main>
     </Loader>
   );
-}
+};
 
 Menu.propTypes = {
   productsStatus: PropTypes.number

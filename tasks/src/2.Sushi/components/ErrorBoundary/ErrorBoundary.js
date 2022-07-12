@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './styles.css';
+import './ErrorBoundary.css';
 
-export default class ErrorBoundary extends React.Component {
+export class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
     this.state = { error: null, errorInfo: null };
@@ -17,7 +17,7 @@ export default class ErrorBoundary extends React.Component {
 
   render() {
     if (this.state.errorInfo) {
-        debugger;
+      debugger;
       return (
         <div className="errorBoundaryWrapper">
           <h2>Что-то пошло не так...</h2>

@@ -1,9 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {Gapped} from '@skbkontur/react-ui';
-import './styles.css';
+import React from "react";
+import PropTypes from "prop-types";
+import { Gapped } from "@skbkontur/react-ui";
+import "./PurchasesTotalCost.css";
 
-export default function PurchasesTotalCost({ totalCost }) {
+export const PurchasesTotalCost = ({ totalCost }) => {
   return (
     <div className="purchasesTotalCost">
       <Gapped>
@@ -13,7 +13,7 @@ export default function PurchasesTotalCost({ totalCost }) {
       </Gapped>
     </div>
   );
-}
+};
 
 PurchasesTotalCost.propTypes = {
   totalCost: PropTypes.number

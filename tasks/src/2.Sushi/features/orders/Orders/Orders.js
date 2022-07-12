@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './styles.css';
+import './Orders.css';
 import {Link} from '@skbkontur/react-ui';
-import Purchases from '../../components/Purchases';
+import {Purchases} from '../../purchases/Purchases/Purchases';
 
-export default function Orders({
+export const Orders = ({
   // TODO: добавить нужные параметры
   orders,
   productsStatus,
   onNavigateToMenu
-}) {
+}) => {
   if (orders && orders.length > 0) {
     return orders.map((order, index) => (
       <Purchases
@@ -23,7 +23,7 @@ export default function Orders({
       Нет заказов. Выберите что-нибудь из <Link onClick={onNavigateToMenu}>меню</Link>
     </div>
   );
-}
+};
 
 Orders.propTypes = {
   orders: PropTypes.array,

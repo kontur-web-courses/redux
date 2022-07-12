@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Button, Link} from '@skbkontur/react-ui';
-import './styles.css';
-import Purchases from '../Purchases';
+import './Cart.css';
+import {Purchases} from '../Purchases/Purchases';
 
-export default function Cart(props) {
+export const Cart = (props) => {
   const {
     onOrder,
     onNavigateToMenu,
@@ -35,7 +35,7 @@ export default function Cart(props) {
       Корзина пуста. Выберите что-нибудь из <Link onClick={onNavigateToMenu}>меню</Link>
     </div>
   );
-}
+};
 
 Cart.propTypes = {
   productsStatus: PropTypes.number,

@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Page from '../../constants/Page';
-import Menu from '../../components/Menu';
-import Cart from '../../components/Cart';
-import Orders from '../../components/Orders';
+import {useSelector} from 'react-redux';
+import Page from '../../../constants/Page';
+import {Menu} from '../../products/Menu/Menu';
+import {Cart} from '../../purchases/Cart/Cart';
+import {Orders} from '../../orders/Orders/Orders';
 
-export default function Pages({ page }) {
+export const Pages = ({ page }) => {
   switch (page) {
     case Page.menu:
       return <Menu />;
@@ -16,7 +17,7 @@ export default function Pages({ page }) {
     default:
       throw 'Unknown page';
   }
-}
+};
 
 Pages.propTypes = {
   page: PropTypes.string.isRequired

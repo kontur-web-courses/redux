@@ -1,11 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import AddIcon from '@skbkontur/react-icons/Add';
-import RemoveIcon from '@skbkontur/react-icons/Remove';
-import {Button, Input, Group, Gapped} from '@skbkontur/react-ui';
-import './styles.css';
+import React from "react";
+import PropTypes from "prop-types";
+import AddIcon from "@skbkontur/react-icons/Add";
+import RemoveIcon from "@skbkontur/react-icons/Remove";
+import {Button, Input, Group, Gapped} from "@skbkontur/react-ui";
+import "./PurchaseCounter.css";
 
-export default function PurchaseCounter({ value, onDecrease, onIncrease }) {
+export const PurchaseCounter = ({ value, onDecrease, onIncrease }) => {
   return (
     <Group>
       <Button onClick={onDecrease}>
@@ -17,7 +17,7 @@ export default function PurchaseCounter({ value, onDecrease, onIncrease }) {
       </Button>
     </Group>
   );
-}
+};
 
 PurchaseCounter.propTypes = {
   value: PropTypes.number.isRequired,

@@ -1,10 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Tabs} from '@skbkontur/react-ui';
-import Page from '../../constants/Page';
-import './styles.css';
+import {useDispatch, useSelector} from 'react-redux';
+import Page from '../../../constants/Page';
+import './Navigation.css';
 
-export default function Navigation({ page, onNavigate }) {
+export const Navigation = ({ page }) => {
+
+  const onNavigate = () => {
+    // TODO: добавить реализацию
+  };
+
   return (
     <nav className="navigation">
       <Tabs value={page} onValueChange={value => onNavigate && onNavigate(value)}>
@@ -14,9 +20,8 @@ export default function Navigation({ page, onNavigate }) {
       </Tabs>
     </nav>
   );
-}
+};
 
 Navigation.propTypes = {
-  page: PropTypes.string.isRequired,
-  onNavigate: PropTypes.func
+  page: PropTypes.string.isRequired
 };
