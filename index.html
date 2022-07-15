@@ -2172,7 +2172,9 @@ Note:
 
 `createAsyncThunk()` возвращает стандартный создатель действия thunk, а&nbsp;также три создателя действий для случаев `pending`, `fulfilled`, `rejected` в&nbsp;качестве вложенных полей
 
-Но как передать обработку этих действий в слайс?
+***
+
+Но как передать обработку действий `pending`, `fulfilled`, `rejected` в слайс?
 
 ***
 
@@ -2220,11 +2222,75 @@ const stateSlice = createSlice({
 Объект `builder` предоставляет методы, которые позволяют определять дополнительные case-редьюсеры
 
 Note:
-addCase не единственный метод билдера
+  addCase не единственный метод билдера, остальные можно посмотреть в документации
+
+***
+
+### Подключение Thunk Middleware
+
+***
+
+### Использование getDefaultMiddleware
+
+Функция `configureStore` умеет подключать некоторые `middleware` по умолчанию. В том числе и Thunk Middleware:
+
+Для этого, в&nbsp;поле `middleware` нужно передать callback функцию, которая получит `getDefaultMiddleware` в&nbsp;качестве аргумента и&nbsp;должна вернуть массив `middleware`:
+
+```js
+export const store = configureStore({
+  reducer: {/*...*/},
+  middleware: (getDefaultMiddleware) => {
+    return getDefaultMiddleware().concat(customMiddleWare, logger);
+  }
+});
+```
+
+***
+
+### Конфигурирование middleware
+
+`getDefaultMiddleware` может принимать объект для конфигурирования middleware.
+
+Например, чтобы задать `extraArgument` в Thunk Middleware необходимо передать соответсвующую опцию в поле `thunk`:
+
+```js
+export const store = configureStore({
+  reducer: {/*...*/},
+  middleware: (getDefaultMiddleware) => {
+    return getDefaultMiddleware({
+      thunk: {
+        extraArgument: {api}
+      }
+    }).concat(customMiddleWare, logger);
+  }
+});
+```
+
+***
+
+### Список middleware по умолчанию
+
+В режиме разработки:
+
+```js
+const middleware = [thunk, immutableStateInvariant, serializableStateInvariant]
+```
+
+- `immutableStateInvariant` — глубоко сравнивает значения `state` для отслеживания мутирующих изменений
+- `serializableStateInvariant` — глубоко проверяет `state` и действия на наличие несериализуемых значений, таких как функции, Promises и т.д.
+
+В продакшн:
+
+```js
+const middleware = [thunk]
+```
 
 ***
 
 ### Функции-селекторы
+
+Note:
+  О функциях-селекторах необходимо знать, потому что они используются в задании
 
 ***
 
