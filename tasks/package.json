@@ -37,24 +37,24 @@
     "jest": "26.6.3",
     "prop-types": "15.7.2",
     "style-loader": "2.0.0",
-    "webpack": "5.26.3",
-    "webpack-cli": "4.5.0",
+    "webpack": "5.73.0",
+    "webpack-cli": "4.10.0",
     "webpack-dev-server": "3.11.2"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.3",
     "@skbkontur/react-icons": "4.4.0",
-    "@skbkontur/react-ui": "2.14.1",
-    "immutability-helper": "^3.1.1",
-    "process": "^0.11.10",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-redux": "^7.2.6",
-    "redux": "^4.1.2",
-    "redux-create-reducer": "^2.0.1",
-    "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.4.1",
-    "regenerator-runtime": "^0.13.9",
-    "save": "^2.4.0"
+    "@skbkontur/react-ui": "3.12.5",
+    "immutability-helper": "3.1.1",
+    "process": "0.11.10",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-redux": "7.2.8",
+    "redux": "4.2.0",
+    "redux-create-reducer": "2.0.1",
+    "redux-logger": "3.0.6",
+    "redux-thunk": "2.4.1",
+    "regenerator-runtime": "0.13.9",
+    "save": "2.5.0"
   }
 }
