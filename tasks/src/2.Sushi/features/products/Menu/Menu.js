@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Loader} from '@skbkontur/react-ui';
-import ProductTag from '../../../constants/ProductTag';
 import products from '../../../api/products';
 import Status from '../../../constants/Status';
 import {Product} from '../Product/Product';

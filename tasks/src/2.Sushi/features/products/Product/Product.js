@@ -1,9 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import AddIcon from "@skbkontur/react-icons/Add";
-import RemoveIcon from "@skbkontur/react-icons/Remove";
 import ShoppingCartSolidIcon from "@skbkontur/react-icons/ShoppingCartSolid";
-import {Button, Input, Group, Gapped} from "@skbkontur/react-ui";
+import {Button, Gapped} from "@skbkontur/react-ui";
 import "./Product.css";
 import {PurchaseCounter} from "../../purchases/PurchaseCounter/PurchaseCounter";
 import ProductTag from "../../../constants/ProductTag";

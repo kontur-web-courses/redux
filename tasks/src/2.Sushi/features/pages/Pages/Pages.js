@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {useSelector} from 'react-redux';
 import Page from '../../../constants/Page';
 import {Menu} from '../../products/Menu/Menu';
 import {Cart} from '../../purchases/Cart/Cart';

@@ -3,7 +3,6 @@ import Page from './constants/Page';
 import {ErrorBoundary} from './components/ErrorBoundary/ErrorBoundary';
 import {Navigation} from './features/pages/Navigation/Navigation';
 import {Pages} from './features/pages/Pages/Pages';
-import {api, store} from './app/store';
 
 export const App = () => {
   return (

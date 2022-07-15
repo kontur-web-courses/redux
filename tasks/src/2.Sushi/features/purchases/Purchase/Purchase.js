@@ -1,8 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import AddIcon from "@skbkontur/react-icons/Add";
-import RemoveIcon from "@skbkontur/react-icons/Remove";
-import {Button, Input, Group, Gapped} from "@skbkontur/react-ui";
+import {Gapped} from "@skbkontur/react-ui";
 import "./Purchase.css";
 import {PurchaseCounter} from "../PurchaseCounter/PurchaseCounter";
 

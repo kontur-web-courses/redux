@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Tabs} from '@skbkontur/react-ui';
-import {useDispatch, useSelector} from 'react-redux';
 import Page from '../../../constants/Page';
 import './Navigation.css';
 

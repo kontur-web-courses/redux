@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import AddIcon from "@skbkontur/react-icons/Add";
 import RemoveIcon from "@skbkontur/react-icons/Remove";
-import {Button, Input, Group, Gapped} from "@skbkontur/react-ui";
+import {Button, Input, Group} from "@skbkontur/react-ui";
 import "./PurchaseCounter.css";
 
 export const PurchaseCounter = ({ value, onDecrease, onIncrease }) => {

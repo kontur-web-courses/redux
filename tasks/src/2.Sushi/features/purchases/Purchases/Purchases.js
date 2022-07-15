@@ -1,8 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Gapped, Loader } from "@skbkontur/react-ui";
+import { Loader } from "@skbkontur/react-ui";
 import "./Purchases.css";
-import ProductTag from "../../../constants/ProductTag";
 import Status from "../../../constants/Status";
 import { Purchase } from "../Purchase/Purchase";
 import { PurchasesTotalCost } from "../PurchasesTotalCost/PurchasesTotalCost";
