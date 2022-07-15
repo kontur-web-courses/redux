@@ -1,8 +1,8 @@
 import React from 'react';
 import Page from './constants/Page';
 import {ErrorBoundary} from './components/ErrorBoundary/ErrorBoundary';
-import {Navigation} from './features/pages/Navigation/Navigation';
-import {Pages} from './features/pages/Pages/Pages';
+import {Navigation} from './features/navigation/Navigation/Navigation';
+import {Pages} from './features/navigation/Pages/Pages';
 
 export const App = () => {
   return (

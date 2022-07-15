@@ -1254,7 +1254,7 @@ Redux Toolkit предоставляет инструменты для наст�
 ```js
 import {createSlice} from '@reduxjs/toolkit';
 
-const pageSlice = createSlice({
+const navigationSlice = createSlice({
   name: 'page',
   initialState: Page.menu,
   reducers: {
@@ -1264,8 +1264,8 @@ const pageSlice = createSlice({
   }
 });
 
-export const { navigateTo } = pageSlice.actions;
-export const pageReducer = pageSlice.reducer;
+export const { navigateTo } = navigationSlice.actions;
+export const pageReducer = navigationSlice.reducer;
 ```
 
 `createSlice()` автоматически генерирует slice-редьюсер, создателей действий (action creators) и типы действий (type), соответствующие редьюсерам и состоянию
@@ -1278,7 +1278,7 @@ Note:
 ### Case-редьюсеры
 
 ```js
-const pageSlice = createSlice({
+const navigationSlice = createSlice({
   name: 'page',
   initialState: Page.menu,
   reducers: {
@@ -1289,8 +1289,8 @@ const pageSlice = createSlice({
   }
 });
 
-export const { navigateTo } = pageSlice.actions;
-export const pageReducer = pageSlice.reducer;
+export const { navigateTo } = navigationSlice.actions;
+export const pageReducer = navigationSlice.reducer;
 ```
 
 Case-редьюсер — это обработчик определенного типа действия. В коде выше задан один сase-редьюсер — `navigateTo`
@@ -1300,7 +1300,7 @@ Case-редьюсер — это обработчик определенного
 ### Генерация типов действий
 
 ```js
-const pageSlice = createSlice({
+const navigationSlice = createSlice({
   name: 'page',
   initialState: Page.menu,
   reducers: {
@@ -1310,8 +1310,8 @@ const pageSlice = createSlice({
   }
 });
 
-export const { navigateTo } = pageSlice.actions;
-export const pageReducer = pageSlice.reducer;
+export const { navigateTo } = navigationSlice.actions;
+export const pageReducer = navigationSlice.reducer;
 ```
 
 `createSlice()` генерирует тип действия по следующему шаблону: значение параметра `name` для `createSlice` + `/` +  `name` сase-редьюсера
@@ -1323,7 +1323,7 @@ export const pageReducer = pageSlice.reducer;
 ### Генерация slice-редьюсера
 
 ```js
-const pageSlice = createSlice({
+const navigationSlice = createSlice({
   name: 'page',
   initialState: Page.menu,
   reducers: {
@@ -1333,8 +1333,8 @@ const pageSlice = createSlice({
   }
 });
 
-export const { navigateTo } = pageSlice.actions;
-export const pageReducer = pageSlice.reducer;
+export const { navigateTo } = navigationSlice.actions;
+export const pageReducer = navigationSlice.reducer;
 ```
 
 `pageReducer` — это slice-редьюсер для `page`
@@ -1366,7 +1366,7 @@ const productsReducer = (state = [], action) => {
 
 С Redux Toolkit:
 ```js
-  const pageSlice = createSlice({
+  const navigationSlice = createSlice({
     name: 'page',
     initialState: Page.menu,
     reducers: {
@@ -1376,8 +1376,8 @@ const productsReducer = (state = [], action) => {
     }
   });
 
-  export const { navigateTo } = pageSlice.actions;
-  export const pageReducer = pageSlice.reducer;
+  export const { navigateTo } = navigationSlice.actions;
+  export const pageReducer = navigationSlice.reducer;
 ```
 
 ***
