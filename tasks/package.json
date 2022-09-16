@@ -39,7 +39,7 @@
     "style-loader": "2.0.0",
     "webpack": "5.26.3",
     "webpack-cli": "4.5.0",
-    "webpack-dev-server": "3.11.2"
+    "webpack-dev-server": "3.11.3"
   },
   "dependencies": {
     "@skbkontur/react-icons": "4.4.0",
