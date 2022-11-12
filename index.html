@@ -2452,6 +2452,124 @@ const result: any = useSelector(selector: Function, equalityFn?: Function);
 
 <section data-markdown><script type="text/template">
 
+## 2.9. Передача состояния между slice-редьюсерами
+
+***
+
+### Действия на несколько слайсов
+
+Есть действия, которые можно обработать,
+только получив данные из нескольких слайсов,
+либо обновив сразу несколько слайсов
+
+***
+
+### Как передавать состояние между slice-редьюсерами?
+
+Обратимся к [разделу](https://redux.js.org/faq/reducers#how-do-i-share-state-between-two-reducers-do-i-have-to-use-combinereducers) FAQ документации. Можно использовать несколько подходов:
+- Реорганизовать структуру state
+- Использовать функцию-редюсер верхнего уровня для обработки действий на несколько слайсов
+- Передавать часть состояния через action
+
+***
+
+### Реорганизация state
+
+Если редюсеру необходимо получить данные из другого слайса, может потребоваться реорганизовать структуру дерева состояний таким образом, чтобы один редьюсер обрабатывал больше данных.
+
+Note:
+Подход нужно использовать с осторожностью.
+
+***
+
+### Использование редюсера верхнего уровня
+
+```js
+const combinedReducer = combineReducers({
+  a: sliceReducerA,
+  b: sliceReducerB
+});
+
+function rootReducer(state, action) {
+  const intermediateState = combinedReducer(state, action);
+  const finalState = crossSliceReducer(intermediateState, action);
+  return finalState;
+}
+
+// Create store
+const store = configureStore({
+  reducer: rootReducer
+});
+```
+
+Сначала отрабатывают редьюсеры для одиночных слайсов,
+а затем при необходимости `crossSliceReducer` вносит изменения,
+задевающие несколько слайсов
+
+***
+
+### Пример Cross Slice Reducer
+
+```js
+function crossSliceReducer(state, action) {
+  switch (action.type) {
+    case 'SOME_SPECIAL_ACTION': {
+      return {
+        // специально state.b передается как дополнительный аргумент
+        a: handleSpecialCaseForA(state.a, action, state.b),
+        b: sliceReducerB(state.b, action)
+      };
+    }
+    default:
+      return state;
+  }
+}
+```
+
+***
+
+### Передача части состояния через action
+
+Можно использовать middleware с асинхронной логикой, такое как redux-thunk, которое имеет доступ ко всему состоянию через getState()
+
+Создатель действия (action creator) может получить дополнительные данные из состояния и поместить их в действие, чтобы у каждого редьюсера было достаточно информации для обновления своего собственного среза состояния (state slice)
+
+***
+
+### Передача части состояния через action с помощью redux-thunk
+
+```
+const asyncThunk = createAsyncThunk(
+  "type",
+  async (arg, { getState }) => {
+    return {arg, counter: getState().counter.value};
+  }
+);
+
+...
+
+dispatch(asyncThunk(name));
+```
+
+***
+
+### Задание 2.9. Orders
+
+***
+
+### Выводы
+
+Редьюсер не обязательно декомпозируется по слайсам.
+Он может декомпозироваться по шагам.
+
+</script></section>
+
+
+<!-- ************************************************* -->
+
+
+<section data-markdown><script type="text/template">
+
 ## Заключение
 
 ***
