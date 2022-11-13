@@ -45,7 +45,6 @@
     "@reduxjs/toolkit": "^1.8.3",
     "@skbkontur/react-icons": "4.4.0",
     "@skbkontur/react-ui": "3.12.5",
-    "immutability-helper": "3.1.1",
     "process": "0.11.10",
     "react": "17.0.2",
     "react-dom": "17.0.2",
