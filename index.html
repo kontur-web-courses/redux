@@ -1201,6 +1201,7 @@ const rootReducer = (state = {}, action) => {
 const pageReducer = (state = Page.menu, action) => {
   return action.type === actionTypes.NAVIGATE_TO_PAGE ? action.page : state;
 };
+
 const productsReducer = (state = [], action) => {
   return action.type === actionTypes.LOAD_PRODUCTS ? action.products : state;
 };
