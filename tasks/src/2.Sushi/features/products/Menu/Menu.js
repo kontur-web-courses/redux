@@ -8,8 +8,9 @@ import {Product} from '../Product/Product';
 import {MenuFilter} from '../../chosenProducts/MenuFilter/MenuFilter';
 import './Menu.css';
 
-export const Menu = ({ productsStatus }) => {
+export const Menu = () => {
   const productIds = useSelector((state) => state.products.allIds);
+  const productsStatus = useSelector((state) => state.products.status);
 
   return (
     <Loader
@@ -32,5 +33,4 @@ export const Menu = ({ productsStatus }) => {
 };
 
 Menu.propTypes = {
-  productsStatus: PropTypes.number
 };
