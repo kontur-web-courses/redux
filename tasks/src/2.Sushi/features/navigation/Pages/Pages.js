@@ -4,8 +4,11 @@ import Page from '../../../constants/Page';
 import {Menu} from '../../products/Menu/Menu';
 import {Cart} from '../../purchases/Cart/Cart';
 import {Orders} from '../../orders/Orders/Orders';
+import {useSelector} from "react-redux";
 
-export const Pages = ({ page }) => {
+export const Pages = () => {
+  const page = useSelector((state) => state.page);
+
   switch (page) {
     case Page.menu:
       return <Menu />;
@@ -19,5 +22,4 @@ export const Pages = ({ page }) => {
 };
 
 Pages.propTypes = {
-  page: PropTypes.string.isRequired
 };

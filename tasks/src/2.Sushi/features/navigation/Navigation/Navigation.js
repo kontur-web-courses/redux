@@ -1,14 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {Tabs} from '@skbkontur/react-ui';
 import Page from '../../../constants/Page';
+import {navigateTo} from '../../index';
+import {useDispatch, useSelector} from "react-redux";
 import './Navigation.css';
 
-export const Navigation = ({ page }) => {
+export const Navigation = () => {
+  const page = useSelector((state) => state.page);
+  const dispatch = useDispatch();
 
-  const onNavigate = () => {
-    // TODO: добавить реализацию
-  };
+  const onNavigate = (nextPage) => dispatch(navigateTo(nextPage));
 
   return (
     <nav className="navigation">
@@ -21,6 +22,4 @@ export const Navigation = ({ page }) => {
   );
 };
 
-Navigation.propTypes = {
-  page: PropTypes.string.isRequired
-};
+Navigation.propTypes = {};
