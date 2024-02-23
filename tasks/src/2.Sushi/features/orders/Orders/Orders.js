@@ -1,19 +1,26 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import './Orders.css';
 import {Link} from '@skbkontur/react-ui';
 import {Purchases} from '../../purchases/Purchases/Purchases';
+import {useDispatch, useSelector} from 'react-redux';
+import {getProductStatus} from '../../products/productsSlice';
+import {navigateTo} from "../../navigation/navigationSlice.js";
+import Page from '../../../constants/Page';
 
-export const Orders = ({
-  // TODO: добавить нужные параметры
-  orders,
-  productsStatus,
-  onNavigateToMenu
-}) => {
+export const Orders = () => {
+  const orders = useSelector((state) => state.orders);
+  const productsById = useSelector((state) => state.products.byId);
+  const productsStatus = useSelector(getProductStatus);
+  const dispatch = useDispatch();
+
+  const onNavigateToMenu = () => dispatch(navigateTo(Page.menu));
+
   if (orders && orders.length > 0) {
     return orders.map((order, index) => (
       <Purchases
         key={index}
+        purchases={order}
+        productsById={productsById}
         productsStatus={productsStatus}
       />
     ));
@@ -26,7 +33,4 @@ export const Orders = ({
 };
 
 Orders.propTypes = {
-  orders: PropTypes.array,
-  productsStatus: PropTypes.number,
-  onNavigateToMenu: PropTypes.func
 };

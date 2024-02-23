@@ -12,6 +12,9 @@ const purchasesSlice = createSlice({
       } else {
         state.push(createPurchase(productId, value));
       }
+    },
+    clear() {
+      return [];
     }
   }
 });
@@ -23,6 +26,6 @@ function createPurchase(id, quantity) {
   };
 }
 
-export const { changePurchaseQuantity } = purchasesSlice.actions;
+export const { changePurchaseQuantity, clear } = purchasesSlice.actions;
 
 export const purchasesReducer = purchasesSlice.reducer;

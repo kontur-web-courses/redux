@@ -6,6 +6,7 @@ import {navigateTo, pageReducer} from "../features/navigation/navigationSlice.js
 import {productsReducer} from '../features/products/productsSlice';
 import {chosenProductsReducer} from '../features/chosenProducts/chosenProductsSlice';
 import {purchasesReducer} from '../features/purchases/purchasesSlice';
+import {ordersReducer} from '../features/orders/ordersSlice';
 
 export const api = new Api({ baseUrl: 'http://sampleserviceurl?foo=bar' });
 
@@ -24,7 +25,8 @@ export const store = configureStore({
     page: pageReducer,
     products: productsReducer,
     chosenProducts: chosenProductsReducer,
-    purchases: purchasesReducer
+    purchases: purchasesReducer,
+    orders: ordersReducer
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware({

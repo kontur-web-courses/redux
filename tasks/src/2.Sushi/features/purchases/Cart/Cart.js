@@ -7,10 +7,9 @@ import {Purchases} from '../Purchases/Purchases';
 import {changePurchaseQuantity} from '../purchasesSlice';
 import {navigateTo} from "../../navigation/navigationSlice.js";
 import Page from '../../../constants/Page';
+import {order} from '../../orders/ordersSlice';
 
-export const Cart = (props) => {
-  const { onOrder } = props;
-
+export const Cart = () => {
   const productsById = useSelector((state) => state.products.byId);
   const productsStatus = useSelector((state) => state.products.status);
   const purchases = useSelector((state) => state.purchases);
@@ -20,6 +19,8 @@ export const Cart = (props) => {
   const onDecreaseById = (productId) => dispatch(changePurchaseQuantity({ productId, value: -1 }));
   const onIncreaseById = (productId) => dispatch(changePurchaseQuantity({ productId, value: 1 }));
   const onNavigateToMenu = () => dispatch(navigateTo(Page.menu));
+  const onOrder = () => dispatch(order());
+
 
   if (purchases && purchases.length > 0) {
     return (
@@ -48,5 +49,4 @@ export const Cart = (props) => {
 };
 
 Cart.propTypes = {
-  onOrder: PropTypes.func
 };
