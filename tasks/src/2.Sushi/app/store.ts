@@ -1,16 +1,25 @@
 import Api from '../api';
-import products from '../api/products';
+import products, {IProduct} from '../api/products';
 import {Page} from '../constants/Page';
 import {Status} from '../constants/Status';
-import {rootReducer} from '../features';
-import {createStore} from 'redux';
+import {configureStore, PreloadedState, StateFromReducersMapObject} from '@reduxjs/toolkit';
+import {productsReducer} from '../features/products/productsSlice';
+import {pageReducer} from '../features/navigation/navigationSlice';
 
 export const api = new Api({baseUrl: 'http://sampleserviceurl?foo=bar'});
 
-const productsAllIds = products.map((p) => p.id);
-const productsById = products.reduce((result, product) => ({...result, [product.id]: product}), {});
+const productsAllIds: number[] = products.map((p) => p.id);
+const productsById: Record<string, IProduct> = products.reduce(
+	(result, product) => ({...result, [product.id]: product}),
+	{}
+);
 
-const preloadedState = {
+const reducer = {
+	page: pageReducer,
+	products: productsReducer,
+};
+
+const preloadedState: PreloadedState<RootState> = {
 	page: Page.menu,
 	products: {
 		allIds: productsAllIds,
@@ -19,6 +28,10 @@ const preloadedState = {
 	},
 };
 
-export type RootState = ReturnType<typeof rootReducer>;
-export const store = createStore(rootReducer, preloadedState);
+export type RootState = StateFromReducersMapObject<typeof reducer>;
+
+export const store = configureStore({
+	reducer,
+	preloadedState,
+});
 export type AppDispatch = typeof store.dispatch;

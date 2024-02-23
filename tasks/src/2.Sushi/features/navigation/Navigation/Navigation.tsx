@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {Tabs} from '@skbkontur/react-ui';
 import {Page} from '../../../constants/Page';
-import {navigateTo} from '../../index';
+import {navigateTo} from '../navigationSlice';
 import {Dispatch} from 'redux';
 import {useAppDispatch, useAppSelector} from '../../../app/hooks';
 import './Navigation.css';
