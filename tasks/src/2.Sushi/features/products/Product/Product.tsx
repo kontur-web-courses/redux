@@ -3,18 +3,19 @@ import ShoppingCartSolidIcon from '@skbkontur/react-icons/ShoppingCartSolid';
 import {Button, Gapped} from '@skbkontur/react-ui';
 import {PurchaseCounter} from '../../purchases/PurchaseCounter/PurchaseCounter';
 import ProductTag from '../../../constants/ProductTag';
-import {IProduct} from '../../../api/products';
+import {useAppSelector} from '../../../app/hooks';
 import './Product.css';
 
 interface IProductProps {
-	readonly product: IProduct;
+	readonly productId: number;
 	readonly purchase?: any;
 	readonly onDecrease?: (productId: number) => void;
 	readonly onIncrease?: (productId: number) => void;
 	readonly onPay?: () => void;
 }
 
-export const Product: React.FC<IProductProps> = ({product, purchase, onDecrease, onIncrease, onPay}) => {
+export const Product: React.FC<IProductProps> = ({productId, purchase, onDecrease, onIncrease, onPay}) => {
+	const product = useAppSelector((state) => state.products.byId[productId]);
 	const renderTags = (tags: number[]) => {
 		return (
 			<div className="tags">
