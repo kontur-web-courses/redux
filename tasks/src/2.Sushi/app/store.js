@@ -5,6 +5,7 @@ import Api from '../api';
 import {navigateTo, pageReducer} from "../features/navigation/navigationSlice.js";
 import {productsReducer} from '../features/products/productsSlice';
 import {chosenProductsReducer} from '../features/chosenProducts/chosenProductsSlice';
+import {purchasesReducer} from '../features/purchases/purchasesSlice';
 
 export const api = new Api({ baseUrl: 'http://sampleserviceurl?foo=bar' });
 
@@ -22,7 +23,8 @@ export const store = configureStore({
   reducer: {
     page: pageReducer,
     products: productsReducer,
-    chosenProducts: chosenProductsReducer
+    chosenProducts: chosenProductsReducer,
+    purchases: purchasesReducer
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware({

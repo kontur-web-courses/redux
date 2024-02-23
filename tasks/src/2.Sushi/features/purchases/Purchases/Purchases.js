@@ -1,29 +1,20 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Loader } from "@skbkontur/react-ui";
+import {Gapped, Loader} from "@skbkontur/react-ui";
 import "./Purchases.css";
 import Status from "../../../constants/Status";
-import { Purchase } from "../Purchase/Purchase";
-import { PurchasesTotalCost } from "../PurchasesTotalCost/PurchasesTotalCost";
+import {Purchase} from "../Purchase/Purchase";
+import {PurchasesTotalCost} from "../PurchasesTotalCost/PurchasesTotalCost";
 
 export const Purchases = ({
-  // TODO: добавить нужные параметры
+  purchases,
+  productsById,
   productsStatus,
   onDecreaseById,
   onIncreaseById
 }) => {
-  // TODO: сумма (цена * количество) по всем покупкам
-  const totalCost = 123;
-
-  // TODO: использовать заказанные продукты
-  const fakeProduct = {
-    id: -1,
-    name: "Поддельный ролл",
-    description: "Рис и водоросли",
-    price: 50,
-    image: "salmon.jpg",
-    tags: []
-  };
+  const productAndQuantityPairs = merge(purchases || [], productsById || {});
+  const totalCost = calculateTotalCost(productAndQuantityPairs);
 
   return (
     <Loader
@@ -32,22 +23,16 @@ export const Purchases = ({
     >
       <div>
         <div className="purchases">
-          <Purchase
-            key={fakeProduct.id}
-            number={1}
-            product={fakeProduct}
-            quantity={3}
-            onDecreaseById={onDecreaseById}
-            onIncreaseById={onIncreaseById}
-          />
-          <Purchase
-            key={fakeProduct.id}
-            number={2}
-            product={fakeProduct}
-            quantity={5}
-            onDecreaseById={onDecreaseById}
-            onIncreaseById={onIncreaseById}
-          />
+          {productAndQuantityPairs.map(({ product, quantity }, index) => (
+            <Purchase
+              key={product.id}
+              number={index + 1}
+              product={product}
+              quantity={quantity}
+              onDecreaseById={onDecreaseById}
+              onIncreaseById={onIncreaseById}
+            />
+          ))}
           <PurchasesTotalCost totalCost={totalCost} />
         </div>
       </div>
@@ -56,7 +41,25 @@ export const Purchases = ({
 };
 
 Purchases.propTypes = {
+  purchases: PropTypes.array,
+  productsById: PropTypes.object,
   productsStatus: PropTypes.number,
   onDecreaseById: PropTypes.func,
   onIncreaseById: PropTypes.func
 };
+
+function merge(purchases, productsById) {
+  return purchases
+    .map(purchase => {
+      const product = productsById[purchase.id];
+      const quantity = purchase.quantity;
+      return product ? { product, quantity } : null;
+    })
+    .filter(pair => pair !== null);
+}
+
+function calculateTotalCost(pairs) {
+  const addCost = (result, { product, quantity }) =>
+    result + product.price * quantity;
+  return pairs.reduce(addCost, 0);
+}

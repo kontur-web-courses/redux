@@ -3,18 +3,23 @@ import PropTypes from "prop-types";
 import ShoppingCartSolidIcon from "@skbkontur/react-icons/ShoppingCartSolid";
 import {Button, Gapped} from "@skbkontur/react-ui";
 import "./Product.css";
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {PurchaseCounter} from "../../purchases/PurchaseCounter/PurchaseCounter";
 import ProductTag from "../../../constants/ProductTag";
+import {changePurchaseQuantity} from '../../purchases/purchasesSlice';
+import {navigateTo} from "../../navigation/navigationSlice.js";
+import Page from '../../../constants/Page';
 
 export const Product = ({
-  productId,
-  purchase,
-  onDecrease,
-  onIncrease,
-  onPay
+  productId
 }) => {
   const product = useSelector((state) => state.products.byId[productId]);
+  const purchase = useSelector((state) => (state.purchases || []).find(p => p.id === productId));
+  const dispatch = useDispatch();
+
+  const onDecrease = () => dispatch(changePurchaseQuantity({ productId: productId, value: -1 }));
+  const onIncrease = () => dispatch(changePurchaseQuantity({ productId: productId, value: 1 }));
+  const onPay = () => dispatch(navigateTo(Page.cart));
 
   const renderTags = (tags) => {
     return (
@@ -66,9 +71,5 @@ export const Product = ({
 };
 
 Product.propTypes = {
-  productId: PropTypes.number.isRequired,
-  purchase: PropTypes.object,
-  onDecrease: PropTypes.func,
-  onIncrease: PropTypes.func,
-  onPay: PropTypes.func
+  productId: PropTypes.number.isRequired
 };

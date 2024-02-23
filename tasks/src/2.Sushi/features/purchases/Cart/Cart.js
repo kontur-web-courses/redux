@@ -2,22 +2,31 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Button, Link} from '@skbkontur/react-ui';
 import './Cart.css';
+import {useDispatch, useSelector} from 'react-redux';
 import {Purchases} from '../Purchases/Purchases';
+import {changePurchaseQuantity} from '../purchasesSlice';
+import {navigateTo} from "../../navigation/navigationSlice.js";
+import Page from '../../../constants/Page';
 
 export const Cart = (props) => {
-  const {
-    onOrder,
-    onNavigateToMenu,
-    productsStatus,
-    onDecreaseById,
-    onIncreaseById
-  } = props;
-  // TODO: написать корректное условие, передать нужные параметры
-  // eslint-disable-next-line no-constant-condition
-  if (false) {
+  const { onOrder } = props;
+
+  const productsById = useSelector((state) => state.products.byId);
+  const productsStatus = useSelector((state) => state.products.status);
+  const purchases = useSelector((state) => state.purchases);
+
+  const dispatch = useDispatch();
+
+  const onDecreaseById = (productId) => dispatch(changePurchaseQuantity({ productId, value: -1 }));
+  const onIncreaseById = (productId) => dispatch(changePurchaseQuantity({ productId, value: 1 }));
+  const onNavigateToMenu = () => dispatch(navigateTo(Page.menu));
+
+  if (purchases && purchases.length > 0) {
     return (
       <div>
         <Purchases
+          productsById={productsById}
+          purchases={purchases}
           productsStatus={productsStatus}
           onDecreaseById={onDecreaseById}
           onIncreaseById={onIncreaseById}
@@ -30,6 +39,7 @@ export const Cart = (props) => {
       </div>
     );
   }
+
   return (
     <div className="cartMessageContainer">
       Корзина пуста. Выберите что-нибудь из <Link onClick={onNavigateToMenu}>меню</Link>
@@ -38,9 +48,5 @@ export const Cart = (props) => {
 };
 
 Cart.propTypes = {
-  productsStatus: PropTypes.number,
-  onDecreaseById: PropTypes.func,
-  onIncreaseById: PropTypes.func,
-  onOrder: PropTypes.func,
-  onNavigateToMenu: PropTypes.func
+  onOrder: PropTypes.func
 };
