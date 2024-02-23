@@ -3,16 +3,19 @@ import PropTypes from "prop-types";
 import ShoppingCartSolidIcon from "@skbkontur/react-icons/ShoppingCartSolid";
 import {Button, Gapped} from "@skbkontur/react-ui";
 import "./Product.css";
+import {useSelector} from 'react-redux';
 import {PurchaseCounter} from "../../purchases/PurchaseCounter/PurchaseCounter";
 import ProductTag from "../../../constants/ProductTag";
 
 export const Product = ({
-  product,
+  productId,
   purchase,
   onDecrease,
   onIncrease,
   onPay
 }) => {
+  const product = useSelector((state) => state.products.byId[productId]);
+
   const renderTags = (tags) => {
     return (
       <div className="tags">
@@ -63,7 +66,7 @@ export const Product = ({
 };
 
 Product.propTypes = {
-  product: PropTypes.object.isRequired,
+  productId: PropTypes.number.isRequired,
   purchase: PropTypes.object,
   onDecrease: PropTypes.func,
   onIncrease: PropTypes.func,

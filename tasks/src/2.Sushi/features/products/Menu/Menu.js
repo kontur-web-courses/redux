@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Loader} from '@skbkontur/react-ui';
+import {useSelector} from 'react-redux';
 import products from '../../../api/products';
 import Status from '../../../constants/Status';
 import {Product} from '../Product/Product';
@@ -8,6 +9,8 @@ import {MenuFilter} from '../../chosenProducts/MenuFilter/MenuFilter';
 import './Menu.css';
 
 export const Menu = ({ productsStatus }) => {
+  const productIds = useSelector((state) => state.products.allIds);
+
   return (
     <Loader
       type="big"
@@ -17,8 +20,9 @@ export const Menu = ({ productsStatus }) => {
         <MenuFilter />
         <div className="menuTableWrapper">
           <div className="menuTable">
-            <Product key={1} product={products[[1]]} />
-            <Product key={2} product={products[[2]]} />
+            {productIds.map(productId => (
+              <Product key={productId} productId={productId} />
+            ))}
           </div>
         </div>
         <MenuFilter />
