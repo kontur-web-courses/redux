@@ -3,7 +3,7 @@ import {Gapped, Checkbox} from '@skbkontur/react-ui';
 import './MenuFilter.css';
 import {useDispatch, useSelector} from 'react-redux';
 import ProductTag from '../../../constants/ProductTag';
-import {changeProductTag} from '../chosenProductsSlice';
+import {filterProductsByTag} from '../chosenProductsSlice';
 
 export const MenuFilter = () => {
   const chosenTags = useSelector((state) => state.chosenProducts.tags);
@@ -16,7 +16,7 @@ export const MenuFilter = () => {
   };
 
   const handleChange = (productTag) => {
-    dispatch(changeProductTag(productTag));
+    dispatch(filterProductsByTag(productTag));
   };
 
   return (

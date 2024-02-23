@@ -37,3 +37,34 @@ export const { loadProductsRequest, loadProductsSuccess } =
   productsSlice.actions;
 
 export const productsReducer = productsSlice.reducer;
+
+export function getProductStatus(state) {
+  const {products, chosenProducts} = state;
+
+  if (
+    chosenProducts.status === Status.loading ||
+    products.status === Status.loading
+  ) {
+    return Status.loading;
+  }
+
+  if (products.status === Status.loaded) {
+    return Status.loaded;
+  }
+
+  return Status.none;
+}
+
+export function getProductIds(state) {
+  const {products, chosenProducts} = state;
+
+  if (chosenProducts.status === Status.loaded) {
+    return chosenProducts.ids;
+  }
+
+  if (products.status === Status.loaded) {
+    return products.allIds;
+  }
+
+  return [];
+}

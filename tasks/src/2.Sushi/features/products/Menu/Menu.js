@@ -6,11 +6,12 @@ import products from '../../../api/products';
 import Status from '../../../constants/Status';
 import {Product} from '../Product/Product';
 import {MenuFilter} from '../../chosenProducts/MenuFilter/MenuFilter';
+import {getProductIds, getProductStatus} from '../productsSlice';
 import './Menu.css';
 
 export const Menu = () => {
-  const productIds = useSelector((state) => state.products.allIds);
-  const productsStatus = useSelector((state) => state.products.status);
+  const productIds = useSelector(getProductIds);
+  const productsStatus = useSelector(getProductStatus);
 
   return (
     <Loader

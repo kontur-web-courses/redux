@@ -24,6 +24,12 @@ export const store = configureStore({
     products: productsReducer,
     chosenProducts: chosenProductsReducer
   },
-  middleware: ((getDefaultMiddleware) => getDefaultMiddleware().concat(customMiddleWare, logger))
+  middleware: (getDefaultMiddleware) => {
+    return getDefaultMiddleware({
+      thunk: {
+        extraArgument: {api}
+      }
+    }).concat(customMiddleWare, logger);
+  }
 });
 
