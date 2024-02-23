@@ -4,6 +4,7 @@ import Page from '../constants/Page';
 import Api from '../api';
 import {navigateTo, pageReducer} from "../features/navigation/navigationSlice.js";
 import {productsReducer} from '../features/products/productsSlice';
+import {chosenProductsReducer} from '../features/chosenProducts/chosenProductsSlice';
 
 export const api = new Api({ baseUrl: 'http://sampleserviceurl?foo=bar' });
 
@@ -20,7 +21,8 @@ const customMiddleWare = ({ getState, dispatch }) => next => action => {
 export const store = configureStore({
   reducer: {
     page: pageReducer,
-    products: productsReducer
+    products: productsReducer,
+    chosenProducts: chosenProductsReducer
   },
   middleware: ((getDefaultMiddleware) => getDefaultMiddleware().concat(customMiddleWare, logger))
 });
