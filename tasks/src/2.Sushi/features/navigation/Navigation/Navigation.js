@@ -1,8 +1,8 @@
 import React from 'react';
 import {Tabs} from '@skbkontur/react-ui';
 import Page from '../../../constants/Page';
-import {navigateTo} from '../../index';
 import {useDispatch, useSelector} from "react-redux";
+import {navigateTo} from "../navigationSlice.js";
 import './Navigation.css';
 
 export const Navigation = () => {

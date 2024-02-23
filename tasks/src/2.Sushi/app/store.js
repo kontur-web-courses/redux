@@ -1,9 +1,10 @@
-import {createStore} from 'redux';
-import {rootReducer} from '../features';
+import {configureStore} from '@reduxjs/toolkit';
 import Page from '../constants/Page';
 import Status from '../constants/Status';
 import products from '../api/products';
 import Api from '../api';
+import {pageReducer} from "../features/navigation/navigationSlice.js";
+import {productsReducer} from '../features/products/productsSlice';
 
 export const api = new Api({ baseUrl: 'http://sampleserviceurl?foo=bar' });
 
@@ -23,5 +24,11 @@ const preloadedState = {
 };
 
 
-export const store = createStore(rootReducer, preloadedState);
+export const store = configureStore({
+  reducer: {
+    page: pageReducer,
+    products: productsReducer
+  },
+  preloadedState
+});
 
