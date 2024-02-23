@@ -1,15 +1,17 @@
 import * as React from 'react';
 import {Tabs} from '@skbkontur/react-ui';
 import {Page} from '../../../constants/Page';
+import {navigateTo} from '../../index';
+import {Dispatch} from 'redux';
+import {useAppDispatch, useAppSelector} from '../../../app/hooks';
 import './Navigation.css';
 
-interface INavigationProps {
-	readonly page: Page;
-}
+export const Navigation: React.FC = () => {
+	const page = useAppSelector((state) => state.page);
+	const dispatch: Dispatch = useAppDispatch();
 
-export const Navigation: React.FC<INavigationProps> = ({page}) => {
 	const onNavigate = (value: Page) => {
-		// TODO: добавить реализацию
+		dispatch(navigateTo(value));
 	};
 
 	return (
