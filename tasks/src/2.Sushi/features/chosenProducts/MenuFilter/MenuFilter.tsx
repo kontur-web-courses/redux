@@ -1,20 +1,20 @@
 import * as React from 'react';
-import {Gapped, Checkbox} from '@skbkontur/react-ui';
+import {Checkbox, Gapped} from '@skbkontur/react-ui';
 import ProductTag from '../../../constants/ProductTag';
 import './MenuFilter.css';
+import {useAppDispatch, useAppSelector} from '../../../app/hooks';
+import {changeProductTag} from '../chosenProductsSlice';
 
-interface IMenuFilterProps {
-	readonly chosenTags?: any[];
-	readonly onChange?: (productId: number) => void;
-}
+export const MenuFilter: React.FC = () => {
+	const chosenTags = useAppSelector((state) => state.chosenProducts.tags);
+	const dispatch = useAppDispatch();
 
-export const MenuFilter: React.FC<IMenuFilterProps> = ({chosenTags, onChange}) => {
 	const getIsOn = (productTag: number) => {
 		return chosenTags && chosenTags.some((tag) => tag === productTag);
 	};
 
 	const handleChange = (productTag: number) => {
-		onChange && onChange(productTag);
+		dispatch(changeProductTag(productTag));
 	};
 
 	return (
