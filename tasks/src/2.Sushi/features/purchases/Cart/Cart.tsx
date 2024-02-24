@@ -2,23 +2,35 @@ import * as React from 'react';
 import {Button, Link} from '@skbkontur/react-ui';
 import './Cart.css';
 import {Purchases} from '../Purchases/Purchases';
+import {useAppDispatch, useAppSelector} from '../../../app/hooks';
+import {changePurchaseQuantity} from '../purchasesSlice';
+import {navigateTo} from '../../navigation/navigationSlice';
+import {Page} from '../../../constants/Page';
 
 interface ICartProps {
-	readonly productsStatus?: number;
-	readonly onDecreaseById?: (productId: number) => void;
-	readonly onIncreaseById?: (productId: number) => void;
 	readonly onOrder?: () => void;
-	readonly onNavigateToMenu?: () => void;
 }
 
-export const Cart: React.FC<ICartProps> = (props) => {
-	const {onOrder, onNavigateToMenu, productsStatus, onDecreaseById, onIncreaseById} = props;
-	// TODO: написать корректное условие, передать нужные параметры
-	// eslint-disable-next-line no-constant-condition
-	if (false) {
+export const Cart: React.FC<ICartProps> = ({onOrder}) => {
+	const productsById = useAppSelector((state) => state.products.byId);
+	const productsStatus = useAppSelector((state) => state.products.status);
+	const purchases = useAppSelector((state) => state.purchases);
+
+	const dispatch = useAppDispatch();
+	const onDecreaseById = (productId: number) => dispatch(changePurchaseQuantity({productId, value: -1}));
+	const onIncreaseById = (productId: number) => dispatch(changePurchaseQuantity({productId, value: 1}));
+	const onNavigateToMenu = () => dispatch(navigateTo(Page.menu));
+
+	if (purchases && purchases.length > 0) {
 		return (
 			<div>
-				<Purchases productsStatus={productsStatus} onDecreaseById={onDecreaseById} onIncreaseById={onIncreaseById} />
+				<Purchases
+					productsById={productsById}
+					purchases={purchases}
+					productsStatus={productsStatus}
+					onDecreaseById={onDecreaseById}
+					onIncreaseById={onIncreaseById}
+				/>
 				<div className="orderButtonContainer">
 					<Button use="pay" size="large" onClick={onOrder}>
 						Заказать

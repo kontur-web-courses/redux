@@ -6,6 +6,7 @@ import {navigateTo, pageReducer} from '../features/navigation/navigationSlice';
 import {Middleware} from 'redux';
 import logger from 'redux-logger';
 import {chosenProductsReducer} from '../features/chosenProducts/chosenProductsSlice';
+import {purchasesReducer} from '../features/purchases/purchasesSlice';
 
 export const api = new Api({baseUrl: 'http://sampleserviceurl?foo=bar'});
 
@@ -13,6 +14,7 @@ const reducer = {
 	page: pageReducer,
 	products: productsReducer,
 	chosenProducts: chosenProductsReducer,
+	purchases: purchasesReducer,
 };
 
 export type RootState = StateFromReducersMapObject<typeof reducer>;

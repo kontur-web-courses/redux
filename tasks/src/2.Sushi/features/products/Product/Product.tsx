@@ -3,19 +3,25 @@ import ShoppingCartSolidIcon from '@skbkontur/react-icons/ShoppingCartSolid';
 import {Button, Gapped} from '@skbkontur/react-ui';
 import {PurchaseCounter} from '../../purchases/PurchaseCounter/PurchaseCounter';
 import ProductTag from '../../../constants/ProductTag';
-import {useAppSelector} from '../../../app/hooks';
+import {useAppDispatch, useAppSelector} from '../../../app/hooks';
+import {changePurchaseQuantity} from '../../purchases/purchasesSlice';
+import {navigateTo} from '../../navigation/navigationSlice';
+import {Page} from '../../../constants/Page';
 import './Product.css';
 
 interface IProductProps {
 	readonly productId: number;
-	readonly purchase?: any;
-	readonly onDecrease?: (productId: number) => void;
-	readonly onIncrease?: (productId: number) => void;
-	readonly onPay?: () => void;
 }
 
-export const Product: React.FC<IProductProps> = ({productId, purchase, onDecrease, onIncrease, onPay}) => {
+export const Product: React.FC<IProductProps> = ({productId}) => {
 	const product = useAppSelector((state) => state.products.byId[productId]);
+	const purchase = useAppSelector((state) => (state.purchases || []).find((p) => p.id === productId));
+
+	const dispatch = useAppDispatch();
+	const onDecrease = () => dispatch(changePurchaseQuantity({productId: productId, value: -1}));
+	const onIncrease = () => dispatch(changePurchaseQuantity({productId: productId, value: 1}));
+	const onPay = () => dispatch(navigateTo(Page.cart));
+
 	const renderTags = (tags: number[]) => {
 		return (
 			<div className="tags">
@@ -27,11 +33,11 @@ export const Product: React.FC<IProductProps> = ({productId, purchase, onDecreas
 	};
 
 	const handleDecrease = () => {
-		onDecrease && onDecrease(product.id);
+		onDecrease();
 	};
 
 	const handleIncrease = () => {
-		onIncrease && onIncrease(product.id);
+		onIncrease();
 	};
 
 	const quantity = (purchase && purchase.quantity) || 0;
