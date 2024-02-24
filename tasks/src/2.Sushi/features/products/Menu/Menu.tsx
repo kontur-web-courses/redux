@@ -1,18 +1,14 @@
 import * as React from 'react';
 import {Loader} from '@skbkontur/react-ui';
-import products from '../../../api/products';
 import {Status} from '../../../constants/Status';
 import {Product} from '../Product/Product';
 import {MenuFilter} from '../../chosenProducts/MenuFilter/MenuFilter';
 import {useAppSelector} from '../../../app/hooks';
 import './Menu.css';
 
-interface IMenuProps {
-	readonly productsStatus?: number;
-}
-
-export const Menu: React.FC<IMenuProps> = ({productsStatus}) => {
+export const Menu: React.FC = () => {
 	const productIds = useAppSelector((state) => state.products.allIds);
+	const productsStatus = useAppSelector((state) => state.products.status);
 
 	return (
 		<Loader type="big" active={(productsStatus && productsStatus === Status.loading) || false}>

@@ -1,14 +1,14 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {Status} from '../../constants/Status';
 import {IProduct} from '../../api/products';
 
-export type ProductsState = {
+export interface IProductsState {
 	allIds: number[];
 	byId: Record<string, IProduct>;
 	status: Status;
-};
+}
 
-const initialState: ProductsState = {
+const initialState: IProductsState = {
 	allIds: [],
 	byId: {},
 	status: Status.none,
@@ -17,7 +17,27 @@ const initialState: ProductsState = {
 export const productsSlice = createSlice({
 	name: 'products',
 	initialState,
-	reducers: {}, // (!) без reducers будет ошибка типов
+	reducers: {
+		loadProductsRequest(state) {
+			return {
+				...state,
+				status: Status.loading,
+			};
+		},
+		loadProductsSuccess(state, action: PayloadAction<IProduct[]>) {
+			const products = action.payload;
+			const productsAllIds = products.map((p) => p.id);
+			const productsById = products.reduce((result, product) => ({...result, [product.id]: product}), {});
+
+			return {
+				...state,
+				allIds: productsAllIds,
+				byId: productsById,
+				status: Status.loaded,
+			};
+		},
+	},
 });
 
+export const {loadProductsRequest, loadProductsSuccess} = productsSlice.actions;
 export const productsReducer = productsSlice.reducer;
