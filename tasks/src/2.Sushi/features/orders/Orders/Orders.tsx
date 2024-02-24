@@ -1,25 +1,25 @@
 import * as React from 'react';
 import {Link} from '@skbkontur/react-ui';
 import {Purchases} from '../../purchases/Purchases/Purchases';
+import {useAppDispatch, useAppSelector} from '../../../app/hooks';
+import {getProductStatus} from '../../products/productsSlice';
+import {navigateTo} from '../../navigation/navigationSlice';
+import {Page} from '../../../constants/Page';
 import './Orders.css';
 
-interface IOrdersProps {
-	readonly orders?: any[];
-	readonly productsStatus?: number;
-	readonly onNavigateToMenu?: () => void;
-}
+export const Orders: React.FC = () => {
+	const orders = useAppSelector((state) => state.orders);
+	const productsById = useAppSelector((state) => state.products.byId);
+	const productsStatus = useAppSelector(getProductStatus);
+	const dispatch = useAppDispatch();
 
-export const Orders: React.FC<IOrdersProps> = ({
-	// TODO: добавить нужные параметры
-	orders,
-	productsStatus,
-	onNavigateToMenu,
-}) => {
+	const onNavigateToMenu = () => dispatch(navigateTo(Page.menu));
+
 	if (orders && orders.length > 0) {
 		return (
 			<>
 				{orders.map((order, index) => (
-					<Purchases key={index} productsStatus={productsStatus} />
+					<Purchases key={index} productsStatus={productsStatus} purchases={order} productsById={productsById} />
 				))}
 			</>
 		);

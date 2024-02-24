@@ -6,12 +6,9 @@ import {useAppDispatch, useAppSelector} from '../../../app/hooks';
 import {changePurchaseQuantity} from '../purchasesSlice';
 import {navigateTo} from '../../navigation/navigationSlice';
 import {Page} from '../../../constants/Page';
+import {order} from '../../orders/ordersSlice';
 
-interface ICartProps {
-	readonly onOrder?: () => void;
-}
-
-export const Cart: React.FC<ICartProps> = ({onOrder}) => {
+export const Cart: React.FC = () => {
 	const productsById = useAppSelector((state) => state.products.byId);
 	const productsStatus = useAppSelector((state) => state.products.status);
 	const purchases = useAppSelector((state) => state.purchases);
@@ -20,6 +17,7 @@ export const Cart: React.FC<ICartProps> = ({onOrder}) => {
 	const onDecreaseById = (productId: number) => dispatch(changePurchaseQuantity({productId, value: -1}));
 	const onIncreaseById = (productId: number) => dispatch(changePurchaseQuantity({productId, value: 1}));
 	const onNavigateToMenu = () => dispatch(navigateTo(Page.menu));
+	const onOrder = () => dispatch(order());
 
 	if (purchases && purchases.length > 0) {
 		return (

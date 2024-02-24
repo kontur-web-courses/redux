@@ -7,6 +7,7 @@ import {Middleware} from 'redux';
 import logger from 'redux-logger';
 import {chosenProductsReducer} from '../features/chosenProducts/chosenProductsSlice';
 import {purchasesReducer} from '../features/purchases/purchasesSlice';
+import {ordersReducer} from '../features/orders/ordersSlice';
 
 export const api = new Api({baseUrl: 'http://sampleserviceurl?foo=bar'});
 
@@ -15,6 +16,7 @@ const reducer = {
 	products: productsReducer,
 	chosenProducts: chosenProductsReducer,
 	purchases: purchasesReducer,
+	orders: ordersReducer,
 };
 
 export type RootState = StateFromReducersMapObject<typeof reducer>;
