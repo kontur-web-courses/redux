@@ -3,7 +3,7 @@ import {Checkbox, Gapped} from '@skbkontur/react-ui';
 import ProductTag from '../../../constants/ProductTag';
 import './MenuFilter.css';
 import {useAppDispatch, useAppSelector} from '../../../app/hooks';
-import {changeProductTag} from '../chosenProductsSlice';
+import {filterProductsByTag} from '../chosenProductsSlice';
 
 export const MenuFilter: React.FC = () => {
 	const chosenTags = useAppSelector((state) => state.chosenProducts.tags);
@@ -14,7 +14,7 @@ export const MenuFilter: React.FC = () => {
 	};
 
 	const handleChange = (productTag: number) => {
-		dispatch(changeProductTag(productTag));
+		dispatch(filterProductsByTag(productTag));
 	};
 
 	return (

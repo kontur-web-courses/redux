@@ -32,6 +32,12 @@ const customMiddleWare: Middleware =
 
 export const store = configureStore({
 	reducer,
-	middleware: [customMiddleWare, logger],
+	middleware: (getDefaultMiddleware) =>
+		getDefaultMiddleware({
+			thunk: {
+				extraArgument: {api},
+			},
+		}).concat(customMiddleWare, logger),
 });
+
 export type AppDispatch = typeof store.dispatch;

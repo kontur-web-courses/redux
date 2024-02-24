@@ -4,11 +4,12 @@ import {Status} from '../../../constants/Status';
 import {Product} from '../Product/Product';
 import {MenuFilter} from '../../chosenProducts/MenuFilter/MenuFilter';
 import {useAppSelector} from '../../../app/hooks';
+import {getProductIds, getProductStatus} from '../productsSlice';
 import './Menu.css';
 
 export const Menu: React.FC = () => {
-	const productIds = useAppSelector((state) => state.products.allIds);
-	const productsStatus = useAppSelector((state) => state.products.status);
+	const productIds = useAppSelector(getProductIds);
+	const productsStatus = useAppSelector(getProductStatus);
 
 	return (
 		<Loader type="big" active={(productsStatus && productsStatus === Status.loading) || false}>

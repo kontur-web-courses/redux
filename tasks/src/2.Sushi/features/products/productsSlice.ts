@@ -1,6 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {Status} from '../../constants/Status';
 import {IProduct} from '../../api/products';
+import {RootState} from '../../app/store';
 
 export interface IProductsState {
 	allIds: number[];
@@ -41,3 +42,31 @@ export const productsSlice = createSlice({
 
 export const {loadProductsRequest, loadProductsSuccess} = productsSlice.actions;
 export const productsReducer = productsSlice.reducer;
+
+export function getProductStatus(state: RootState) {
+	const {products, chosenProducts} = state;
+
+	if (chosenProducts.status === Status.loading || products.status === Status.loading) {
+		return Status.loading;
+	}
+
+	if (products.status === Status.loaded) {
+		return Status.loaded;
+	}
+
+	return Status.none;
+}
+
+export function getProductIds(state: RootState) {
+	const {products, chosenProducts} = state;
+
+	if (chosenProducts.status === Status.loaded) {
+		return chosenProducts.ids;
+	}
+
+	if (products.status === Status.loaded) {
+		return products.allIds;
+	}
+
+	return [];
+}
