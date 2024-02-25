@@ -3,7 +3,21 @@
     "eslint:recommended",
     "plugin:react/recommended"
   ],
-  "parser": "babel-eslint",
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "rules": {
+        "react/prop-types": "off",
+        "@typescript-eslint/no-use-before-define": ["error", {
+          "variables": false,
+          "functions": false,
+          "classes": false
+        }]
+      }
+    }
+  ],
   "rules": {
     "no-console": "off",
     "no-useless-escape": "off",
@@ -13,14 +27,10 @@
     "prefer-template": "off",
     "no-debugger": "off",
     "no-unused-vars": "off",
-    "no-use-before-define": [
-      "error",
-      {
-        "functions": false,
-        "classes": false,
-        "variables": false
-      }
-    ]
+    "no-use-before-define": "off",
+    "no-extra-semi": "off",
+    "no-mixed-spaces-and-tabs": "off",
+    "no-unexpected-multiline": "off"
   },
   "env": {
     "browser": true,

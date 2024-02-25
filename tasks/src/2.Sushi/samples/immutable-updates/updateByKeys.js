@@ -1,59 +1,49 @@
 export function getIn(state = {}, keys, defaultValue) {
-  let value = state;
+	let value = state;
 
-  for (const key of keys) {
-    if (value[key] === null) {
-      return null;
-    }
+	for (const key of keys) {
+		if (value[key] === null) {
+			return null;
+		}
 
-    if (value[key] === undefined) {
-      return defaultValue;
-    }
+		if (value[key] === undefined) {
+			return defaultValue;
+		}
 
-    value = value[key];
-  }
+		value = value[key];
+	}
 
-  return value;
+	return value;
 }
 
 export function setIn(state, keys, value) {
-  const obj = { ...state };
-  const last = keys
-    .slice(0, -1)
-    .reduce(
-      (part, key) => (part[key] = part[key] ? { ...part[key] } : {}),
-      obj
-    );
+	const obj = {...state};
+	const last = keys.slice(0, -1).reduce((part, key) => (part[key] = part[key] ? {...part[key]} : {}), obj);
 
-  last[keys.slice(-1)[0]] = value;
+	last[keys.slice(-1)[0]] = value;
 
-  return obj;
+	return obj;
 }
 
 export function updateIn(state, keys, fn, defaultValue) {
-  const obj = { ...state };
-  const last = keys
-    .slice(0, -1)
-    .reduce(
-      (part, key) => (part[key] = part[key] ? { ...part[key] } : {}),
-      obj
-    );
-  const value = last[keys.slice(-1)[0]];
-  const oldValue = value === undefined ? defaultValue : value;
+	const obj = {...state};
+	const last = keys.slice(0, -1).reduce((part, key) => (part[key] = part[key] ? {...part[key]} : {}), obj);
+	const value = last[keys.slice(-1)[0]];
+	const oldValue = value === undefined ? defaultValue : value;
 
-  last[keys.slice(-1)[0]] = fn(oldValue);
+	last[keys.slice(-1)[0]] = fn(oldValue);
 
-  return obj;
+	return obj;
 }
 
 export function deleteIn(state, keys, key) {
-  const newSubstate = omit(getIn(state, keys, {}), key);
+	const newSubstate = omit(getIn(state, keys, {}), key);
 
-  return setIn(state, keys, newSubstate);
+	return setIn(state, keys, newSubstate);
 }
 
 function omit(obj, key) {
-  const newObj = { ...obj };
-  delete newObj[key];
-  return newObj;
+	const newObj = {...obj};
+	delete newObj[key];
+	return newObj;
 }

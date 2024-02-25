@@ -1,98 +1,98 @@
 .sandglass {
-  position: relative;
-  display: block;
-  width: 152px;
-  height: 240px;
-  margin: 10px auto;
+	position: relative;
+	display: block;
+	width: 152px;
+	height: 240px;
+	margin: 10px auto;
 }
 
 .sandglassTop {
-  position: absolute;
-  width: 100%;
-  height: 10px;
-  top: -5px;
-  background-color: #303030;
-  border-radius: 5px;
-  z-index: 1;
+	position: absolute;
+	width: 100%;
+	height: 10px;
+	top: -5px;
+	background-color: #303030;
+	border-radius: 5px;
+	z-index: 1;
 }
 
 .sandglassBottom {
-  position: absolute;
-  width: 100%;
-  height: 10px;
-  bottom: -5px;
-  background-color: #303030;
-  border-radius: 5px;
-  z-index: 1;
+	position: absolute;
+	width: 100%;
+	height: 10px;
+	bottom: -5px;
+	background-color: #303030;
+	border-radius: 5px;
+	z-index: 1;
 }
 
 .sandglassMiddle {
-  position: relative;
-  width: 76px;
-  height: 120px;
-  overflow: visible;
-  display: table;
+	position: relative;
+	width: 76px;
+	height: 120px;
+	overflow: visible;
+	display: table;
 }
 
 .sandglass .glass {
-  position: absolute;
-  width: 0;
-  height: 0;
-  border-top: solid lightblue 120px;
-  border-left: solid transparent 76px;
-  border-right: solid transparent 76px;
+	position: absolute;
+	width: 0;
+	height: 0;
+	border-top: solid lightblue 120px;
+	border-left: solid transparent 76px;
+	border-right: solid transparent 76px;
 }
 
 .sandglass .glass::after {
-  content: "";
-  position: absolute;
-  left: -76px;
-  bottom: -120px;
-  border-bottom: solid lightblue 120px;
-  border-left: solid transparent 76px;
-  border-right: solid transparent 76px;
+	content: '';
+	position: absolute;
+	left: -76px;
+	bottom: -120px;
+	border-bottom: solid lightblue 120px;
+	border-left: solid transparent 76px;
+	border-right: solid transparent 76px;
 }
 
 .sandglass .glass::before {
-  z-index: 1;
-  content: "";
-  position: absolute;
-  top: -10px;
-  left: -6px;
-  width: 12px;
-  height: 20px;
-  background-color: #303030;
-  border-radius: 3px;
+	z-index: 1;
+	content: '';
+	position: absolute;
+	top: -10px;
+	left: -6px;
+	width: 12px;
+	height: 20px;
+	background-color: #303030;
+	border-radius: 3px;
 }
 
 .sandglass .topSand {
-  display: block;
-  position: absolute;
-  width: 0;
-  height: 0;
-  border-top: solid sandybrown 2px;
-  border-left: solid transparent 2px;
-  border-right: solid transparent 2px;
-  right: -2px;
-  margin-left: auto;
-  margin-right: auto;
-  bottom: 0;
+	display: block;
+	position: absolute;
+	width: 0;
+	height: 0;
+	border-top: solid sandybrown 2px;
+	border-left: solid transparent 2px;
+	border-right: solid transparent 2px;
+	right: -2px;
+	margin-left: auto;
+	margin-right: auto;
+	bottom: 0;
 }
 
 .sandglass .bottomSand {
-  position: absolute;
-  bottom: -120px;
-  border-bottom: solid sandybrown 100px;
-  border-left: solid transparent 62px;
-  border-right: solid transparent 62px;
-  right: -62px;
+	position: absolute;
+	bottom: -120px;
+	border-bottom: solid sandybrown 100px;
+	border-left: solid transparent 62px;
+	border-right: solid transparent 62px;
+	right: -62px;
 }
 
 .sandglass .sandStream {
-  position: absolute;
-  width: 0px;
-  height: 118px;
-  left: 75px;
-  top: 120px;
-  border-left: solid sandybrown 3px;
+	position: absolute;
+	width: 0px;
+	height: 118px;
+	left: 75px;
+	top: 120px;
+	border-left: solid sandybrown 3px;
 }

@@ -1,0 +1,14 @@
+{
+	"compilerOptions": {
+		"module": "es6",
+		"target": "esnext",
+		"baseUrl": ".",
+		"jsx": "react",
+		"allowSyntheticDefaultImports": true,
+		"moduleResolution": "node",
+		"experimentalDecorators": true,
+		"typeRoots": ["node_modules/@types"],
+		"lib": ["esnext", "dom"]
+	},
+	"include": ["src/2.Sushi/**/*"]
+}

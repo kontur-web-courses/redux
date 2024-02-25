@@ -1,12 +1,12 @@
 .menuTableWrapper {
-  width: 960px;
-  margin: 0 auto;
-  box-sizing: border-box;
+	width: 960px;
+	margin: 0 auto;
+	box-sizing: border-box;
 }
 
 .menuTable {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  margin: 0 -10px;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	margin: 0 -10px;
 }

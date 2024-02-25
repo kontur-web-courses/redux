@@ -3,34 +3,28 @@ import ReactDom from 'react-dom';
 import './styles.css';
 import Timer from '../components/Timer';
 
-const timerReducer = (state = { seconds: 15 }, action) => {
-  switch (action.type) {
-    case 'CHANGE_SECONDS':
-      return { seconds: state.seconds + action.value };
-    default:
-      return state;
-  }
+const timerReducer = (state = {seconds: 15}, action) => {
+	switch (action.type) {
+		case 'CHANGE_SECONDS':
+			return {seconds: state.seconds + action.value};
+		default:
+			return state;
+	}
 };
 
 class App extends React.Component {
-  state = timerReducer(undefined, {});
+	state = timerReducer(undefined, {});
 
-  dispatch(action) {
-    this.setState(prevState => timerReducer(prevState, action));
-  }
+	dispatch(action) {
+		this.setState((prevState) => timerReducer(prevState, action));
+	}
 
-  handleDecrease = () => this.dispatch({ type: 'CHANGE_SECONDS', value: -1 });
-  handleIncrease = () => this.dispatch({ type: 'CHANGE_SECONDS', value: 1 });
+	handleDecrease = () => this.dispatch({type: 'CHANGE_SECONDS', value: -1});
+	handleIncrease = () => this.dispatch({type: 'CHANGE_SECONDS', value: 1});
 
-  render() {
-    return (
-      <Timer
-        seconds={this.state.seconds}
-        onDecrease={this.handleDecrease}
-        onIncrease={this.handleIncrease}
-      />
-    );
-  }
+	render() {
+		return <Timer seconds={this.state.seconds} onDecrease={this.handleDecrease} onIncrease={this.handleIncrease} />;
+	}
 }
 
 ReactDom.render(<App />, document.getElementById('app'));

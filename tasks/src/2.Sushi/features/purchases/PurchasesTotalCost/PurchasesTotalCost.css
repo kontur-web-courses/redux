@@ -1,21 +1,21 @@
 .purchasesTotalCost {
-  display: flex;
-  text-align: right;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: center;
-  height: 60px;
-  font-weight: bold;
-  font-size: 20px;
-  line-height: 32px;
+	display: flex;
+	text-align: right;
+	flex-direction: row;
+	justify-content: flex-end;
+	align-items: center;
+	height: 60px;
+	font-weight: bold;
+	font-size: 20px;
+	line-height: 32px;
 }
 
 .purchasesTotalCost .sign {
-  text-align: center;
-  width: 40px;
+	text-align: center;
+	width: 40px;
 }
 
 .purchasesTotalCost .cost {
-  width: 80px;
-  text-align: right;
+	width: 80px;
+	text-align: right;
 }

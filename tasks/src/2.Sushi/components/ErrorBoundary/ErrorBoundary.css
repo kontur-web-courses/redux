@@ -1,12 +1,12 @@
 .errorBoundaryWrapper {
-  width: 480px;
-  margin: 0 auto;
-  padding: 20px;
-  box-sizing: border-box;
-  background: #fef0f0;
-  color: #fa0019;
+	width: 480px;
+	margin: 0 auto;
+	padding: 20px;
+	box-sizing: border-box;
+	background: #fef0f0;
+	color: #fa0019;
 }
 
 .errorBoundaryMessage {
-  white-space: pre-wrap;
+	white-space: pre-wrap;
 }

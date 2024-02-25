@@ -1,52 +1,50 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+	<head>
+		<title>Redux</title>
+		<meta charset="UTF-8" />
+		<style>
+			body {
+				font-family: 'Segoe UI', 'Helvetica Neue', Roboto, Arial, 'Liberation Sans', 'Nimbus Sans L', sans-serif;
+			}
 
-<head>
-  <title>Redux</title>
-  <meta charset="UTF-8">
-  <style>
-    body {
-      font-family: "Segoe UI","Helvetica Neue",Roboto,Arial,"Liberation Sans","Nimbus Sans L",sans-serif;
-    }
+			#container {
+				display: flex;
+				align-items: center;
+				flex-direction: column;
+			}
 
-    #container {
-      display: flex;
-      align-items: center;
-      flex-direction: column;
-    }
+			#tasks div {
+				margin: 10px 5px;
+			}
 
-    #tasks div {
-      margin: 10px 5px;
-    }
+			#tasks a {
+				font-size: 20px;
+				text-decoration: none;
+			}
+		</style>
+	</head>
 
-    #tasks a {
-      font-size: 20px;
-      text-decoration: none;
-    }
-  </style>
-</head>
+	<body>
+		<div id="container">
+			<h1>Redux</h1>
+			<div id="tasks"></div>
+		</div>
+		<script src="tasks.js"></script>
+		<script>
+			function onload() {
+				var $tasks = document.getElementById('tasks');
+				for (var i = 0; i < tasks.length; i++) {
+					var task = tasks[i];
+					var $task = document.createElement('div');
+					var url = task.order + '.' + task.id;
+					var text = task.order + '.&nbsp;' + task.id;
+					$task.innerHTML = '<a href="' + url + '">' + text + '</a>';
+					$tasks.appendChild($task);
+				}
+			}
 
-<body>
-  <div id="container">
-    <h1>Redux</h1>
-    <div id="tasks"></div>
-  </div>
-  <script src="tasks.js"></script>
-  <script>
-      function onload() {
-          var $tasks = document.getElementById('tasks');
-          for (var i = 0; i < tasks.length; i++) {
-              var task = tasks[i];
-              var $task = document.createElement('div');
-              var url = task.order + '.' + task.id;
-              var text = task.order + '.&nbsp;' + task.id;
-              $task.innerHTML = '<a href="' + url + '">' + text + '</a>';
-              $tasks.appendChild($task);
-          }
-      }
-
-      window.addEventListener('load', onload);
-  </script>
-</body>
-
+			window.addEventListener('load', onload);
+		</script>
+	</body>
 </html>
