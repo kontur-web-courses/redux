@@ -20,7 +20,7 @@
 		.fragment-container {
 			position: relative;
 		}
-		
+
 		.fragment-container .fragment {
 			position: absolute;
 			top: 0px;
@@ -32,7 +32,7 @@
 			height: 100vh;
 			display: block;
 		}
-		
+
 		.slides .center {
 			text-align: center;
 		}
@@ -42,7 +42,7 @@
 			justify-content: space-between
 		}
 	</style>
-	
+
 	<title>Redux</title>
 </head>
 <body>
@@ -64,7 +64,7 @@
 Скачиваем все необходимые пакеты Node.js:
 ```
 cd tasks
-npm i
+npm ci
 ```
 
 Затем запусти dev-сервер, чтобы видеть результаты решений заданий:
@@ -521,7 +521,7 @@ const handleDecrease = () =>
   appStore.dispatch({ type: 'CHANGE_SECONDS', value: -1 });
 const handleIncrease = () =>
   appStore.dispatch({ type: 'CHANGE_SECONDS', value: 1 });
-  
+
 const render = () => {
   // React используется для отрисовки, но не отвечает за перерисовку
   ReactDom.render(
@@ -2601,7 +2601,7 @@ Redux-thunk можно использовать для передачи сост
 <a href="http://bit.ly/kontur-courses-feedback">http://bit.ly/kontur-courses-feedback</a>
 
 </script></section>
-			
+
 </div></div>
 </body>
 </html>
